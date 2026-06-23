@@ -26,8 +26,6 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "usart.h"
-#include "lvgl.h"
-#include "lv_port_disp.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -50,14 +48,6 @@
 extern volatile uint8_t  g_rx_byte;
 extern volatile uint8_t  g_rx_flag;
 /* USER CODE END Variables */
-/* Definitions for guiTask */
-osThreadId_t guiTaskHandle;
-const osThreadAttr_t guiTask_attributes = {
-  .name = "guiTask",
-  .stack_size = 1024 * 4,             /* 4KB — LVGL 渲染栈 */
-  .priority = (osPriority_t) osPriorityNormal,
-};
-
 /* Definitions for defaultTask */
 osThreadId_t defaultTaskHandle;
 const osThreadAttr_t defaultTask_attributes = {
@@ -68,7 +58,7 @@ const osThreadAttr_t defaultTask_attributes = {
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
-void StartGUITask(void *argument);
+
 /* USER CODE END FunctionPrototypes */
 
 void StartDefaultTask(void *argument);
@@ -106,7 +96,7 @@ void MX_FREERTOS_Init(void) {
   defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
-  guiTaskHandle = osThreadNew(StartGUITask, NULL, &guiTask_attributes);
+  /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
 
   /* USER CODE BEGIN RTOS_EVENTS */
@@ -148,22 +138,4 @@ void StartDefaultTask(void *argument)
 /* Private application code --------------------------------------------------*/
 /* USER CODE BEGIN Application */
 
-/* ---- LVGL GUI 任务 ---- */
-void StartGUITask(void *argument)
-{
-    lv_init();
-    lv_port_disp_init();
-
-    /* 验证 LVGL 已初始化: 创建简单 label 控件确认渲染链路 */
-    lv_obj_t *label = lv_label_create(lv_screen_active());
-    lv_label_set_text(label, "MY_OTA_GUI");
-    lv_obj_center(label);
-
-    for (;;) {
-        lv_timer_handler();
-        osDelay(5);  /* ~200Hz 调用 LVGL tick handler */
-    }
-}
-
 /* USER CODE END Application */
-

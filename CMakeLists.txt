@@ -42,41 +42,10 @@ target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user defined library search paths
 )
 
-# ============================================================
-# LVGL v9.5 图形库
-# ============================================================
-# 源码文件 (排除 examples, tests, demos)
-file(GLOB_RECURSE LVGL_SOURCES
-    lvgl-9.5.0源码/src/*.c
-)
-list(FILTER LVGL_SOURCES EXCLUDE REGEX ".*/examples/")
-list(FILTER LVGL_SOURCES EXCLUDE REGEX ".*/tests/")
-list(FILTER LVGL_SOURCES EXCLUDE REGEX ".*/demos/")
-
-# LVGL 子库 (作为 OBJECT 库避免重复编译)
-add_library(lvgl OBJECT ${LVGL_SOURCES})
-target_include_directories(lvgl PUBLIC
-    lvgl-9.5.0源码
-    lvgl-9.5.0源码/src
-    Core/Inc
-    Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2
-    Middlewares/Third_Party/FreeRTOS/Source/include
-    Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F
-)
-target_compile_definitions(lvgl PRIVATE
-    USE_HAL_DRIVER
-    STM32F407xx
-    LV_CONF_INCLUDE_SIMPLE
-)
-
-# ============================================================
-# 项目源文件
-# ============================================================
 # Add sources to executable
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     Core/Src/en25q128.c
     Core/Src/nt35510.c
-    Core/Src/lv_port_disp.c
 )
 
 # Remove wrong libob.a library dependency when using cpp files
@@ -85,7 +54,6 @@ list(REMOVE_ITEM CMAKE_C_IMPLICIT_LINK_LIBRARIES ob)
 # Add linked libraries
 target_link_libraries(${CMAKE_PROJECT_NAME}
     stm32cubemx
-    lvgl
 
     # Add user defined libraries
 )
