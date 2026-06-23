@@ -1,0 +1,5 @@
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/fsmc.c:32:6:MX_FSMC_Init	40	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/fsmc.c:119:13:HAL_FSMC_MspInit	32	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/fsmc.c:220:6:HAL_SRAM_MspInit	16	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/fsmc.c:232:13:HAL_FSMC_MspDeInit	8	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/fsmc.c:304:6:HAL_SRAM_MspDeInit	16	static

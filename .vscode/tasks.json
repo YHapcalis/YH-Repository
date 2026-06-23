@@ -1,0 +1,31 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Flash (OpenOCD)",
+            "type": "shell",
+            "command": "E:/ST/STM32/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.openocd.win32_2.4.400.202601091506/tools/bin/openocd.exe",
+            "args": [
+                "-s",
+                "E:/ST/STM32/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.debug.openocd_2.3.300.202602021527/resources/openocd/st_scripts",
+                "-f",
+                "e:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/openocd.cfg",
+                "-c",
+                "program e:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/build/Debug/MY_OTA_GUI.elf verify reset exit"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "type": "cmake",
+            "label": "CMake: 安装",
+            "command": "install",
+            "preset": "Debug",
+            "problemMatcher": [],
+            "detail": "CMake 模板 安装 任务"
+        }
+    ]
+}

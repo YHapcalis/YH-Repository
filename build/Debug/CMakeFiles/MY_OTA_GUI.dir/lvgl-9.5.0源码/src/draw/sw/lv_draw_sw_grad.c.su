@@ -1,0 +1,4 @@
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.5.0源码/src/draw/sw/lv_draw_sw_grad.c:92:33:allocate_item	56	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.5.0源码/src/draw/sw/lv_draw_sw_grad.c:145:26:lv_draw_sw_grad_get	48	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.5.0源码/src/draw/sw/lv_draw_sw_grad.c:165:28:lv_draw_sw_grad_color_calculate	80	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.5.0源码/src/draw/sw/lv_draw_sw_grad.c:218:6:lv_draw_sw_grad_cleanup	16	static

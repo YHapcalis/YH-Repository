@@ -1,0 +1,12 @@
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/en25q128.c:16:16:spi1_xfer	16	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/en25q128.c:27:6:EN25Q128_WriteEnable	8	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/en25q128.c:35:6:EN25Q128_WaitBusy	8	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/en25q128.c:44:9:EN25Q128_ReadSR1	16	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/en25q128.c:55:9:EN25Q128_ReadSR2	16	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/en25q128.c:66:10:EN25Q128_ReadID	16	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/en25q128.c:79:6:EN25Q128_EraseSector	16	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/en25q128.c:92:13:page_write	24	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/en25q128.c:108:6:EN25Q128_Write	40	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/en25q128.c:122:6:EN25Q128_Read	32	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/en25q128.c:136:6:EN25Q128_SetSpeed	16	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/en25q128.c:143:6:EN25Q128_Init	8	static

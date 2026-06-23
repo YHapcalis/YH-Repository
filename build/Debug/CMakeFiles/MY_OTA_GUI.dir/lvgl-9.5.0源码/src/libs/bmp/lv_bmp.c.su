@@ -1,0 +1,6 @@
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.5.0源码/src/libs/bmp/lv_bmp.c:59:6:lv_bmp_init	16	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.5.0源码/src/libs/bmp/lv_bmp.c:70:6:lv_bmp_deinit	16	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.5.0源码/src/libs/bmp/lv_bmp.c:91:20:decoder_info	112	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.5.0源码/src/libs/bmp/lv_bmp.c:147:20:decoder_open	128	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.5.0源码/src/libs/bmp/lv_bmp.c:194:20:decoder_get_area	72	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.5.0源码/src/libs/bmp/lv_bmp.c:243:13:decoder_close	24	static
