@@ -1,2 +1,2 @@
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/lv_port_disp.c:35:13:disp_flush_cb	40	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/lv_port_disp.c:57:6:lv_port_disp_init	24	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/lv_port_disp.c:16:13:disp_flush_cb	24	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/lv_port_disp.c:33:6:lv_port_disp_init	16	static

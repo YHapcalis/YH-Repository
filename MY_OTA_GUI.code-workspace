@@ -1,9 +1,15 @@
 {
 	"folders": [
 		{
+			"name": "MY_OTA_GUI",
 			"path": "."
 		},
 		{
+			"name": "MY_OTA_GUI_F103",
+			"path": "../../Projects_F103/MY_OTA_GUI_F103"
+		},
+		{
+			"name": "知识库",
 			"path": "../../知识库"
 		}
 	],

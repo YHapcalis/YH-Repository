@@ -1,0 +1,6 @@
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/lv_fs_spi_flash.c:74:20:spiflash_seek	0	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/lv_fs_spi_flash.c:95:20:spiflash_tell	0	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/lv_fs_spi_flash.c:53:20:spiflash_read	16	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/lv_fs_spi_flash.c:44:20:spiflash_close	8	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/lv_fs_spi_flash.c:21:14:spiflash_open	16	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/lv_fs_spi_flash.c:105:6:lv_fs_spi_flash_init	8	static

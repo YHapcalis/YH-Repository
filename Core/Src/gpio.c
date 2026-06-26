@@ -44,6 +44,12 @@ void MX_GPIO_Init(void)
 
   GPIO_InitTypeDef GPIO_InitStruct = {0};
 
+  /* USER CODE BEGIN MX_GPIO_Init_0 */
+  /* 解锁备份域 — PC13 被 CubeMX 标记为 ANTI_TAMP, 不先解 DBP 所有写操作无效 */
+  __HAL_RCC_PWR_CLK_ENABLE();
+  HAL_PWR_EnableBkUpAccess();
+  /* USER CODE END MX_GPIO_Init_0 */
+
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOE_CLK_ENABLE();
   __HAL_RCC_GPIOC_CLK_ENABLE();

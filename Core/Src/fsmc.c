@@ -62,7 +62,7 @@ void MX_FSMC_Init(void)
   hsram3.Init.PageSize = FSMC_PAGE_SIZE_NONE;
   /* Timing */
   Timing.AddressSetupTime = 0;
-  Timing.AddressHoldTime = 15;
+  Timing.AddressHoldTime = 0;
   Timing.DataSetupTime = 24;
   Timing.BusTurnAroundDuration = 0;
   Timing.CLKDivision = 16;
@@ -213,7 +213,29 @@ static void HAL_FSMC_MspInit(void){
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
   /* USER CODE BEGIN FSMC_MspInit 1 */
+  /* 对齐官方 sram.c: 所有 FSMC 引脚必须 PULLUP + HIGH speed
+   * NOPULL → 总线浮空噪声, 大数据量写入时累积错误 */
+  GPIO_InitTypeDef fix = {0};
+  fix.Mode  = GPIO_MODE_AF_PP;
+  fix.Pull  = GPIO_PULLUP;
+  fix.Speed = GPIO_SPEED_FREQ_HIGH;
+  fix.Alternate = GPIO_AF12_FSMC;
 
+  fix.Pin = GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3|GPIO_PIN_4|
+            GPIO_PIN_5|GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_14|GPIO_PIN_15;
+  HAL_GPIO_Init(GPIOF, &fix);
+
+  fix.Pin = GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3|GPIO_PIN_4|
+            GPIO_PIN_5|GPIO_PIN_10|GPIO_PIN_12;
+  HAL_GPIO_Init(GPIOG, &fix);
+
+  fix.Pin = GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_7|GPIO_PIN_8|GPIO_PIN_9|
+            GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_14|GPIO_PIN_15;
+  HAL_GPIO_Init(GPIOE, &fix);
+
+  fix.Pin = GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_8|
+            GPIO_PIN_9|GPIO_PIN_10|GPIO_PIN_14|GPIO_PIN_15;
+  HAL_GPIO_Init(GPIOD, &fix);
   /* USER CODE END FSMC_MspInit 1 */
 }
 

@@ -40,6 +40,11 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 
+/* ---- 批烧模式: 如果有 batch.h 则只写 SPI Flash, 不启 GUI ---- */
+#ifdef BATCH_FLASH
+#include "batch.h"
+#endif
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/

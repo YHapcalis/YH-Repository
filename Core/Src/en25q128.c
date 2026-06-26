@@ -118,8 +118,8 @@ void EN25Q128_Write(const uint8_t *buf, uint32_t addr, uint32_t len)
     }
 }
 
-/* ---- 读数据 ---- */
-void EN25Q128_Read(uint8_t *buf, uint32_t addr, uint32_t len)
+/* ---- 读数据 (不关中断 — 由调用者统一保护) ---- */
+void EN25Q128_Read(volatile uint8_t *buf, uint32_t addr, uint32_t len)
 {
     CS_LOW();
     spi1_xfer(EN25Q128_CMD_READ);
@@ -130,6 +130,21 @@ void EN25Q128_Read(uint8_t *buf, uint32_t addr, uint32_t len)
         *buf++ = spi1_xfer(0xFF);
     }
     CS_HIGH();
+}
+
+/* ---- 擦除后写入 (NOR Flash 必须先擦除再写) ---- */
+void EN25Q128_EraseWrite(const uint8_t *buf, uint32_t addr, uint32_t len)
+{
+    uint32_t end = addr + len;
+    uint32_t sec_start = addr & ~(EN25Q128_SECTOR_SIZE - 1);
+    uint32_t sec_end   = (end + EN25Q128_SECTOR_SIZE - 1) & ~(EN25Q128_SECTOR_SIZE - 1);
+
+    __disable_irq();                    /* 防 TIM3 中断破坏 CS 时序 */
+    for (uint32_t s = sec_start; s < sec_end; s += EN25Q128_SECTOR_SIZE) {
+        EN25Q128_EraseSector(s);
+    }
+    EN25Q128_Write(buf, addr, len);
+    __enable_irq();
 }
 
 /* ---- 设置 SPI 速率 ---- */

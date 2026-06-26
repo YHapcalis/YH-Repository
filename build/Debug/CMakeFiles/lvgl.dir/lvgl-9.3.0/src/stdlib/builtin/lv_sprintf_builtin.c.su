@@ -1,0 +1,12 @@
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.3.0/src/stdlib/builtin/lv_sprintf_builtin.c:131:20:_out_buffer	0	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.3.0/src/stdlib/builtin/lv_sprintf_builtin.c:139:20:_out_null	0	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.3.0/src/stdlib/builtin/lv_sprintf_builtin.c:155:21:_atoi	0	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.3.0/src/stdlib/builtin/lv_sprintf_builtin.c:165:15:_out_rev	48	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.3.0/src/stdlib/builtin/lv_sprintf_builtin.c:194:15:_ntoa_format	48	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.3.0/src/stdlib/builtin/lv_sprintf_builtin.c:248:15:_ntoa_long	88	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.3.0/src/stdlib/builtin/lv_sprintf_builtin.c:273:15:_ntoa_long_long	120	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.3.0/src/stdlib/builtin/lv_sprintf_builtin.c:435:15:_etoa	120	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.3.0/src/stdlib/builtin/lv_sprintf_builtin.c:306:15:_ftoa	120	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.3.0/src/stdlib/builtin/lv_sprintf_builtin.c:547:12:lv_vsnprintf_inner	104	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.3.0/src/stdlib/builtin/lv_sprintf_builtin.c:864:5:lv_snprintf	24	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.3.0/src/stdlib/builtin/lv_sprintf_builtin.c:873:5:lv_vsnprintf	16	static

@@ -1,0 +1,21 @@
+CompileFlags:
+  CompilationDatabase: build/Debug
+  Add:
+    - "--target=arm-none-eabi"
+    - "-mcpu=cortex-m4"
+    - "-mfpu=fpv4-sp-d16"
+    - "-mfloat-abi=hard"
+
+Diagnostics:
+  UnusedIncludes: None
+  ClangTidy:
+    Remove: "*"
+  Suppress:
+    - "pp_file_not_found"
+    - "drv_unknown_argument"
+
+Index:
+  Background: Build
+
+Hover:
+  ShowAKA: Yes

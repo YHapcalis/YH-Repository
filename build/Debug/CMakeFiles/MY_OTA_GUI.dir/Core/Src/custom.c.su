@@ -1,0 +1,10 @@
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/custom.c:222:21:lv_demo_music_get_list_img	0	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/custom.c:80:13:set_position_y	8	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/custom.c:56:13:set_position_x	16	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/custom.c:85:6:custom_init	0	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/custom.c:90:6:speed_meter_timer_cb	56	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/custom.c:131:6:home_label_digit_animation	208	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/custom.c:154:6:digital_cluster_chart_timer_cb	32	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/custom.c:207:6:play_music	8	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/custom.c:241:6:music_album_next	16	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/custom.c:263:6:reset_music_status	0	static

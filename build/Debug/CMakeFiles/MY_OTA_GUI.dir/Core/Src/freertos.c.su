@@ -1,2 +1,7 @@
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/freertos.c:73:6:MX_FREERTOS_Init	8	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/freertos.c:115:6:StartDefaultTask	24	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/freertos.c:86:6:StartDefaultTask	16	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/freertos.c:108:13:mode_temp_update_cb	24	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/freertos.c:153:13:hw_diag	560	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/freertos.c:316:6:StartGUITask	8	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/freertos.c:357:6:StartTouchTask	8	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/freertos.c:370:6:StartCanRxTask	24	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/freertos.c:75:6:MX_FREERTOS_Init	8	static

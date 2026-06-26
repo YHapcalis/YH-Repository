@@ -1,0 +1,7 @@
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.3.0/src/core/lv_obj_class.c:177:13:lv_obj_construct	16	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.3.0/src/core/lv_obj_class.c:195:17:get_instance_size	0	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.3.0/src/core/lv_obj_class.c:47:12:lv_obj_class_create_obj	16	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.3.0/src/core/lv_obj_class.c:136:6:lv_obj_destruct	8	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.3.0/src/core/lv_obj_class.c:149:6:lv_obj_is_editable	0	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.3.0/src/core/lv_obj_class.c:161:6:lv_obj_is_group_def	0	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.3.0/src/core/lv_obj_class.c:104:6:lv_obj_class_init_obj	16	static

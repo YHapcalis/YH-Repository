@@ -2,7 +2,69 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Flash (OpenOCD)",
+            "label": "CMake: 配置 (Debug)",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--preset", "Debug"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    "PATH": "C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin;C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/ninja/1.13.2+st.1/bin;C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/cmake/4.3.1+st.1/bin;${env:PATH}"
+                }
+            },
+            "problemMatcher": "$gcc",
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "CMake: 构建 (Debug)",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "--preset", "Debug",
+                "--parallel", "8"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    "PATH": "C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin;C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/ninja/1.13.2+st.1/bin;C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/cmake/4.3.1+st.1/bin;${env:PATH}"
+                }
+            },
+            "problemMatcher": "$gcc",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "CMake: 清理+重新构建 (Debug)",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "--preset", "Debug",
+                "--clean-first",
+                "--parallel", "8"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    "PATH": "C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin;C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/ninja/1.13.2+st.1/bin;C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/cmake/4.3.1+st.1/bin;${env:PATH}"
+                }
+            },
+            "problemMatcher": "$gcc",
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "Flash: 烧录 (OpenOCD)",
             "type": "shell",
             "command": "E:/ST/STM32/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.openocd.win32_2.4.400.202601091506/tools/bin/openocd.exe",
             "args": [
@@ -13,19 +75,22 @@
                 "-c",
                 "program e:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/build/Debug/MY_OTA_GUI.elf verify reset exit"
             ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
+            "options": {
+                "cwd": "${workspaceFolder}"
             },
-            "problemMatcher": []
+            "problemMatcher": [],
+            "dependsOn": [
+                "CMake: 构建 (Debug)"
+            ]
         },
         {
-            "type": "cmake",
-            "label": "CMake: 安装",
-            "command": "install",
-            "preset": "Debug",
-            "problemMatcher": [],
-            "detail": "CMake 模板 安装 任务"
+            "label": "构建+烧录",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "CMake: 构建 (Debug)",
+                "Flash: 烧录 (OpenOCD)"
+            ],
+            "problemMatcher": []
         }
     ]
 }

@@ -1,0 +1,5 @@
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/spiflash_prog.c:29:16:crc8_update	0	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/spiflash_prog.c:42:12:uart_rx_byte_timeout	16	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/spiflash_prog.c:62:12:uart_rx_bytes	24	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/spiflash_prog.c:55:13:send_ack	16	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/spiflash_prog.c:71:5:spiflash_prog_poll	40	static,ignoring_inline_asm

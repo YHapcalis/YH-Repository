@@ -28,7 +28,7 @@
 
 /* ---- 初始化 BR 值 ---- */
 #define EN25Q128_BR_SAFE            7U          /* fPCLK/256 = 328KHz  */
-#define EN25Q128_BR_FAST            2U          /* fPCLK/8   = 10.5MHz */
+#define EN25Q128_BR_FAST            0U          /* fPCLK/2   = 42MHz   */
 
 /* ---- API ---- */
 void     EN25Q128_Init(void);
@@ -39,7 +39,8 @@ void     EN25Q128_WriteEnable(void);
 void     EN25Q128_WaitBusy(void);
 void     EN25Q128_EraseSector(uint32_t addr);
 void     EN25Q128_Write(const uint8_t *buf, uint32_t addr, uint32_t len);
-void     EN25Q128_Read(uint8_t *buf, uint32_t addr, uint32_t len);
+void     EN25Q128_EraseWrite(const uint8_t *buf, uint32_t addr, uint32_t len);
+void     EN25Q128_Read(volatile uint8_t *buf, uint32_t addr, uint32_t len);
 void     EN25Q128_SetSpeed(uint8_t br);
 
 #endif /* __EN25Q128_H */

@@ -1,0 +1,3 @@
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.3.0/src/draw/sw/lv_draw_sw_arc.c:252:13:add_circle	40	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.3.0/src/draw/sw/lv_draw_sw_arc.c:272:13:get_rounded_area	32	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.3.0/src/draw/sw/lv_draw_sw_arc.c:53:6:lv_draw_sw_arc	600	static

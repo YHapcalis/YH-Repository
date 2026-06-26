@@ -1,0 +1,6 @@
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/generated/widgets_init.c:17:30:kb_event_cb	16	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/generated/widgets_init.c:25:30:ta_event_cb	0	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/generated/widgets_init.c:47:6:clock_count	0	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/generated/widgets_init.c:68:6:digital_clock_count	16	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/generated/widgets_init.c:102:6:home_digital_clock_time_timer	16	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/generated/widgets_init.c:125:6:mode_digital_clock_timer	16	static
