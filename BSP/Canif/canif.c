@@ -25,9 +25,11 @@ uint8_t canif_init(void)
     CANFilter_Config();
 
     /* 2. 启动 CAN 外设 */
-    if (HAL_CAN_Start(&hcan1) != HAL_OK)
+    printf("[CAN] attempting start...\r\n");
+    HAL_StatusTypeDef can_st = HAL_CAN_Start(&hcan1);
+    if (can_st != HAL_OK)
     {
-        printf("[CAN] Start FAIL\r\n");
+        printf("[CAN] Start FAIL (code=%d)\r\n", (int)can_st);
         return 1;
     }
 
@@ -91,36 +93,29 @@ uint8_t CAN1_Recv_Msg(uint32_t *id, uint8_t *buf)
     return RxMessage.DLC;
 }
 
-/* ═══════════════════════ F103 数据解析 ═══════════════════════ */
+/* ═══════════════════════ F103 控制数据解析 ═══════════════════════ */
 
 void canif_parse_sensor(uint8_t *buf, uint8_t len)
 {
     if (buf == NULL || len < 6) return;
 
     /*
-     * 新帧格式（8 字节，带 0.1 精度）:
-     * Byte 0: 温度整数部分 + 40（-40~85℃ → 0~125）
-     * Byte 1: 温度小数部分 ×10（0~9）
-     * Byte 2: 湿度整数部分（0~100）
-     * Byte 3: 湿度小数部分 ×10（0~9）
+     * 帧格式:
+     * Byte 0: 温度整数+40 (-40~+110 → 0~150)
+     * Byte 1: 温度小数×10 (0~9)
+     * Byte 2: 湿度整数 (0~100)
+     * Byte 3: 湿度小数×10 (0~9)
      * Byte 4: 旋钮值 0-255
-     * Byte 5: 按键事件类型
-     * Byte 6-7: 保留
+     * Byte 5: 按键事件 (高4位=KEY_ID, 低4位=TYPE)
      */
-    int8_t  temp_int = (int8_t)(buf[0] - 40);
-    float   temp_dec = (float)buf[1] / 10.0f;
-    uint8_t hum_int  = buf[2];
-    float   hum_dec  = (float)buf[3] / 10.0f;
+    g_can_sensor.temperature  = ((int)buf[0] - 40) + (float)buf[1] * 0.1f;
+    g_can_sensor.humidity     = (float)buf[2] + (float)buf[3] * 0.1f;
+    g_can_sensor.knob         = buf[4];
+    g_can_sensor.key_event    = buf[5];
+    g_can_sensor.valid        = 1;
+    g_can_sensor.tick         = HAL_GetTick();
 
-    g_can_sensor.temperature = (float)temp_int + temp_dec;
-    g_can_sensor.humidity    = (float)hum_int  + hum_dec;
-    g_can_sensor.knob       = buf[4];
-    g_can_sensor.key_event  = buf[5];
-
-    g_can_sensor.valid = 1;
-    g_can_sensor.tick = HAL_GetTick();
-
-    printf("[CAN] Sensor: T=%.1fC H=%.1f%% Knob=%u Key=%u\r\n",
+    printf("[CAN] T=%.1f H=%.1f Knob=%u Key=0x%02X\r\n",
            (double)g_can_sensor.temperature,
            (double)g_can_sensor.humidity,
            g_can_sensor.knob, g_can_sensor.key_event);

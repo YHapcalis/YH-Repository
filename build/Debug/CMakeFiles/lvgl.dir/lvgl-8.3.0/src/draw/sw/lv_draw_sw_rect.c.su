@@ -1,0 +1,11 @@
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/draw/sw/lv_draw_sw_rect.c:1378:13:draw_border_simple	96	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/draw/sw/lv_draw_sw_rect.c:1032:35:shadow_blur_corner	48	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/draw/sw/lv_draw_sw_rect.c:945:35:shadow_draw_corner_buf	80	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/draw/sw/lv_draw_sw_rect.c:427:35:draw_shadow	192	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/draw/sw/lv_draw_sw_rect.c:97:13:draw_bg	144	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/draw/sw/lv_draw_sw_rect.c:324:13:draw_bg_img	96	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/draw/sw/lv_draw_sw_rect.c:83:6:lv_draw_sw_bg	16	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/draw/sw/lv_draw_sw_rect.c:1146:6:draw_border_generic	208	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/draw/sw/lv_draw_sw_rect.c:398:13:draw_border	72	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/draw/sw/lv_draw_sw_rect.c:1106:13:draw_outline	80	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/draw/sw/lv_draw_sw_rect.c:67:6:lv_draw_sw_rect	16	static

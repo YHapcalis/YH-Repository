@@ -16,11 +16,13 @@
 #include "lvgl.h"
 #include "custom.h"
 #include "canif.h"
+#include "DRV8833.h"
+#include "SG-90.h"
 
 /*********************
  *      DEFINES
  *********************/
-#define CHART1_POINTS 40
+
 /**********************
  *      TYPEDEFS
  **********************/
@@ -37,9 +39,7 @@ static int32_t power = 3000;
 static float trip = 12.4;
 static int32_t ODO = 288;
 static int music_status = 0;
-static int16_t spd_chart[CHART1_POINTS] = {0};
 static bool is_increase = true;
-static bool is_up = true;
 static uint32_t track_id = 1;
 static const char * music_list[] = {
     "Go Fighting",
@@ -85,6 +85,168 @@ static void set_position_y(void * gui, int32_t temp)
 void custom_init(lv_ui *ui)
 {
     /* Add your codes here */
+}
+
+/* ═══════════════════════ Mode 屏温度更新 ═══════════════════════ */
+
+void mode_temp_update_cb(lv_timer_t *t)
+{
+    (void)t;
+    /* 温湿度显示已注释 — 当前聚焦舵机/电机控制 */
+    (void)g_can_sensor;
+}
+
+/* ═══════════════════════ 旋钮 → 转向灯 ═══════════════════════ */
+
+/* 转向状态 */
+#define TURN_NONE   0
+#define TURN_LEFT   1
+#define TURN_RIGHT  2
+
+#define TURN_BLINK_MS   500  /* 闪烁周期 */
+#define TURN_TIMEOUT_MS 3000 /* 无操作后自动熄灭 */
+
+static uint8_t  s_turn_dir       = TURN_NONE;
+static uint8_t  s_knob_prev      = 128;
+static uint8_t  s_turn_inited    = 0;
+static uint32_t s_turn_act_tick  = 0;
+
+void home_turn_signal_cb(lv_timer_t *t)
+{
+    (void)t;
+    uint32_t now = HAL_GetTick();
+
+    /* 首次运行：隐藏两个转向灯（setup_scr_home 默认是可见的） */
+    if (!s_turn_inited) {
+        s_turn_inited = 1;
+        if (guider_ui.home_img_right)
+            lv_obj_add_flag(guider_ui.home_img_right, LV_OBJ_FLAG_HIDDEN);
+        if (guider_ui.home_img_left)
+            lv_obj_add_flag(guider_ui.home_img_left, LV_OBJ_FLAG_HIDDEN);
+    }
+
+    /* ── 仅 home 屏活动时运行 ── */
+    if (lv_screen_active() != guider_ui.home)
+        return;
+
+    /* ── 检测旋钮变化 ── */
+    if (g_can_sensor.valid) {
+        uint8_t kv = g_can_sensor.knob;
+        int16_t diff = (int16_t)kv - (int16_t)s_knob_prev;
+
+        if (diff > 3) {
+            s_turn_dir = TURN_LEFT;
+            s_turn_act_tick = now;
+        } else if (diff < -3) {
+            s_turn_dir = TURN_RIGHT;
+            s_turn_act_tick = now;
+        }
+        s_knob_prev = kv;
+    }
+
+    /* ── 超时熄灭 ── */
+    if (s_turn_dir != TURN_NONE && (now - s_turn_act_tick >= TURN_TIMEOUT_MS)) {
+        s_turn_dir = TURN_NONE;
+        lv_obj_add_flag(guider_ui.home_img_right, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.home_img_left,  LV_OBJ_FLAG_HIDDEN);
+        return;
+    }
+
+    /* ── 闪烁控制 ── */
+    if (s_turn_dir != TURN_NONE) {
+        uint8_t on = ((now / TURN_BLINK_MS) % 2 == 0);
+
+        if (s_turn_dir == TURN_RIGHT) {
+            if (on) {
+                lv_obj_clear_flag(guider_ui.home_img_right, LV_OBJ_FLAG_HIDDEN);
+                lv_obj_set_style_img_recolor_opa(guider_ui.home_img_right, 239,
+                    LV_PART_MAIN|LV_STATE_DEFAULT);
+                lv_obj_set_style_img_recolor(guider_ui.home_img_right,
+                    lv_color_hex(0x04cf00), LV_PART_MAIN|LV_STATE_DEFAULT);
+            } else {
+                lv_obj_add_flag(guider_ui.home_img_right, LV_OBJ_FLAG_HIDDEN);
+            }
+        } else { /* TURN_LEFT */
+            if (on) {
+                lv_obj_clear_flag(guider_ui.home_img_left, LV_OBJ_FLAG_HIDDEN);
+                lv_obj_set_style_img_recolor_opa(guider_ui.home_img_left, 239,
+                    LV_PART_MAIN|LV_STATE_DEFAULT);
+                lv_obj_set_style_img_recolor(guider_ui.home_img_left,
+                    lv_color_hex(0x04cf00), LV_PART_MAIN|LV_STATE_DEFAULT);
+            } else {
+                lv_obj_add_flag(guider_ui.home_img_left, LV_OBJ_FLAG_HIDDEN);
+            }
+        }
+    }
+}
+
+/* ═══════════════════════ F407 按键 → 舵机/电机控制 ═══════════════════════ */
+
+#include "f407_key.h"
+
+static uint8_t s_servo_abs_angle = 90;  /* 舵机绝对位置 0~180° */
+
+void f407_key_motor_servo_cb(lv_timer_t *t)
+{
+    (void)t;
+
+    /* ── 扫描按键 ── */
+    F407_Key_Task();
+
+    /* ── 消费按键事件 ── */
+    F407_KeyEvent evt;
+    while (F407_Key_PopEvent(&evt)) {
+        switch (evt.id) {
+
+        case F407_KEY_UP:          /* PA0 → 电机正转 */
+            if (evt.type == F407_KEY_EVENT_SINGLE) {
+                DRV8833_Forward(80);
+                printf("[KEY] UP → FWD 80%%\r\n");
+            }
+            break;
+
+        case F407_KEY_1:           /* PE3 → 电机停止 */
+            if (evt.type == F407_KEY_EVENT_SINGLE) {
+                DRV8833_Stop();
+                printf("[KEY] 1 → STOP\r\n");
+            }
+            break;
+
+        case F407_KEY_0:           /* PE4 → 舵机右 */
+            if (evt.type == F407_KEY_EVENT_SINGLE) {
+                if (s_servo_abs_angle < 170) s_servo_abs_angle += 10;
+            } else if (evt.type == F407_KEY_EVENT_LONG) {
+                s_servo_abs_angle = 170;  /* 长按 → 满舵右 */
+            }
+            SG90_SetAngle((int8_t)s_servo_abs_angle - 90);
+            printf("[KEY] 0 → Servo R (abs=%u)\r\n", s_servo_abs_angle);
+            break;
+
+        case F407_KEY_2:           /* PE2 → 舵机左 */
+            if (evt.type == F407_KEY_EVENT_SINGLE) {
+                if (s_servo_abs_angle > 10) s_servo_abs_angle -= 10;
+            } else if (evt.type == F407_KEY_EVENT_LONG) {
+                s_servo_abs_angle = 10;   /* 长按 → 满舵左 */
+            }
+            SG90_SetAngle((int8_t)s_servo_abs_angle - 90);
+            printf("[KEY] 2 → Servo L (abs=%u)\r\n", s_servo_abs_angle);
+            break;
+
+        default:
+            break;
+        }
+    }
+
+    /* 舵机角度平滑更新 */
+    SG90_Update();
+}
+
+/* 创建所有 custom 定时器（由 StartGUITask 调用） */
+void custom_start_timers(lv_ui *ui)
+{
+    lv_timer_create(mode_temp_update_cb, 500, ui);
+    lv_timer_create(home_turn_signal_cb, 100, ui);  /* 100ms 保证顺滑闪烁 */
+    lv_timer_create(f407_key_motor_servo_cb, 20, ui);  /* 50Hz 按键扫描 + 舵机平滑 */
 }
 
 void speed_meter_timer_cb(lv_timer_t * t)
@@ -151,59 +313,6 @@ void home_label_digit_animation(lv_ui *ui)
     lv_anim_start(&b);
 }
 
-void digital_cluster_chart_timer_cb(lv_timer_t * t)
-{
-    lv_ui * gui = lv_timer_get_user_data(t);
-
-
-    lv_chart_series_t * ser = lv_chart_get_series_next(gui->mode_chart_speed, NULL);
-    lv_coord_t * ser_array = lv_chart_get_y_array(gui->mode_chart_speed, ser);
-
-
-    for(int i = 0; i < CHART1_POINTS - 1; i++)
-    {
-        spd_chart[i] = spd_chart[i+1];
-        ser_array[i] = spd_chart[i];
-    }
-
-    if(spd_chart[CHART1_POINTS - 1] > 120) is_up = false;
-    if(spd_chart[CHART1_POINTS - 1] < 30) is_up = true;
-
-    if(is_up)
-    {
-        spd_chart[CHART1_POINTS - 1] += lv_rand(0, 5);
-    }else
-    {
-        spd_chart[CHART1_POINTS - 1] -= lv_rand(0, 5);
-    }
-
-    ser_array[CHART1_POINTS - 1] = spd_chart[CHART1_POINTS - 1];
-    lv_chart_refresh(gui->mode_chart_speed);
-    int16_t speed_num = spd_chart[CHART1_POINTS - 1];
-    int16_t temp_num = 40 + speed_num * 0.4;
-    lv_label_set_text_fmt(gui->mode_label_ekm_num, "%"LV_PRId32, speed_num);
-    lv_label_set_text_fmt(gui->mode_label_fkm_num, "%"LV_PRId32, speed_num);
-
-    /* 温度显示: 有 CAN 数据则用真实值 (10秒内), 否则用模拟值 */
-    if (g_can_sensor.valid && (HAL_GetTick() - g_can_sensor.tick < 10000U)) {
-        lv_label_set_text_fmt(gui->mode_label_temp_num, "%d C", (int)g_can_sensor.temperature);
-        if (g_can_sensor.temperature > 60.0f) {
-            lv_obj_set_style_img_recolor_opa(gui->mode_img_temper, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-            lv_obj_set_style_img_recolor(gui->mode_img_temper, lv_color_hex(0xf00000), LV_PART_MAIN|LV_STATE_DEFAULT);
-        } else {
-            lv_obj_set_style_img_recolor_opa(gui->mode_img_temper, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-        }
-    } else {
-        lv_label_set_text_fmt(gui->mode_label_temp_num, "%"LV_PRId32, temp_num);
-        if(temp_num > 80) {
-            lv_obj_set_style_img_recolor_opa(gui->mode_img_temper, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-            lv_obj_set_style_img_recolor(gui->mode_img_temper, lv_color_hex(0xf00000), LV_PART_MAIN|LV_STATE_DEFAULT);
-        } else {
-            lv_obj_set_style_img_recolor_opa(gui->mode_img_temper, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-        }
-    }
-}
-
 void play_music(lv_ui *ui)
 {
     if(music_status == 0) {
@@ -260,8 +369,3 @@ void music_album_next(bool next)
     }
 }
 
-void reset_music_status()
-{
-    music_status = 0;
-    return;
-}

@@ -10,6 +10,7 @@
 #include "widgets_init.h"
 #include "custom.h"
 #include "spiflash_images.h"
+#include "layout_defines.h"
 
 
 int mode_digital_clock_min_value = 25;
@@ -23,7 +24,7 @@ void setup_scr_mode(lv_ui *ui)
 
     // ---- mode screen ----
     ui->mode = lv_obj_create(NULL);
-    lv_obj_set_size(ui->mode, 800, 480);
+    lv_obj_set_size(ui->mode, MODE_W, MODE_H);
     lv_obj_set_scrollbar_mode(ui->mode, LV_SCROLLBAR_MODE_OFF);
     lv_obj_set_style_text_font(ui->mode, &lv_font_montserrat_28, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui->mode, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -31,8 +32,8 @@ void setup_scr_mode(lv_ui *ui)
 
     // ---- tileview ----
     ui->mode_tileview = lv_tileview_create(ui->mode);
-    lv_obj_set_pos(ui->mode_tileview, 0, 0);
-    lv_obj_set_size(ui->mode_tileview, 800, 480);
+    lv_obj_set_pos(ui->mode_tileview, MODE_TILEVIEW_X, MODE_TILEVIEW_Y);
+    lv_obj_set_size(ui->mode_tileview, MODE_TILEVIEW_W, MODE_TILEVIEW_H);
     lv_obj_set_scrollbar_mode(ui->mode_tileview, LV_SCROLLBAR_MODE_OFF);
     ui->mode_tileview_mode_a = lv_tileview_add_tile(ui->mode_tileview, 0, 0, LV_DIR_RIGHT);
     ui->mode_tileview_mode_f = lv_tileview_add_tile(ui->mode_tileview, 1, 0, LV_DIR_LEFT | LV_DIR_RIGHT);
@@ -63,16 +64,16 @@ void setup_scr_mode(lv_ui *ui)
     // Tile A: nav 指南针
     // ============================================================
     ui->mode_label_A = lv_label_create(ui->mode_tileview_mode_a);
-    lv_obj_set_pos(ui->mode_label_A, 370, 30);
-    lv_obj_set_size(ui->mode_label_A, 120, 60);
+    lv_obj_set_pos(ui->mode_label_A, MODE_TITLE_A_X, MODE_TITLE_Y);
+    lv_obj_set_size(ui->mode_label_A, MODE_TITLE_A_W, MODE_TITLE_H);
     lv_label_set_text(ui->mode_label_A, "NAV");
     lv_obj_set_style_text_align(ui->mode_label_A, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui->mode_label_A, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui->mode_label_A, &lv_font_montserrat_28, LV_PART_MAIN|LV_STATE_DEFAULT);
 
     ui->mode_img_nav = lv_image_create(ui->mode_tileview_mode_a);
-    lv_obj_set_pos(ui->mode_img_nav, 342, 80);
-    lv_obj_set_size(ui->mode_img_nav, 116, 116);
+    lv_obj_set_pos(ui->mode_img_nav, MODE_NAV_X, MODE_NAV_Y);
+    lv_obj_set_size(ui->mode_img_nav, MODE_NAV_W, MODE_NAV_H);
     lv_image_set_src(ui->mode_img_nav, img_nav);
     lv_image_set_pivot(ui->mode_img_nav, 50, 50);
     lv_obj_set_style_image_opa(ui->mode_img_nav, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -81,46 +82,46 @@ void setup_scr_mode(lv_ui *ui)
     // Tile F: temper 温度图标
     // ============================================================
     ui->mode_label_F = lv_label_create(ui->mode_tileview_mode_f);
-    lv_obj_set_pos(ui->mode_label_F, 370, 30);
-    lv_obj_set_size(ui->mode_label_F, 140, 60);
+    lv_obj_set_pos(ui->mode_label_F, MODE_TITLE_F_X, MODE_TITLE_Y);
+    lv_obj_set_size(ui->mode_label_F, MODE_TITLE_F_W, MODE_TITLE_H);
     lv_label_set_text(ui->mode_label_F, "TEMP");
     lv_obj_set_style_text_align(ui->mode_label_F, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui->mode_label_F, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui->mode_label_F, &lv_font_montserrat_28, LV_PART_MAIN|LV_STATE_DEFAULT);
 
     ui->mode_img_temper = lv_image_create(ui->mode_tileview_mode_f);
-    lv_obj_set_pos(ui->mode_img_temper, 100, 120);
-    lv_obj_set_size(ui->mode_img_temper, 91, 123);
+    lv_obj_set_pos(ui->mode_img_temper, MODE_TEMPER_X, MODE_TEMPER_Y);
+    lv_obj_set_size(ui->mode_img_temper, MODE_TEMPER_W, MODE_TEMPER_H);
     lv_image_set_src(ui->mode_img_temper, img_temper);
     lv_obj_set_style_image_opa(ui->mode_img_temper, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 
     ui->mode_label_temp_num = lv_label_create(ui->mode_tileview_mode_f);
-    lv_obj_set_pos(ui->mode_label_temp_num, 250, 140);
-    lv_obj_set_size(ui->mode_label_temp_num, 200, 80);
+    lv_obj_set_pos(ui->mode_label_temp_num, MODE_TEMP_NUM_X, MODE_TEMP_NUM_Y);
+    lv_obj_set_size(ui->mode_label_temp_num, MODE_TEMP_NUM_W, MODE_TEMP_NUM_H);
     lv_label_set_text(ui->mode_label_temp_num, "26 C");
-    lv_obj_set_style_text_font(ui->mode_label_temp_num, &lv_font_montserrat_28, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->mode_label_temp_num, &lv_font_montserrat_48, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui->mode_label_temp_num, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
 
     // ============================================================
     // Tile C: weather 天气图标
     // ============================================================
     ui->mode_label_C = lv_label_create(ui->mode_tileview_mode_c);
-    lv_obj_set_pos(ui->mode_label_C, 370, 30);
-    lv_obj_set_size(ui->mode_label_C, 240, 60);
+    lv_obj_set_pos(ui->mode_label_C, MODE_TITLE_C_X, MODE_TITLE_Y);
+    lv_obj_set_size(ui->mode_label_C, MODE_TITLE_C_W, MODE_TITLE_H);
     lv_label_set_text(ui->mode_label_C, "WEATHER");
     lv_obj_set_style_text_align(ui->mode_label_C, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui->mode_label_C, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui->mode_label_C, &lv_font_montserrat_28, LV_PART_MAIN|LV_STATE_DEFAULT);
 
     ui->mode_img_weather = lv_image_create(ui->mode_tileview_mode_c);
-    lv_obj_set_pos(ui->mode_img_weather, 200, 120);
-    lv_obj_set_size(ui->mode_img_weather, 66, 66);
+    lv_obj_set_pos(ui->mode_img_weather, MODE_WEATHER_X, MODE_WEATHER_Y);
+    lv_obj_set_size(ui->mode_img_weather, MODE_WEATHER_W, MODE_WEATHER_H);
     lv_image_set_src(ui->mode_img_weather, img_weather);
     lv_obj_set_style_image_opa(ui->mode_img_weather, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 
     ui->mode_label_day = lv_label_create(ui->mode_tileview_mode_c);
-    lv_obj_set_pos(ui->mode_label_day, 300, 130);
-    lv_obj_set_size(ui->mode_label_day, 200, 90);
+    lv_obj_set_pos(ui->mode_label_day, MODE_DAY_X, MODE_DAY_Y);
+    lv_obj_set_size(ui->mode_label_day, MODE_DAY_W, MODE_DAY_H);
     lv_label_set_text(ui->mode_label_day, "Sunny\n25 C");
     lv_obj_set_style_text_font(ui->mode_label_day, &lv_font_montserrat_28, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui->mode_label_day, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -129,23 +130,23 @@ void setup_scr_mode(lv_ui *ui)
     // Tile E: music cover
     // ============================================================
     ui->mode_label_E = lv_label_create(ui->mode_tileview_mode_e);
-    lv_obj_set_pos(ui->mode_label_E, 350, 30);
-    lv_obj_set_size(ui->mode_label_E, 180, 60);
+    lv_obj_set_pos(ui->mode_label_E, MODE_TITLE_E_X, MODE_TITLE_Y);
+    lv_obj_set_size(ui->mode_label_E, MODE_TITLE_E_W, MODE_TITLE_H);
     lv_label_set_text(ui->mode_label_E, "MUSIC");
     lv_obj_set_style_text_align(ui->mode_label_E, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui->mode_label_E, &lv_font_montserrat_28, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui->mode_label_E, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
 
     ui->mode_img_music = lv_image_create(ui->mode_tileview_mode_e);
-    lv_obj_set_pos(ui->mode_img_music, 308, 80);
-    lv_obj_set_size(ui->mode_img_music, 183, 183);
+    lv_obj_set_pos(ui->mode_img_music, MODE_MUSIC_X, MODE_MUSIC_Y);
+    lv_obj_set_size(ui->mode_img_music, MODE_MUSIC_W, MODE_MUSIC_H);
     lv_image_set_src(ui->mode_img_music, "S:0030F338:00018880.bin");
     lv_image_set_pivot(ui->mode_img_music, 91, 91);
     lv_obj_set_style_image_opa(ui->mode_img_music, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 
     ui->mode_label_name = lv_label_create(ui->mode_tileview_mode_e);
-    lv_obj_set_pos(ui->mode_label_name, 300, 280);
-    lv_obj_set_size(ui->mode_label_name, 300, 60);
+    lv_obj_set_pos(ui->mode_label_name, MODE_NAME_X, MODE_NAME_Y);
+    lv_obj_set_size(ui->mode_label_name, MODE_NAME_W, MODE_NAME_H);
     lv_label_set_text(ui->mode_label_name, "Go Fighting");
     lv_obj_set_style_text_align(ui->mode_label_name, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui->mode_label_name, &lv_font_montserrat_28, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -153,8 +154,8 @@ void setup_scr_mode(lv_ui *ui)
 
     // ---- home button (screen-level overlay) ----
     ui->mode_img_home = lv_image_create(ui->mode);
-    lv_obj_set_pos(ui->mode_img_home, 5, 5);
-    lv_obj_set_size(ui->mode_img_home, 43, 43);
+    lv_obj_set_pos(ui->mode_img_home, MODE_HOME_X, MODE_HOME_Y);
+    lv_obj_set_size(ui->mode_img_home, MODE_HOME_W, MODE_HOME_H);
     lv_obj_add_flag(ui->mode_img_home, LV_OBJ_FLAG_CLICKABLE);
     lv_image_set_src(ui->mode_img_home, img_home);
     lv_image_set_pivot(ui->mode_img_home, 50, 50);

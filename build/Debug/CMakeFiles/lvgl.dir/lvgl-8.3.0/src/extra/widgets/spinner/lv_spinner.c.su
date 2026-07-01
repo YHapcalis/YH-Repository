@@ -1,0 +1,4 @@
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/extra/widgets/spinner/lv_spinner.c:65:13:lv_spinner_constructor	96	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/extra/widgets/spinner/lv_spinner.c:91:13:arc_anim_start_angle	8	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/extra/widgets/spinner/lv_spinner.c:96:13:arc_anim_end_angle	8	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/extra/widgets/spinner/lv_spinner.c:51:12:lv_spinner_create	8	static

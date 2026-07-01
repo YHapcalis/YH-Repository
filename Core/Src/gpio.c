@@ -44,12 +44,6 @@ void MX_GPIO_Init(void)
 
   GPIO_InitTypeDef GPIO_InitStruct = {0};
 
-  /* USER CODE BEGIN MX_GPIO_Init_0 */
-  /* 解锁备份域 — PC13 被 CubeMX 标记为 ANTI_TAMP, 不先解 DBP 所有写操作无效 */
-  __HAL_RCC_PWR_CLK_ENABLE();
-  HAL_PWR_EnableBkUpAccess();
-  /* USER CODE END MX_GPIO_Init_0 */
-
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOE_CLK_ENABLE();
   __HAL_RCC_GPIOC_CLK_ENABLE();
@@ -61,7 +55,7 @@ void MX_GPIO_Init(void)
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(TP_RST_GPIO_Port, TP_RST_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(BEEP_GPIO_Port, BEEP_Pin, GPIO_PIN_RESET);
@@ -81,18 +75,24 @@ void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(ETH_RST_GPIO_Port, ETH_RST_Pin, GPIO_PIN_SET);
 
-  /*Configure GPIO pins : KEY2_Pin KEY1_Pin KEY0_Pin */
-  GPIO_InitStruct.Pin = KEY2_Pin|KEY1_Pin|KEY0_Pin;
+  /*Configure GPIO pins : KEY2_Pin KEY0_Pin */
+  GPIO_InitStruct.Pin = KEY2_Pin|KEY0_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : TP_RST_Pin */
-  GPIO_InitStruct.Pin = TP_RST_Pin;
+  /*Configure GPIO pin : PE3 */
+  GPIO_InitStruct.Pin = GPIO_PIN_3;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : PC13 */
+  GPIO_InitStruct.Pin = GPIO_PIN_13;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(TP_RST_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /*Configure GPIO pin : BEEP_Pin */
   GPIO_InitStruct.Pin = BEEP_Pin;

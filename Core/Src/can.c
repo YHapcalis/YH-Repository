@@ -76,7 +76,7 @@ void HAL_CAN_MspInit(CAN_HandleTypeDef* canHandle)
     PA11     ------> CAN1_RX
     PA12     ------> CAN1_TX
     */
-    GPIO_InitStruct.Pin = GPIO_PIN_11|GPIO_PIN_12;
+    GPIO_InitStruct.Pin = GPIO_PIN_11 | GPIO_PIN_12;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
@@ -104,7 +104,8 @@ void HAL_CAN_MspDeInit(CAN_HandleTypeDef* canHandle)
     PA11     ------> CAN1_RX
     PA12     ------> CAN1_TX
     */
-    HAL_GPIO_DeInit(GPIOA, GPIO_PIN_11|GPIO_PIN_12);
+    HAL_GPIO_DeInit(GPIOA, GPIO_PIN_11);
+    HAL_GPIO_DeInit(GPIOA, GPIO_PIN_12);
 
   /* USER CODE BEGIN CAN1_MspDeInit 1 */
 

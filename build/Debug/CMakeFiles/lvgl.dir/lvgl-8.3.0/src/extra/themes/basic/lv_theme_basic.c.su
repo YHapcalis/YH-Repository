@@ -1,0 +1,6 @@
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/extra/themes/basic/lv_theme_basic.c:169:13:theme_apply	16	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/extra/themes/basic/../../../../src/hal/../draw/../misc/lv_style.h:529:20:lv_style_set_pad_all	16	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/extra/themes/basic/lv_theme_basic.c:414:13:style_init_reset	8	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/extra/themes/basic/lv_theme_basic.c:67:13:style_init	16	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/extra/themes/basic/lv_theme_basic.c:135:6:lv_theme_basic_is_inited	0	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/extra/themes/basic/lv_theme_basic.c:140:14:lv_theme_basic_init	8	static

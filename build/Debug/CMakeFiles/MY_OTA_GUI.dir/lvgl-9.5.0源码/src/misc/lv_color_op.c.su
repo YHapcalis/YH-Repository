@@ -1,6 +1,0 @@
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.5.0源码/src/misc/lv_color_op.c:36:34:lv_color_mix	32	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.5.0源码/src/misc/lv_color_op.c:46:14:lv_color_mix32	24	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.5.0源码/src/misc/lv_color_op.c:61:14:lv_color_mix32_premultiplied	24	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.5.0源码/src/misc/lv_color_op.c:80:9:lv_color_brightness	24	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.5.0源码/src/misc/lv_color_op.c:86:6:lv_color_filter_dsc_init	16	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.5.0源码/src/misc/lv_color_op.c:91:14:lv_color_over32	32	static

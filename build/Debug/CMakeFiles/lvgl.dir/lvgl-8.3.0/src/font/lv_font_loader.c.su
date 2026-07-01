@@ -1,0 +1,11 @@
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/font/lv_font_loader.c:185:23:init_bit_iterator	0	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/font/lv_font_loader.c:194:21:read_bits	24	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/font/lv_font_loader.c:216:12:read_bits_signed	8	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/font/lv_font_loader.c:242:13:load_cmaps_tables	48	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/font/lv_font_loader.c:225:12:read_label	32	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/font/lv_font_loader.c:309:16:load_cmaps	32	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/font/lv_font_loader.c:338:16:load_glyph	80	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/font/lv_font_loader.c:117:6:lv_font_free	24	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/font/lv_font_loader.c:587:9:load_kern	56	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/font/lv_font_loader.c:483:13:lvgl_load_font	88	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/font/lv_font_loader.c:86:13:lv_font_load	40	static

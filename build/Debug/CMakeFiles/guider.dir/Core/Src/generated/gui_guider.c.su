@@ -1,8 +1,0 @@
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/generated/gui_guider.c:15:6:ui_init_style	8	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/generated/gui_guider.c:23:6:ui_load_scr_animation	40	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/generated/gui_guider.c:44:6:ui_animation	136	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/generated/gui_guider.c:72:6:init_scr_del_flag	0	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/generated/gui_guider.c:79:6:setup_bottom_layer	8	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/generated/gui_guider.c:84:6:setup_ui	8	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/generated/gui_guider.c:93:6:video_play	0	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/generated/gui_guider.c:98:6:init_keyboard	0	static

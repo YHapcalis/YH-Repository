@@ -1,7 +1,6 @@
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/freertos.c:86:6:StartDefaultTask	16	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/freertos.c:108:13:mode_temp_update_cb	24	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/freertos.c:153:13:hw_diag	560	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/freertos.c:316:6:StartGUITask	8	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/freertos.c:357:6:StartTouchTask	8	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/freertos.c:370:6:StartCanRxTask	24	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/freertos.c:75:6:MX_FREERTOS_Init	8	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/cmake/stm32cubemx/../../Drivers/CMSIS/Include/core_cm4.h:1938:34:__NVIC_SystemReset	0	static,ignoring_inline_asm
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/freertos.c:143:6:StartDefaultTask	24	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/freertos.c:185:6:StartGUITask	8	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/freertos.c:218:6:StartTouchTask	8	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/freertos.c:234:6:StartCanRxTask	40	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/freertos.c:100:6:MX_FREERTOS_Init	8	static

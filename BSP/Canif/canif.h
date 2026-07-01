@@ -7,7 +7,7 @@
  * 数据流：
  *   F103 (ID=0x12) → CAN 总线 → F407 CAN1_RX
  *     → canRxTask 轮询 → CAN1_Recv_Msg → can_sensor_data
- *     → custom.c timer 读取 → 更新 mode_label_temp_num
+ *     → custom.c mode_temp_update_cb → 更新 mode_label_temp_num
  */
 
 #ifndef __CANIF_H__
@@ -20,15 +20,11 @@
 /* ── CAN ID 定义 ── */
 #define CAN_ID_SENSOR   0x12   /* F103 → F407: 传感器数据帧       */
 
-/* ── F103 传感器数据结构 ── */
-/* F103 发送格式（8 字节，带 0.1 精度）:
- *   Byte 0: 温度整数部分 + 40（-40~85℃ → 0~125）
- *   Byte 1: 温度小数部分 ×10（0~9）
- *   Byte 2: 湿度整数部分（0~100）
- *   Byte 3: 湿度小数部分 ×10（0~9）
- *   Byte 4: 旋钮值 0-255
- *   Byte 5: 按键事件类型
- *   Byte 6-7: 保留
+/* ── F103 控制数据结构 ── */
+/* F103 发送格式（6 字节，50Hz 高频）:
+ *   Byte 0-3: 保留
+ *   Byte 4:  旋钮值 0-255
+ *   Byte 5:  按键事件 (高4位=KEY_ID, 低4位=TYPE)
  */
 typedef struct {
     float   temperature;   /* 摄氏温度                             */

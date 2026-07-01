@@ -1,0 +1,12 @@
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/core/lv_indev_scroll.c:553:13:scroll_limit_diff	4	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/core/lv_indev_scroll.c:576:19:scroll_throw_predict_y	8	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/core/lv_indev_scroll.c:591:19:scroll_throw_predict_x	8	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/core/lv_indev_scroll.c:507:19:find_snap_point_y	64	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/core/lv_indev_scroll.c:452:19:find_snap_point_x	64	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/core/lv_indev_scroll.c:384:13:init_scroll_limits	24	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/core/lv_indev_scroll.c:255:19:find_scroll_obj	80	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/core/lv_indev_scroll.c:606:19:elastic_diff	40	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/core/lv_indev_scroll.c:46:6:_lv_indev_scroll_handler	40	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/core/lv_indev_scroll.c:109:6:_lv_indev_scroll_throw_handler	48	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/core/lv_indev_scroll.c:220:12:lv_indev_scroll_throw_predict	0	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/core/lv_indev_scroll.c:245:6:lv_indev_scroll_get_snap_dist	16	static

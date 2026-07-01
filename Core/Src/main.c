@@ -22,6 +22,7 @@
 #include "can.h"
 #include "eth.h"
 #include "spi.h"
+#include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 #include "fsmc.h"
@@ -68,12 +69,7 @@ static void PrintSystemInfo(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-/* printf 重定向 — newlib-nano _write() → USART1 */
-int _write(int fd, char *ptr, int len)
-{
-    HAL_UART_Transmit(&huart1, (uint8_t *)ptr, len, HAL_MAX_DELAY);
-    return len;
-}
+
 /* USER CODE END 0 */
 
 /**
@@ -84,7 +80,8 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-
+  /* VTOR: STM32_Drivers 编译 system_stm32f4xx.c 时不带 USER_VECT_TAB_ADDRESS */
+  SCB->VTOR = (uint32_t)0x08008000;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -100,17 +97,36 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-
+  /* Bootloader 跳转前关断了全局中断 (PRIMASK=1)，APP 必须恢复 */
+  __set_PRIMASK(0);
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART1_UART_Init();
+  /* ETH PHY 未使用，初始化会卡死 HAL_ETH_Init() */
+  /* 如需使用以太网，将下方 #if 0 改为 #if 1 */
+#if 0
   MX_ETH_Init();
+#endif
   MX_FSMC_Init();
   MX_SPI1_Init();
   MX_CAN1_Init();
+  MX_TIM2_Init();
+  MX_TIM4_Init();
+  MX_TIM8_Init();
+  MX_TIM11_Init();
   /* USER CODE BEGIN 2 */
+
+  /* ---- 按键重配: FSMC 覆盖了 PE2-PE4, 重新设为输入 ---- */
+  GPIO_InitTypeDef key_fix = {0};
+  key_fix.Pin = KEY1_Pin | KEY2_Pin | KEY0_Pin;
+  key_fix.Mode = GPIO_MODE_INPUT;
+  key_fix.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(GPIOE, &key_fix);
+
+  /* LED0 心跳 — PF9 低电平点亮 */
+  HAL_GPIO_WritePin(LED0_GPIO_Port, LED0_Pin, GPIO_PIN_RESET);
 
   /* ---- LCD 背光 + 初始化 ---- */
   HAL_GPIO_WritePin(LCD_BL_GPIO_Port, LCD_BL_Pin, GPIO_PIN_SET);

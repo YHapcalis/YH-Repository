@@ -58,11 +58,13 @@ void touch_init(void)
 
     printf("[TOUCH] Init GT5663/GT5688...\r\n");
     if (GT5663_Init() == 0) {
-        lv_indev_t *indev = lv_indev_create();
-        lv_indev_set_type(indev, LV_INDEV_TYPE_POINTER);
-        lv_indev_set_read_cb(indev, touch_read_cb);
-        lv_timer_set_period(lv_indev_get_read_timer(indev), 5);
-        printf("[TOUCH] LVGL indev registered (read every 5ms)\r\n");
+        /* LVGL v8.3 使用 lv_indev_drv_t 注册输入设备 */
+        static lv_indev_drv_t indev_drv;
+        lv_indev_drv_init(&indev_drv);
+        indev_drv.type = LV_INDEV_TYPE_POINTER;
+        indev_drv.read_cb = touch_read_cb;
+        lv_indev_drv_register(&indev_drv);
+        printf("[TOUCH] LVGL indev registered\r\n");
     }
 }
 
@@ -111,9 +113,9 @@ void touch_poll(void)
 }
 
 /* ---- LVGL indev read_cb — 只返回缓存的最后状态 (极快, 不回阻塞) ---- */
-void touch_read_cb(lv_indev_t *indev, lv_indev_data_t *data)
+void touch_read_cb(lv_indev_drv_t *drv, lv_indev_data_t *data)
 {
-    (void)indev;
+    (void)drv;
     if (g_pressed) {
         data->state   = LV_INDEV_STATE_PRESSED;
         data->point.x = g_last_x;

@@ -1,6 +1,6 @@
 /**
  * @file    lv_port_disp.h
- * @brief   LVGL v9.3 显示端口 — 头文件
+ * @brief   LVGL v8.3 显示端口 — 头文件
  */
 
 #ifndef __LV_PORT_DISP_H

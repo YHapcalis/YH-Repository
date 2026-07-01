@@ -1,0 +1,4 @@
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/draw/sw/lv_draw_sw_layer.c:42:31:lv_draw_sw_layer_create	32	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/draw/sw/lv_draw_sw_layer.c:93:6:lv_draw_sw_layer_adjust	24	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/draw/sw/lv_draw_sw_layer.c:114:6:lv_draw_sw_layer_blend	40	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/draw/sw/lv_draw_sw_layer.c:139:6:lv_draw_sw_layer_destroy	8	static

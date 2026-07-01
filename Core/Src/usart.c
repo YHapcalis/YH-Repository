@@ -116,5 +116,16 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* uartHandle)
 
 /* USER CODE BEGIN 1 */
 
+/*
+ * printf 重定向 — newlib-nano _write() → USART1
+ * 非 weak 定义，覆盖 syscalls.c 中的弱符号版本。
+ * 整缓冲发送，避免 __io_putchar 逐字节传输的低效。
+ */
+int _write(int fd, char *ptr, int len)
+{
+    HAL_UART_Transmit(&huart1, (uint8_t *)ptr, len, HAL_MAX_DELAY);
+    return len;
+}
+
 /* USER CODE END 1 */
 

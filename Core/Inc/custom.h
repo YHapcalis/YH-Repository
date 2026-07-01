@@ -16,12 +16,12 @@ extern "C" {
 #include "gui_guider.h"
 
 void custom_init(lv_ui *ui);
+void custom_start_timers(lv_ui *ui);
+void mode_temp_update_cb(lv_timer_t *t);
 void home_label_digit_animation(lv_ui *ui);
 void speed_meter_timer_cb(lv_timer_t * t);
-void digital_cluster_chart_timer_cb(lv_timer_t * t);
 void play_music(lv_ui *ui);
 void music_album_next(bool next);
-void reset_music_status();
 
 #ifdef __cplusplus
 }

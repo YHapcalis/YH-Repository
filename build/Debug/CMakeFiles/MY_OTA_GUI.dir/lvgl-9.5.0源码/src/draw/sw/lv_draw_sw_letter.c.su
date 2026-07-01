@@ -1,4 +1,0 @@
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.5.0源码/src/draw/sw/blend/../../../misc/../stdlib/lv_string.h:73:20:lv_memzero	16	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.5.0源码/src/draw/sw/lv_draw_sw_letter.c:79:6:lv_draw_sw_letter	96	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.5.0源码/src/draw/sw/lv_draw_sw_letter.c:107:6:lv_draw_sw_label	24	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.5.0源码/src/draw/sw/lv_draw_sw_letter.c:129:35:draw_letter_cb	200	static

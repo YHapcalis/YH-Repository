@@ -1,8 +1,0 @@
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.3.0/src/draw/sw/blend/lv_draw_sw_blend_to_argb8888_premultiplied.c:773:13:lv_color_mix_with_alpha_cache_init	8	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.3.0/src/draw/sw/blend/lv_draw_sw_blend_to_argb8888_premultiplied.c:730:28:lv_color_32_32_mix_premul	32	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.3.0/src/draw/sw/blend/lv_draw_sw_blend_to_argb8888_premultiplied.c:789:42:blend_non_normal_pixel_premultiplied	24	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.3.0/src/draw/sw/blend/lv_draw_sw_blend_to_argb8888_premultiplied.c:271:35:argb8888_image_blend	80	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.3.0/src/draw/sw/blend/lv_draw_sw_blend_to_argb8888_premultiplied.c:567:35:argb8888_premultiplied_image_blend	88	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.3.0/src/draw/sw/blend/lv_draw_sw_blend_to_argb8888_premultiplied.c:447:35:rgb888_image_blend	96	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.3.0/src/draw/sw/blend/lv_draw_sw_blend_to_argb8888_premultiplied.c:130:28:lv_draw_sw_blend_color_to_argb8888_premultiplied	80	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-9.3.0/src/draw/sw/blend/lv_draw_sw_blend_to_argb8888_premultiplied.c:234:28:lv_draw_sw_blend_image_to_argb8888_premultiplied	8	static

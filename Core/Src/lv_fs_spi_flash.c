@@ -1,6 +1,6 @@
 /**
  * @file    lv_fs_spi_flash.c
- * @brief   LVGL v9.3 FS 驱动 — W25Q128 SPI Flash
+ * @brief   LVGL v8.3 FS 驱动 — W25Q128 SPI Flash
  *
  * 路径 "S:<offset>:<size>" — offset/size 为 8 位十六进制, 无 0x 前缀
  */
@@ -31,7 +31,7 @@ static void *spiflash_open(lv_fs_drv_t *drv, const char *path, lv_fs_mode_t mode
     /* 16MB 边界检查 */
     if ((uint64_t)off + sz > 0x1000000ULL) return NULL;
 
-    spiflash_file_t *sf = lv_malloc(sizeof(spiflash_file_t));
+    spiflash_file_t *sf = lv_mem_alloc(sizeof(spiflash_file_t));
     if (sf == NULL) return NULL;
 
     sf->offset = off;
@@ -45,7 +45,7 @@ static lv_fs_res_t spiflash_close(lv_fs_drv_t *drv, void *file_p)
 {
     (void)drv;
     spiflash_file_t *sf = (spiflash_file_t *)file_p;
-    if (sf) lv_free(sf);
+    if (sf) lv_mem_free(sf);
     return LV_FS_RES_OK;
 }
 

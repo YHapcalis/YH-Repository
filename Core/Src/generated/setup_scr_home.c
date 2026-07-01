@@ -14,6 +14,7 @@
 #include "widgets_init.h"
 #include "custom.h"
 #include "spiflash_images.h"
+#include "layout_defines.h"
 
 /* LiberationSans 53px 字体（GUI-Guider 导出） */
 extern const lv_font_t lv_font_LiberationSans_53;
@@ -28,20 +29,20 @@ void setup_scr_home(lv_ui *ui)
 {
     //Write codes home
     ui->home = lv_obj_create(NULL);
-    lv_obj_set_size(ui->home, 800, 480);
+    lv_obj_set_size(ui->home, HOME_W, HOME_H);
     lv_obj_set_scrollbar_mode(ui->home, LV_SCROLLBAR_MODE_OFF);
 
-    //Write style for home — moto bg via S: path
-    lv_obj_set_style_bg_opa(ui->home, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    //Write style for home — pure black bg (moto bg disabled for motor test)
+    lv_obj_set_style_bg_opa(ui->home, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(ui->home, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_image_src(ui->home, "S:001F5F2C:0011940C.bin", LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_image_opa(ui->home, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_image_recolor_opa(ui->home, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    // lv_obj_set_style_bg_image_src(ui->home, "S:001F5F2C:0011940C.bin", LV_PART_MAIN|LV_STATE_DEFAULT);
+    // lv_obj_set_style_bg_image_opa(ui->home, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    // lv_obj_set_style_bg_image_recolor_opa(ui->home, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
     //Write codes home_arc_needle
     ui->home_arc_needle = lv_arc_create(ui->home);
-    lv_obj_set_pos(ui->home_arc_needle, 233, 93);
-    lv_obj_set_size(ui->home_arc_needle, 333, 333);
+    lv_obj_set_pos(ui->home_arc_needle, HOME_ARC_NEEDLE_X, HOME_ARC_NEEDLE_Y);
+    lv_obj_set_size(ui->home_arc_needle, HOME_ARC_NEEDLE_W, HOME_ARC_NEEDLE_H);
     lv_arc_set_mode(ui->home_arc_needle, LV_ARC_MODE_NORMAL);
     lv_arc_set_range(ui->home_arc_needle, 0, 200);
     lv_arc_set_bg_angles(ui->home_arc_needle, 130, 50);
@@ -71,8 +72,8 @@ void setup_scr_home(lv_ui *ui)
 
     //Write codes home_label_digit
     ui->home_label_digit = lv_label_create(ui->home);
-    lv_obj_set_pos(ui->home_label_digit, 355, 285);
-    lv_obj_set_size(ui->home_label_digit, 80, 60);     /* 28px 字体足够容纳 3 位数字 */
+    lv_obj_set_pos(ui->home_label_digit, HOME_LABEL_DIGIT_X, HOME_LABEL_DIGIT_Y);
+    lv_obj_set_size(ui->home_label_digit, HOME_LABEL_DIGIT_W, HOME_LABEL_DIGIT_H);     /* 28px 字体足够容纳 3 位数字 */
     lv_label_set_text(ui->home_label_digit, "40");
     lv_label_set_long_mode(ui->home_label_digit, LV_LABEL_LONG_WRAP);
 
@@ -91,8 +92,8 @@ void setup_scr_home(lv_ui *ui)
 
     //Write codes home_label_trip_num
     ui->home_label_trip_num = lv_label_create(ui->home);
-    lv_obj_set_pos(ui->home_label_trip_num, 70, 160);
-    lv_obj_set_size(ui->home_label_trip_num, 160, 65);
+    lv_obj_set_pos(ui->home_label_trip_num, HOME_LABEL_TRIP_X, HOME_LABEL_TRIP_Y);
+    lv_obj_set_size(ui->home_label_trip_num, HOME_LABEL_TRIP_W, HOME_LABEL_TRIP_H);
     lv_label_set_text(ui->home_label_trip_num, "12.4");
     lv_label_set_long_mode(ui->home_label_trip_num, LV_LABEL_LONG_WRAP);
 
@@ -114,8 +115,8 @@ void setup_scr_home(lv_ui *ui)
 
     //Write codes home_label_power_num
     ui->home_label_power_num = lv_label_create(ui->home);
-    lv_obj_set_pos(ui->home_label_power_num, 600, 315);
-    lv_obj_set_size(ui->home_label_power_num, 135, 65);
+    lv_obj_set_pos(ui->home_label_power_num, HOME_LABEL_POWER_X, HOME_LABEL_POWER_Y);
+    lv_obj_set_size(ui->home_label_power_num, HOME_LABEL_POWER_W, HOME_LABEL_POWER_H);
     lv_label_set_text(ui->home_label_power_num, "3000");
     lv_label_set_long_mode(ui->home_label_power_num, LV_LABEL_LONG_WRAP);
 
@@ -138,8 +139,8 @@ void setup_scr_home(lv_ui *ui)
     //Write codes home_digital_clock_time
     static bool home_digital_clock_time_timer_enabled = false;
     ui->home_digital_clock_time = lv_label_create(ui->home);
-    lv_obj_set_pos(ui->home_digital_clock_time, 16, 19);
-    lv_obj_set_size(ui->home_digital_clock_time, 220, 60);
+    lv_obj_set_pos(ui->home_digital_clock_time, HOME_CLOCK_X, HOME_CLOCK_Y);
+    lv_obj_set_size(ui->home_digital_clock_time, HOME_CLOCK_W, HOME_CLOCK_H);
     lv_label_set_text(ui->home_digital_clock_time, "11:25 AM");
     if (!home_digital_clock_time_timer_enabled) {
         lv_timer_create(home_digital_clock_time_timer, 1000, NULL);
@@ -162,8 +163,8 @@ void setup_scr_home(lv_ui *ui)
 
     //Write codes home_bar_battery
     ui->home_bar_battery = lv_bar_create(ui->home);
-    lv_obj_set_pos(ui->home_bar_battery, 735, 14);
-    lv_obj_set_size(ui->home_bar_battery, 43, 24);
+    lv_obj_set_pos(ui->home_bar_battery, HOME_BATTERY_X, HOME_BATTERY_Y);
+    lv_obj_set_size(ui->home_bar_battery, HOME_BATTERY_W, HOME_BATTERY_H);
     lv_obj_set_style_anim_duration(ui->home_bar_battery, 1000, 0);
     lv_bar_set_mode(ui->home_bar_battery, LV_BAR_MODE_NORMAL);
     lv_bar_set_range(ui->home_bar_battery, 0, 100);
@@ -186,8 +187,8 @@ void setup_scr_home(lv_ui *ui)
 
     //Write codes home_label_ODO_num
     ui->home_label_ODO_num = lv_label_create(ui->home);
-    lv_obj_set_pos(ui->home_label_ODO_num, 70, 310);
-    lv_obj_set_size(ui->home_label_ODO_num, 160, 65);
+    lv_obj_set_pos(ui->home_label_ODO_num, HOME_ODO_X, HOME_ODO_Y);
+    lv_obj_set_size(ui->home_label_ODO_num, HOME_ODO_W, HOME_ODO_H);
     lv_label_set_text(ui->home_label_ODO_num, "300");
     lv_label_set_long_mode(ui->home_label_ODO_num, LV_LABEL_LONG_WRAP);
 
@@ -209,8 +210,8 @@ void setup_scr_home(lv_ui *ui)
 
     //Write codes home_img_right
     ui->home_img_right = lv_image_create(ui->home);
-    lv_obj_set_pos(ui->home_img_right, 528, 56);
-    lv_obj_set_size(ui->home_img_right, 50, 42);
+    lv_obj_set_pos(ui->home_img_right, HOME_RIGHT_X, HOME_RIGHT_Y);
+    lv_obj_set_size(ui->home_img_right, HOME_RIGHT_W, HOME_RIGHT_H);
     lv_obj_add_flag(ui->home_img_right, LV_OBJ_FLAG_CLICKABLE);
     lv_image_set_src(ui->home_img_right, img_direction);
     lv_image_set_pivot(ui->home_img_right, 50,50);
@@ -223,8 +224,8 @@ void setup_scr_home(lv_ui *ui)
 
     //Write codes home_img_left
     ui->home_img_left = lv_image_create(ui->home);
-    lv_obj_set_pos(ui->home_img_left, 216, 56);
-    lv_obj_set_size(ui->home_img_left, 50, 42);
+    lv_obj_set_pos(ui->home_img_left, HOME_LEFT_X, HOME_LEFT_Y);
+    lv_obj_set_size(ui->home_img_left, HOME_LEFT_W, HOME_LEFT_H);
     lv_obj_add_flag(ui->home_img_left, LV_OBJ_FLAG_CLICKABLE);
     lv_image_set_src(ui->home_img_left, img_direction);
     lv_image_set_pivot(ui->home_img_left, 12,12);
@@ -237,8 +238,8 @@ void setup_scr_home(lv_ui *ui)
 
     //Write codes home_label_WIFI
     ui->home_label_WIFI = lv_label_create(ui->home);
-    lv_obj_set_pos(ui->home_label_WIFI, 666, 14);
-    lv_obj_set_size(ui->home_label_WIFI, 80, 60);
+    lv_obj_set_pos(ui->home_label_WIFI, HOME_WIFI_X, HOME_WIFI_Y);
+    lv_obj_set_size(ui->home_label_WIFI, HOME_WIFI_W, HOME_WIFI_H);
     lv_label_set_text(ui->home_label_WIFI, "" LV_SYMBOL_WIFI "");
     lv_label_set_long_mode(ui->home_label_WIFI, LV_LABEL_LONG_WRAP);
 
@@ -260,8 +261,8 @@ void setup_scr_home(lv_ui *ui)
 
     //Write codes home_label_BT
     ui->home_label_BT = lv_label_create(ui->home);
-    lv_obj_set_pos(ui->home_label_BT, 623, 14);
-    lv_obj_set_size(ui->home_label_BT, 80, 60);
+    lv_obj_set_pos(ui->home_label_BT, HOME_BT_X, HOME_BT_Y);
+    lv_obj_set_size(ui->home_label_BT, HOME_BT_W, HOME_BT_H);
     lv_label_set_text(ui->home_label_BT, "" LV_SYMBOL_BLUETOOTH " ");
     lv_label_set_long_mode(ui->home_label_BT, LV_LABEL_LONG_WRAP);
 
@@ -283,8 +284,8 @@ void setup_scr_home(lv_ui *ui)
 
     //Write codes home_img_moto
     ui->home_img_moto = lv_image_create(ui->home);
-    lv_obj_set_pos(ui->home_img_moto, 610, 180);
-    lv_obj_set_size(ui->home_img_moto, 41, 37);
+    lv_obj_set_pos(ui->home_img_moto, HOME_MOTO_X, HOME_MOTO_Y);
+    lv_obj_set_size(ui->home_img_moto, HOME_MOTO_W, HOME_MOTO_H);
     lv_obj_add_flag(ui->home_img_moto, LV_OBJ_FLAG_CLICKABLE);
     lv_image_set_src(ui->home_img_moto, img_monitor);
     lv_image_set_pivot(ui->home_img_moto, 50,50);
@@ -297,8 +298,8 @@ void setup_scr_home(lv_ui *ui)
 
     //Write codes home_img_light
     ui->home_img_light = lv_image_create(ui->home);
-    lv_obj_set_pos(ui->home_img_light, 683, 120);
-    lv_obj_set_size(ui->home_img_light, 46, 46);
+    lv_obj_set_pos(ui->home_img_light, HOME_LIGHT_X, HOME_LIGHT_Y);
+    lv_obj_set_size(ui->home_img_light, HOME_LIGHT_W, HOME_LIGHT_H);
     lv_obj_add_flag(ui->home_img_light, LV_OBJ_FLAG_CLICKABLE);
     lv_image_set_src(ui->home_img_light, img_light);
     lv_image_set_pivot(ui->home_img_light, 50,50);
@@ -310,8 +311,8 @@ void setup_scr_home(lv_ui *ui)
 
     //Write codes home_btn_mode_a
     ui->home_btn_mode_a = lv_button_create(ui->home);
-    lv_obj_set_pos(ui->home_btn_mode_a, 260, 421);
-    lv_obj_set_size(ui->home_btn_mode_a, 80, 60);
+    lv_obj_set_pos(ui->home_btn_mode_a, HOME_BTN_X_A, HOME_BTN_Y);
+    lv_obj_set_size(ui->home_btn_mode_a, HOME_BTN_W, HOME_BTN_H);
     ui->home_btn_mode_a_label = lv_label_create(ui->home_btn_mode_a);
     lv_label_set_text(ui->home_btn_mode_a_label, "A");
     lv_label_set_long_mode(ui->home_btn_mode_a_label, LV_LABEL_LONG_WRAP);
@@ -333,8 +334,8 @@ void setup_scr_home(lv_ui *ui)
 
     //Write codes home_img_red
     ui->home_img_red = lv_image_create(ui->home);
-    lv_obj_set_pos(ui->home_img_red, 316, 151);
-    lv_obj_set_size(ui->home_img_red, 350, 350);
+    lv_obj_set_pos(ui->home_img_red, HOME_RED_X, HOME_RED_Y);
+    lv_obj_set_size(ui->home_img_red, HOME_RED_W, HOME_RED_H);
     lv_obj_add_flag(ui->home_img_red, LV_OBJ_FLAG_HIDDEN);
     lv_obj_add_flag(ui->home_img_red, LV_OBJ_FLAG_CLICKABLE);
     lv_image_set_src(ui->home_img_red, NULL);
@@ -347,8 +348,8 @@ void setup_scr_home(lv_ui *ui)
 
     //Write codes home_img_green
     ui->home_img_green = lv_image_create(ui->home);
-    lv_obj_set_pos(ui->home_img_green, 355, 174);
-    lv_obj_set_size(ui->home_img_green, 350, 350);
+    lv_obj_set_pos(ui->home_img_green, HOME_GREEN_X, HOME_GREEN_Y);
+    lv_obj_set_size(ui->home_img_green, HOME_GREEN_W, HOME_GREEN_H);
     lv_obj_add_flag(ui->home_img_green, LV_OBJ_FLAG_HIDDEN);
     lv_obj_add_flag(ui->home_img_green, LV_OBJ_FLAG_CLICKABLE);
     lv_image_set_src(ui->home_img_green, NULL);
@@ -361,8 +362,8 @@ void setup_scr_home(lv_ui *ui)
 
     //Write codes home_btn_mode_f
     ui->home_btn_mode_f = lv_button_create(ui->home);
-    lv_obj_set_pos(ui->home_btn_mode_f, 331, 421);
-    lv_obj_set_size(ui->home_btn_mode_f, 80, 60);
+    lv_obj_set_pos(ui->home_btn_mode_f, HOME_BTN_X_F, HOME_BTN_Y);
+    lv_obj_set_size(ui->home_btn_mode_f, HOME_BTN_W, HOME_BTN_H);
     ui->home_btn_mode_f_label = lv_label_create(ui->home_btn_mode_f);
     lv_label_set_text(ui->home_btn_mode_f_label, "F");
     lv_label_set_long_mode(ui->home_btn_mode_f_label, LV_LABEL_LONG_WRAP);
@@ -384,8 +385,8 @@ void setup_scr_home(lv_ui *ui)
 
     //Write codes home_btn_mode_e
     ui->home_btn_mode_e = lv_button_create(ui->home);
-    lv_obj_set_pos(ui->home_btn_mode_e, 475, 421);
-    lv_obj_set_size(ui->home_btn_mode_e, 80, 60);
+    lv_obj_set_pos(ui->home_btn_mode_e, HOME_BTN_X_E, HOME_BTN_Y);
+    lv_obj_set_size(ui->home_btn_mode_e, HOME_BTN_W, HOME_BTN_H);
     ui->home_btn_mode_e_label = lv_label_create(ui->home_btn_mode_e);
     lv_label_set_text(ui->home_btn_mode_e_label, "E");
     lv_label_set_long_mode(ui->home_btn_mode_e_label, LV_LABEL_LONG_WRAP);
@@ -407,8 +408,8 @@ void setup_scr_home(lv_ui *ui)
 
     //Write codes home_img_high_light
     ui->home_img_high_light = lv_image_create(ui->home);
-    lv_obj_set_pos(ui->home_img_high_light, 683, 218);
-    lv_obj_set_size(ui->home_img_high_light, 46, 46);
+    lv_obj_set_pos(ui->home_img_high_light, HOME_HIGH_LIGHT_X, HOME_HIGH_LIGHT_Y);
+    lv_obj_set_size(ui->home_img_high_light, HOME_HIGH_LIGHT_W, HOME_HIGH_LIGHT_H);
     lv_obj_add_flag(ui->home_img_high_light, LV_OBJ_FLAG_HIDDEN);
     lv_obj_add_flag(ui->home_img_high_light, LV_OBJ_FLAG_CLICKABLE);
     lv_image_set_src(ui->home_img_high_light, img_high_beam);
@@ -422,8 +423,8 @@ void setup_scr_home(lv_ui *ui)
 
     //Write codes home_btn_mode_c
     ui->home_btn_mode_c = lv_button_create(ui->home);
-    lv_obj_set_pos(ui->home_btn_mode_c, 403, 421);
-    lv_obj_set_size(ui->home_btn_mode_c, 80, 60);
+    lv_obj_set_pos(ui->home_btn_mode_c, HOME_BTN_X_C, HOME_BTN_Y);
+    lv_obj_set_size(ui->home_btn_mode_c, HOME_BTN_W, HOME_BTN_H);
     ui->home_btn_mode_c_label = lv_label_create(ui->home_btn_mode_c);
     lv_label_set_text(ui->home_btn_mode_c_label, "C");
     lv_label_set_long_mode(ui->home_btn_mode_c_label, LV_LABEL_LONG_WRAP);

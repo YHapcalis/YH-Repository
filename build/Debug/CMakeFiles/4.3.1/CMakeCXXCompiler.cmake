@@ -26,10 +26,10 @@ set(CMAKE_CXX_COMPILER_ARCHITECTURE_ID "armv7")
 
 
 
-set(CMAKE_AR "E:/ST/STM32/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/arm-none-eabi-ar.exe")
-set(CMAKE_CXX_COMPILER_AR "E:/ST/STM32/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/arm-none-eabi-gcc-ar.exe")
-set(CMAKE_RANLIB "E:/ST/STM32/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/arm-none-eabi-ranlib.exe")
-set(CMAKE_CXX_COMPILER_RANLIB "E:/ST/STM32/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/arm-none-eabi-gcc-ranlib.exe")
+set(CMAKE_AR "C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/arm-none-eabi-ar.exe")
+set(CMAKE_CXX_COMPILER_AR "C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/arm-none-eabi-gcc-ar.exe")
+set(CMAKE_RANLIB "C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/arm-none-eabi-ranlib.exe")
+set(CMAKE_CXX_COMPILER_RANLIB "C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/arm-none-eabi-gcc-ranlib.exe")
 set(CMAKE_LINKER "C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/arm-none-eabi-g++.exe")
 set(CMAKE_LINKER_LINK "")
 set(CMAKE_LINKER_LLD "")

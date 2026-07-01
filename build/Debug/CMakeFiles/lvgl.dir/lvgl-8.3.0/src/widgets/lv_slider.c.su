@@ -1,0 +1,8 @@
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/widgets/lv_slider.c:442:13:is_slider_horizontal	16	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/widgets/lv_slider.c:412:13:position_knob	32	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/widgets/lv_slider.h:177:32:lv_slider_get_mode	8	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/widgets/lv_slider.c:332:13:draw_knob	232	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/widgets/lv_slider.c:95:13:lv_slider_event	64	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/widgets/lv_slider.c:80:13:lv_slider_constructor	16	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/widgets/lv_slider.c:60:12:lv_slider_create	8	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/widgets/lv_slider.c:68:6:lv_slider_is_dragged	0	static
