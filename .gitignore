@@ -1,0 +1,20 @@
+# 构建产物
+build/
+*.bin
+*.elf
+*.hex
+*.map
+*.su
+*.o
+*.d
+
+# 工具链
+.cache/
+
+# IDE
+.vscode/settings.json
+.vscode/c_cpp_properties.json
+
+# 临时
+param_ota.bin
+param_init.bin
