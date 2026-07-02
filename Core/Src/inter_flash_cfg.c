@@ -88,6 +88,8 @@ uint8_t inter_flash_cfg_set_app_update_flag(uint8_t flag)
         s_flash_cfg.magic[2] = 0xCC;
         s_flash_cfg.magic[3] = 0xDD;
         s_flash_cfg.ota_bin_version = 0;
+        s_flash_cfg.ota_count[0] = 0;
+        s_flash_cfg.ota_count[1] = 0;
     }
 
     s_flash_cfg.ota_flag = flag;
@@ -114,4 +116,35 @@ uint8_t inter_flash_cfg_set_app_update_flag(uint8_t flag)
     printf("[CFG] ota_flag set to %d (checksum=0x%02X)\r\n",
            flag, s_flash_cfg.checksum);
     return 0;
+}
+
+/* ═══════════════════════ OTA 计数 ═══════════════════════ */
+
+uint16_t inter_flash_cfg_get_ota_count(void)
+{
+    uint8_t ret = inter_flash_cfg_load();
+    if (ret != 0) return 0;
+    return (uint16_t)(s_flash_cfg.ota_count[0]) |
+           ((uint16_t)(s_flash_cfg.ota_count[1]) << 8);
+}
+
+void inter_flash_cfg_inc_ota_count(void)
+{
+    /* 先读出当前值 */
+    uint8_t ret = inter_flash_cfg_load();
+    if (ret != 0) return;
+
+    uint16_t cnt = (uint16_t)(s_flash_cfg.ota_count[0]) |
+                   ((uint16_t)(s_flash_cfg.ota_count[1]) << 8);
+    cnt++;
+    s_flash_cfg.ota_count[0] = cnt & 0xFF;
+    s_flash_cfg.ota_count[1] = (cnt >> 8) & 0xFF;
+
+    /* 擦除 + 写入（只写一次，不重算 checksum） */
+    ret = inter_flashif_erase_sector(INTER_FLASH_PARAM_ADDR);
+    if (ret != 0) return;
+    inter_flashif_write(INTER_FLASH_PARAM_ADDR,
+                        (uint32_t *)&s_flash_cfg,
+                        sizeof(s_flash_cfg) / sizeof(uint32_t));
+    printf("[CFG] OTA count incremented to %u\r\n", cnt);
 }

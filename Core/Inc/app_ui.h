@@ -15,6 +15,9 @@ void app_ui_create(void);
 /* ── 传感器数据更新（由 CAN 任务调用）── */
 void app_ui_update_sensor(float temp, float hum, uint16_t knob, uint8_t key_id, uint8_t key_type);
 
+/* ── OTA 触发（由按钮设标志，GUI 主循环执行）── */
+extern volatile uint8_t g_ota_pending;
+
 /* ── CAN 状态更新 ── */
 void app_ui_set_can_status(uint8_t online);
 

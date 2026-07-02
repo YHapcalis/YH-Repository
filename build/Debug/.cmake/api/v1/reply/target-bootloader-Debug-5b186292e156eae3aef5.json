@@ -35,25 +35,25 @@
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 190,
+				"line" : 194,
 				"parent" : 0
 			},
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 184,
+				"line" : 188,
 				"parent" : 0
 			},
 			{
 				"command" : 3,
 				"file" : 0,
-				"line" : 204,
+				"line" : 208,
 				"parent" : 0
 			},
 			{
 				"command" : 4,
 				"file" : 0,
-				"line" : 180,
+				"line" : 183,
 				"parent" : 0
 			},
 			{
@@ -109,6 +109,10 @@
 				{
 					"backtrace" : 5,
 					"path" : "E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Bootloader/Inc"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/BSP/Canif"
 				},
 				{
 					"backtrace" : 3,
@@ -167,7 +171,10 @@
 				11,
 				12,
 				13,
-				14
+				14,
+				15,
+				16,
+				17
 			]
 		},
 		{
@@ -197,6 +204,10 @@
 				{
 					"backtrace" : 5,
 					"path" : "E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Bootloader/Inc"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/BSP/Canif"
 				},
 				{
 					"backtrace" : 3,
@@ -320,7 +331,10 @@
 				11,
 				12,
 				13,
-				14
+				14,
+				15,
+				16,
+				17
 			]
 		},
 		{
@@ -334,9 +348,6 @@
 			"name" : "Object Libraries",
 			"sourceIndexes" : 
 			[
-				15,
-				16,
-				17,
 				18,
 				19,
 				20,
@@ -358,7 +369,10 @@
 				36,
 				37,
 				38,
-				39
+				39,
+				40,
+				41,
+				42
 			]
 		}
 	],
@@ -445,13 +459,31 @@
 		{
 			"backtrace" : 6,
 			"compileGroupIndex" : 0,
-			"path" : "Bootloader/Src/ymodem.c",
+			"path" : "BSP/Canif/canif.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 6,
 			"compileGroupIndex" : 0,
-			"path" : "Bootloader/Src/ymodem_porting.c",
+			"path" : "Bootloader/Src/isotp.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 6,
+			"compileGroupIndex" : 0,
+			"path" : "Bootloader/Src/isotp_porting.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 6,
+			"compileGroupIndex" : 0,
+			"path" : "Bootloader/Src/iso_tp_cfg.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 6,
+			"compileGroupIndex" : 0,
+			"path" : "Core/Src/en25q128.c",
 			"sourceGroupIndex" : 0
 		},
 		{

@@ -210,6 +210,43 @@ void StartGUITask(void *argument)
 
     for (;;) {
         lv_timer_handler();
+
+        /* OTA 触发：由按钮回调设标志，主循环执行（确保 LVGL 刷新完毕） */
+        if (g_ota_pending) {
+            g_ota_pending = 0;
+            printf("[GUI] OTA pending: showing screen, then backup\n");
+
+            /* 显示备份提示画面 */
+            lv_obj_clean(lv_scr_act());
+            lv_obj_set_style_bg_color(lv_scr_act(), lv_color_hex(0x000000), LV_PART_MAIN);
+            lv_obj_t *lbl = lv_label_create(lv_scr_act());
+            lv_label_set_text(lbl, "OTA Starting...\n\nBacking up current firmware\nto SPI Flash...\n\nPlease wait...");
+            lv_obj_set_style_text_color(lbl, lv_color_hex(0xffffff), LV_PART_MAIN);
+            lv_obj_set_style_text_font(lbl, &lv_font_montserrat_20, LV_PART_MAIN);
+            lv_obj_center(lbl);
+
+            /* 多次调用 timer handler 确保 LCD 真正刷新 */
+            for (int i = 0; i < 20; i++) {
+                lv_timer_handler();
+                osDelay(10);
+            }
+
+            /* 备份当前固件到 SPI Flash */
+            EN25Q128_BackupFirmware();
+
+            /* 更新提示 */
+            lv_label_set_text(lbl, "OTA Starting...\n\nBackup done!\n\nResetting...");
+            for (int i = 0; i < 10; i++) {
+                lv_timer_handler();
+                osDelay(10);
+            }
+
+            /* 设 OTA 标志并复位 */
+            inter_flash_cfg_set_app_update_flag(1);
+            osDelay(100);
+            NVIC_SystemReset();
+        }
+
         osDelay(5);
     }
 }

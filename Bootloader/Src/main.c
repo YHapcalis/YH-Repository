@@ -18,7 +18,8 @@
 #include "boot_manager.h"
 #include "bootloader_main.h"
 #include "inter_flash_cfg.h"
-#include "ymodem.h"
+#include "iso_tp_cfg.h"
+#include "en25q128.h"
 #include <stdio.h>
 
 /* ── 全局变量 ── */
@@ -62,26 +63,67 @@ int main(void)
     /* ── 检查 OTA 更新标志 ── */
     int8_t ota_flag = inter_flash_cfg_get_app_update_flag();
     if (ota_flag == 1) {
-        printf("[BOOT] OTA flag detected! Waiting for Ymodem...\r\n");
-        printf("[BOOT] Send .bin file via Ymodem (115200-8N1)\r\n");
+        printf("[BOOT] OTA flag detected! Waiting for ISO-TP via CAN...\r\n");
+        printf("[BOOT] CAN ID: DATA=0x%03X FC=0x%03X\r\n",
+               CAN_ID_OTA_DATA, CAN_ID_OTA_FC);
 
-        /* LED 常亮：视觉提示已进入 Bootloader OTA 模式 */
+        /* LED 常亮：OTA 模式指示 */
         HAL_GPIO_WritePin(LED0_GPIO_Port, LED0_Pin, GPIO_PIN_RESET);
 
-        /* 接收固件（阻塞直到完成或失败） */
-        uint32_t file_size = 0;
-        COM_StatusTypeDef ymodem_ret = Ymodem_Receive(&file_size);
+        /* 初始化 CAN + ISO-TP */
+        iso_tp_init();
 
-        /* Ymodem 结束（不论成功失败），关闭 LED */
+        /* 使能 SPI1 时钟并初始化 SPI Flash（用于 OTA 失败恢复） */
+        __HAL_RCC_SPI1_CLK_ENABLE();
+        EN25Q128_Init();
+        EN25Q128_ReadID();  /* 验证 SPI Flash 通信 */
+
+        uint8_t ota_ok = 0;
+
+        /* 主循环：ISO-TP 接收 + Flash 写入 + LED 进度指示 */
+        printf("[BOOT] Waiting for CAN data chunks...\r\n");
+        uint32_t last_chunks = 0;
+        while (1) {
+            uint8_t st = iso_tp_poll();
+            if (st == 2) {       /* OTA 完成 */
+                ota_ok = 1;
+                break;
+            } else if (st == 1) { /* 收到数据块 */
+                if (g_ota_chunks != last_chunks) {
+                    printf("[BOOT] Chunks: %lu\r\n", g_ota_chunks);
+                    last_chunks = g_ota_chunks;
+                }
+            }
+            /* LED 闪烁：块数越多闪烁越快 */
+            uint32_t period = 500;
+            if (g_ota_chunks > 100) period = 30;
+            else if (g_ota_chunks > 50)  period = 60;
+            else if (g_ota_chunks > 20)  period = 120;
+            else if (g_ota_chunks > 10)  period = 250;
+            HAL_GPIO_WritePin(LED0_GPIO_Port, LED0_Pin,
+                (HAL_GetTick() % (period * 2) < period) ?
+                    GPIO_PIN_RESET : GPIO_PIN_SET);
+            /* 简单超时：60 秒无数据则退出 */
+            if (HAL_GetTick() > 60000) {
+                printf("[BOOT] ISO-TP timeout\r\n");
+                break;
+            }
+        }
+
         HAL_GPIO_WritePin(LED0_GPIO_Port, LED0_Pin, GPIO_PIN_SET);
 
-        if (ymodem_ret == COM_OK) {
-            printf("[BOOT] OTA success! (%lu bytes)\r\n", file_size);
+        if (ota_ok) {
+            printf("[BOOT] OTA via CAN success!\r\n");
+            inter_flash_cfg_inc_ota_count();
             inter_flash_cfg_set_app_update_flag(0);
         } else {
-            printf("[BOOT] OTA failed (ret=%d). Clearing flag and booting...\r\n",
-                   ymodem_ret);
-            inter_flash_cfg_set_app_update_flag(0);
+            printf("[BOOT] OTA failed. Trying SPI Flash restore...\r\n");
+            if (EN25Q128_RestoreFirmware() == 0) {
+                printf("[BOOT] Restore OK, jumping to APP\r\n");
+            } else {
+                printf("[BOOT] No backup, clearing flag\r\n");
+                inter_flash_cfg_set_app_update_flag(0);
+            }
         }
     } else if (ota_flag == 0) {
         printf("[BOOT] No OTA pending. Jumping to APP...\r\n");
@@ -95,6 +137,14 @@ int main(void)
 
     /* ── 不应到达此处 ── */
     Error_Handler();
+}
+
+/* ═══════════════════════════════════════════════════════════
+ *  SysTick Handler — 驱动 HAL_GetTick() 供 ISO-TP 超时使用
+ * ═══════════════════════════════════════════════════════════ */
+void SysTick_Handler(void)
+{
+    HAL_IncTick();
 }
 
 /* ═══════════════════════════════════════════════════════════

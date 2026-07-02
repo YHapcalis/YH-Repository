@@ -17,7 +17,7 @@
 rule ASM_COMPILER__MY_OTA_GUI_unscanned_Debug
   depfile = $DEP_FILE
   deps = gcc
-  command = ${LAUNCHER}${CODE_CHECK}C:\Users\RYUMEI~1\AppData\Local\STM32C~1\bundles\GNU-TO~2\1431_S~1.2\bin\AR19DD~1.EXE $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  command = ${LAUNCHER}${CODE_CHECK}E:\ST\STM32\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740\tools\bin\arm-none-eabi-gcc.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
   description = Building ASM object $out
 
 
@@ -27,7 +27,7 @@ rule ASM_COMPILER__MY_OTA_GUI_unscanned_Debug
 rule C_COMPILER__MY_OTA_GUI_unscanned_Debug
   depfile = $DEP_FILE
   deps = gcc
-  command = ${LAUNCHER}${CODE_CHECK}C:\Users\RYUMEI~1\AppData\Local\STM32C~1\bundles\GNU-TO~2\1431_S~1.2\bin\AR19DD~1.EXE $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  command = ${LAUNCHER}${CODE_CHECK}E:\ST\STM32\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740\tools\bin\arm-none-eabi-gcc.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
   description = Building C object $out
 
 
@@ -35,7 +35,7 @@ rule C_COMPILER__MY_OTA_GUI_unscanned_Debug
 # Rule for linking C executable.
 
 rule C_EXECUTABLE_LINKER__MY_OTA_GUI_Debug
-  command = C:\Windows\system32\cmd.exe /C "$PRE_LINK && C:\Users\RYUMEI~1\AppData\Local\STM32C~1\bundles\GNU-TO~2\1431_S~1.2\bin\AR19DD~1.EXE $FLAGS $LINK_FLAGS @$RSP_FILE -o $TARGET_FILE && $POST_BUILD"
+  command = C:\Windows\system32\cmd.exe /C "$PRE_LINK && E:\ST\STM32\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740\tools\bin\arm-none-eabi-gcc.exe $FLAGS $LINK_FLAGS @$RSP_FILE -o $TARGET_FILE && $POST_BUILD"
   description = Linking C executable $TARGET_FILE; Generating APP .bin...
   rspfile = $RSP_FILE
   rspfile_content = $in $LINK_PATH $LINK_LIBRARIES
@@ -48,7 +48,7 @@ rule C_EXECUTABLE_LINKER__MY_OTA_GUI_Debug
 rule C_COMPILER__lvgl_unscanned_Debug
   depfile = $DEP_FILE
   deps = gcc
-  command = ${LAUNCHER}${CODE_CHECK}C:\Users\RYUMEI~1\AppData\Local\STM32C~1\bundles\GNU-TO~2\1431_S~1.2\bin\AR19DD~1.EXE $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  command = ${LAUNCHER}${CODE_CHECK}E:\ST\STM32\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740\tools\bin\arm-none-eabi-gcc.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
   description = Building C object $out
 
 
@@ -58,7 +58,7 @@ rule C_COMPILER__lvgl_unscanned_Debug
 rule ASM_COMPILER__bootloader_unscanned_Debug
   depfile = $DEP_FILE
   deps = gcc
-  command = ${LAUNCHER}${CODE_CHECK}C:\Users\RYUMEI~1\AppData\Local\STM32C~1\bundles\GNU-TO~2\1431_S~1.2\bin\AR19DD~1.EXE $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  command = ${LAUNCHER}${CODE_CHECK}E:\ST\STM32\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740\tools\bin\arm-none-eabi-gcc.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
   description = Building ASM object $out
 
 
@@ -68,7 +68,7 @@ rule ASM_COMPILER__bootloader_unscanned_Debug
 rule C_COMPILER__bootloader_unscanned_Debug
   depfile = $DEP_FILE
   deps = gcc
-  command = ${LAUNCHER}${CODE_CHECK}C:\Users\RYUMEI~1\AppData\Local\STM32C~1\bundles\GNU-TO~2\1431_S~1.2\bin\AR19DD~1.EXE $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  command = ${LAUNCHER}${CODE_CHECK}E:\ST\STM32\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740\tools\bin\arm-none-eabi-gcc.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
   description = Building C object $out
 
 
@@ -76,7 +76,7 @@ rule C_COMPILER__bootloader_unscanned_Debug
 # Rule for linking C executable.
 
 rule C_EXECUTABLE_LINKER__bootloader_Debug
-  command = C:\Windows\system32\cmd.exe /C "$PRE_LINK && C:\Users\RYUMEI~1\AppData\Local\STM32C~1\bundles\GNU-TO~2\1431_S~1.2\bin\AR19DD~1.EXE $FLAGS $LINK_FLAGS $in -o $TARGET_FILE $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
+  command = C:\Windows\system32\cmd.exe /C "$PRE_LINK && E:\ST\STM32\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740\tools\bin\arm-none-eabi-gcc.exe $FLAGS $LINK_FLAGS $in -o $TARGET_FILE $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
   description = Linking C executable $TARGET_FILE; Generating Bootloader .bin...
   restat = $RESTAT
 
@@ -95,7 +95,7 @@ rule CUSTOM_COMMAND
 rule C_COMPILER__STM32_Drivers_unscanned_Debug
   depfile = $DEP_FILE
   deps = gcc
-  command = ${LAUNCHER}${CODE_CHECK}C:\Users\RYUMEI~1\AppData\Local\STM32C~1\bundles\GNU-TO~2\1431_S~1.2\bin\AR19DD~1.EXE $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  command = ${LAUNCHER}${CODE_CHECK}E:\ST\STM32\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740\tools\bin\arm-none-eabi-gcc.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
   description = Building C object $out
 
 
@@ -105,7 +105,7 @@ rule C_COMPILER__STM32_Drivers_unscanned_Debug
 rule C_COMPILER__FreeRTOS_unscanned_Debug
   depfile = $DEP_FILE
   deps = gcc
-  command = ${LAUNCHER}${CODE_CHECK}C:\Users\RYUMEI~1\AppData\Local\STM32C~1\bundles\GNU-TO~2\1431_S~1.2\bin\AR19DD~1.EXE $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  command = ${LAUNCHER}${CODE_CHECK}E:\ST\STM32\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740\tools\bin\arm-none-eabi-gcc.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
   description = Building C object $out
 
 
@@ -113,7 +113,7 @@ rule C_COMPILER__FreeRTOS_unscanned_Debug
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = "C:\Users\Ryumeido Mei\AppData\Local\stm32cube\bundles\cmake\4.3.1+st.1\bin\cmake.exe" --regenerate-during-build -SE:\ST\STM32\MY_workspace\Projects_F407\MY_OTA_GUI -BE:\ST\STM32\MY_workspace\Projects_F407\MY_OTA_GUI\build\Debug
+  command = C:\msys64\mingw64\bin\cmake.exe --regenerate-during-build -SE:\ST\STM32\MY_workspace\Projects_F407\MY_OTA_GUI -BE:\ST\STM32\MY_workspace\Projects_F407\MY_OTA_GUI\build\Debug
   description = Re-running CMake...
   generator = 1
 
@@ -122,7 +122,7 @@ rule RERUN_CMAKE
 # Rule for cleaning additional files.
 
 rule CLEAN_ADDITIONAL
-  command = "C:\Users\Ryumeido Mei\AppData\Local\stm32cube\bundles\cmake\4.3.1+st.1\bin\cmake.exe" -DCONFIG=$CONFIG -P CMakeFiles\clean_additional.cmake
+  command = C:\msys64\mingw64\bin\cmake.exe -DCONFIG=$CONFIG -P CMakeFiles\clean_additional.cmake
   description = Cleaning additional files...
 
 

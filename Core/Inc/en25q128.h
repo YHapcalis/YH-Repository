@@ -30,6 +30,16 @@
 #define EN25Q128_BR_SAFE            7U          /* fPCLK/256 = 328KHz  */
 #define EN25Q128_BR_FAST            0U          /* fPCLK/2   = 42MHz   */
 
+/* SPI Flash 固件备份区域（使用 SPI Flash 尾部 2MB） */
+#define SPI_BAK_ADDR        0x00E00000U   /* 14MB 偏移处开始存放备份 */
+#define SPI_BAK_MAGIC       0x2141544F    /* "OTA!" = 0x4F544121 */
+
+/* 备份当前固件到 SPI Flash（由 APP 在 OTA 前调用） */
+uint8_t EN25Q128_BackupFirmware(void);
+
+/* 从 SPI Flash 恢复固件（由 Bootloader 在 OTA 失败后调用） */
+uint8_t EN25Q128_RestoreFirmware(void);
+
 /* ---- API ---- */
 void     EN25Q128_Init(void);
 uint32_t EN25Q128_ReadID(void);

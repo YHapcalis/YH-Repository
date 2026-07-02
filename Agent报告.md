@@ -111,6 +111,44 @@
 | CRC16 算法对齐 | Python 脚本匹配 Bootloader bit-by-bit CRC16 实现 |
 | Bootloader LED 指示 | Ymodem 模式 LED 常亮，完成后熄灭 |
 
+### Phase 7：CAN ISO-TP OTA 传输
+
+> 绕开 CH340C DTR 硬件陷阱，通过 F103 网关走 CAN 总线完成固件传输
+
+| 成果 | 详情 |
+|------|------|
+| 架构 | PC → F103 串口 (IRQ缓冲) → ISO-TP → CAN → F407 Bootloader → Flash |
+| F103 网关 | USART2 RX 中断 + 2048 环形缓冲，2048字节/块 ISO-TP 转发 |
+| F407 Bootloader ISO-TP | `iso_tp_cfg.c` 接收 0x0B1，发送流控 0x0B2，预擦除全扇区 |
+| 结束标记 | F103 空闲 2s → CAN 0x0B3 [BE AD BE EF 02] → F407 清 flag 跳转 APP |
+| 关键修复 1 | CAN ID 对应修正 (F103 发 0x0B1, F407 发流控 0x0B2) |
+| 关键修复 2 | ISO-TP 发送循环中读取 CAN RX 流控帧 (blocking_send 不读 RX) |
+| 关键修复 3 | F407 预擦除全扇区 (原来每块写入前擦除会清掉之前数据) |
+| 关键修复 4 | 结束标记字节校验修正 (rx_buf[2]==0xBE 不是 0xEF) |
+| 关键修复 5 | USART2 中断环形缓冲 (解决 ISO-TP 发送期间串口丢字节) |
+| 验证结果 | **✅ 349KB 固件通过 CAN ISO-TP 传输成功，F407 跳转 APP 运行** |
+
+### Phase 8：SPI Flash 固件备份/回滚 + OTA 计数
+
+| 成果 | 详情 |
+|------|------|
+| APP 备份 | 按 OTA 按钮时先备份固件到 SPI Flash (14MB 偏移处)，再复位 |
+| Bootloader 恢复 | OTA 失败时自动从 SPI Flash 恢复，LCD 显示进度提示 |
+| 固件大小测量 | `_fw_end` 链接器符号精确计算固件大小，备份 512KB 区域 |
+| OTA 计数 | `format[2]` → `ota_count[2]`，参数扇区存储 OTA 成功次数 |
+| LCD 显示 | 系统状态卡片显示 `OTA Done: N time(s) via CAN`（绿字） |
+| LED 进度 | Bootloader 中 LED 闪烁频率随接收数据块数变化 |
+
+### Phase 9：工程收官 — F103 双模式编译开关
+
+| 成果 | 详情 |
+|------|------|
+| 设计 | `Core/Src/main.c` 顶部 `#define GATEWAY_MODE` 注释/取消即可切换 |
+| 传感器模式（默认） | AHT20 + 旋钮 + 按键 + OLED + RTC + CAN 发送 (1Hz) |
+| 网关模式 | USART2 → ISO-TP(0x0B1) → CAN，用于 CAN OTA 固件传输 |
+| 代码隔离 | `stm32f1xx_it.c` 的 USART2 环形缓冲受 `#ifdef` 保护 |
+| ISO-TP 文件 | 常编译但只被网关模式引用，不增加传感器模式代码量 |
+
 ### 废弃代码清理
 
 | 移除内容 | 原因 |
@@ -165,10 +203,12 @@
 
 | 目标 | Flash | 分区 | 占用率 |
 |------|-------|------|--------|
-| **bootloader.elf** | **28 KB** | 32 KB | **85%** ✅ |
-| **MY_OTA_GUI.elf** | **349 KB** | 864 KB | **39%** ✅ |
+| **bootloader.elf** | **31 KB** | 32 KB | **95%** ✅ |
+| **MY_OTA_GUI.elf** | **350 KB** | 864 KB | **40%** ✅ |
 | **RAM (主SRAM)** | **63 KB** | 128 KB | **48%** ✅ |
 | **CCMRAM** | **24 KB** | 64 KB | **38%** (LVGL池) |
+| **F103 传感器模式** | **54 KB** | 64 KB | **83%** ✅ |
+| **F103 网关模式** | **34 KB** | 64 KB | **52%** ✅ |
 
 ### 内存分区
 

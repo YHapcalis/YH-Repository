@@ -82,6 +82,9 @@ SECTIONS
     . = ALIGN(4);
   } >FLASH
 
+  /* 固件结束地址（用于计算固件大小，SPI Flash 备份用） */
+  _fw_end = .;
+
   .preinit_array (READONLY) :
   {
     . = ALIGN(4);

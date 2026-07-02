@@ -16,7 +16,7 @@ typedef struct {
     uint32_t ota_bin_version;   /* 固件版本号 */
     uint8_t ota_flag;           /* 0=正常启动, 1=需要 OTA */
     uint8_t checksum;           /* 累加和校验（覆盖前面 9 字节） */
-    uint8_t format[2];          /* 占位对齐到 12 字节 */
+    uint8_t ota_count[2];       /* OTA 成功次数 (uint16_t LE) */
 } inter_flash_cfg_param_typeDef;
 #pragma pack()
 
@@ -24,5 +24,7 @@ typedef struct {
 uint8_t  inter_flash_cfg_init(void);
 int8_t   inter_flash_cfg_get_app_update_flag(void);
 uint8_t  inter_flash_cfg_set_app_update_flag(uint8_t flag);
+uint16_t inter_flash_cfg_get_ota_count(void);
+void     inter_flash_cfg_inc_ota_count(void);
 
 #endif /* __INTER_FLASH_CFG_H__ */

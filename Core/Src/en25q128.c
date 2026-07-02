@@ -5,6 +5,9 @@
  */
 
 #include "en25q128.h"
+#include "inter_flashif.h"
+#include <stdio.h>
+#include <string.h>
 
 /* ---- 内部辅助宏 ---- */
 #define CS_LOW()    do { GPIOB->BSRR = (uint32_t)FLASH_CS_Pin << 16U; } while(0)
@@ -181,4 +184,93 @@ void EN25Q128_Init(void)
 
     /* 空读一次清 RX 缓冲 */
     (void)spi1_xfer(0xFF);
+}
+
+/* ═══════════════════════════════════════════════════════════
+ *  SPI Flash 固件备份 / 恢复
+ * ═══════════════════════════════════════════════════════════ */
+
+extern uint32_t _fw_end;
+#define APP_BASE        ((uint32_t)0x08008000UL)
+#define FW_MAX_SIZE     ((uint32_t)(512UL * 1024UL))
+
+uint8_t EN25Q128_BackupFirmware(void)
+{
+    uint32_t fw_size = (uint32_t)&_fw_end - APP_BASE;
+    if (fw_size > FW_MAX_SIZE) fw_size = FW_MAX_SIZE;
+    printf("[SPI] Backing up %lu bytes...\r\n", fw_size);
+
+    uint32_t addr = SPI_BAK_ADDR;
+    for (uint32_t i = 0; i < 128; i++) {
+        EN25Q128_EraseSector(addr);
+        addr += EN25Q128_SECTOR_SIZE;
+    }
+
+    uint8_t hdr[8];
+    hdr[0] = (uint8_t)(SPI_BAK_MAGIC >> 0);
+    hdr[1] = (uint8_t)(SPI_BAK_MAGIC >> 8);
+    hdr[2] = (uint8_t)(SPI_BAK_MAGIC >> 16);
+    hdr[3] = (uint8_t)(SPI_BAK_MAGIC >> 24);
+    hdr[4] = (uint8_t)(fw_size >> 0);
+    hdr[5] = (uint8_t)(fw_size >> 8);
+    hdr[6] = (uint8_t)(fw_size >> 16);
+    hdr[7] = (uint8_t)(fw_size >> 24);
+    EN25Q128_EraseWrite(hdr, SPI_BAK_ADDR, 8);
+
+    uint8_t page[EN25Q128_PAGE_SIZE];
+    uint32_t spi_off = SPI_BAK_ADDR + 8;
+    for (uint32_t off = 0; off < fw_size; off += EN25Q128_PAGE_SIZE) {
+        uint32_t n = fw_size - off;
+        if (n > EN25Q128_PAGE_SIZE) n = EN25Q128_PAGE_SIZE;
+        memcpy(page, (const void *)(APP_BASE + off), n);
+        if (n < EN25Q128_PAGE_SIZE)
+            memset(page + n, 0xFF, EN25Q128_PAGE_SIZE - n);
+        EN25Q128_Write(page, spi_off, EN25Q128_PAGE_SIZE);
+        spi_off += EN25Q128_PAGE_SIZE;
+    }
+    printf("[SPI] Backup done (%lu bytes)\r\n", fw_size);
+    return 0;
+}
+
+uint8_t EN25Q128_RestoreFirmware(void)
+{
+    uint8_t hdr[8];
+    EN25Q128_Read(hdr, SPI_BAK_ADDR, 8);
+    uint32_t magic = (uint32_t)hdr[0] | ((uint32_t)hdr[1] << 8) |
+                     ((uint32_t)hdr[2] << 16) | ((uint32_t)hdr[3] << 24);
+    if (magic != SPI_BAK_MAGIC) {
+        printf("[SPI] No valid backup (magic=0x%08lX)\r\n", magic);
+        return 1;
+    }
+    uint32_t fw_size = (uint32_t)hdr[4] | ((uint32_t)hdr[5] << 8) |
+                       ((uint32_t)hdr[6] << 16) | ((uint32_t)hdr[7] << 24);
+    if (fw_size > FW_MAX_SIZE) return 2;
+    printf("[SPI] Restoring %lu bytes...\r\n", fw_size);
+
+    uint32_t addr = APP_BASE;
+    while (addr < APP_BASE + fw_size) {
+        if (addr < 0x08010000)      { inter_flashif_erase_sector(addr); addr += 0x4000; }
+        else if (addr < 0x08020000) { inter_flashif_erase_sector(addr); addr += 0x10000; }
+        else                        { inter_flashif_erase_sector(addr); addr += 0x20000; }
+    }
+
+#define RB 2048
+    uint8_t block[RB];
+    uint32_t spi_off = SPI_BAK_ADDR + 8;
+    for (uint32_t off = 0; off < fw_size; off += RB) {
+        uint32_t n = fw_size - off;
+        if (n > RB) n = RB;
+        EN25Q128_Read(block, spi_off, n);
+        uint32_t words = n / 4;
+        if (words > 0) inter_flashif_write(APP_BASE + off, (uint32_t *)block, words);
+        uint32_t rem = n % 4;
+        if (rem > 0) {
+            uint32_t last = 0xFFFFFFFF;
+            memcpy(&last, block + words * 4, rem);
+            inter_flashif_write(APP_BASE + off + words * 4, &last, 1);
+        }
+        spi_off += n;
+    }
+    printf("[SPI] Restore done\r\n");
+    return 0;
 }

@@ -8,6 +8,7 @@
 #include "app_ui.h"
 #include "images.h"
 #include "inter_flash_cfg.h"
+#include "en25q128.h"
 #include "FreeRTOS.h"
 #include "task.h"
 #include "stm32f4xx_hal.h"
@@ -43,6 +44,9 @@ static lv_obj_t *ui_label_heap;
 
 /* 指示灯颜色缓存 */
 static uint8_t s_indicator_light;
+
+/* OTA 触发标志 — GUI 主循环检测到后执行备份+复位 */
+volatile uint8_t g_ota_pending = 0;
 static uint8_t s_indicator_watertemp;
 static uint8_t s_indicator_turnlight;
 static uint8_t s_indicator_safetybelt;
@@ -265,11 +269,17 @@ static void create_data_panel(void)
     lv_obj_set_style_text_font(ui_label_heap, &lv_font_montserrat_16, LV_PART_MAIN);
     lv_obj_align(ui_label_heap, LV_ALIGN_TOP_LEFT, 0, 92);
 
-    lv_obj_t *lb_f103 = lv_label_create(card2);
-    lv_label_set_text(lb_f103, "F103 Node:   WAITING  (CAN ID=0x12)");
-    lv_obj_set_style_text_color(lb_f103, lv_color_hex(0xaaaaaa), LV_PART_MAIN);
-    lv_obj_set_style_text_font(lb_f103, &lv_font_montserrat_16, LV_PART_MAIN);
-    lv_obj_align(lb_f103, LV_ALIGN_TOP_LEFT, 0, 126);
+    /* OTA 成功计数 */
+    uint16_t ota_cnt = inter_flash_cfg_get_ota_count();
+    char ota_buf[40];
+    snprintf(ota_buf, sizeof(ota_buf), "OTA Done:    %u time(s)  via %s",
+             ota_cnt, ota_cnt > 0 ? "CAN" : "---");
+    lv_obj_t *lb_ota = lv_label_create(card2);
+    lv_label_set_text(lb_ota, ota_buf);
+    lv_obj_set_style_text_color(lb_ota, ota_cnt > 0 ?
+        lv_color_hex(0x44ff44) : lv_color_hex(0xaaaaaa), LV_PART_MAIN);
+    lv_obj_set_style_text_font(lb_ota, &lv_font_montserrat_16, LV_PART_MAIN);
+    lv_obj_align(lb_ota, LV_ALIGN_TOP_LEFT, 0, 126);
 
     /* 运行时间（由定时器更新） */
     ui_label_uptime = lv_label_create(card2);
@@ -498,10 +508,8 @@ static void sysmon_timer_cb(lv_timer_t *tmr)
 static void btn_ota_cb(lv_event_t *e)
 {
     (void)e;
-    printf("[GUI] OTA Trigger button pressed!\r\n");
-    inter_flash_cfg_set_app_update_flag(1);
-    HAL_Delay(100);
-    NVIC_SystemReset();
+    printf("[GUI] OTA Trigger!\r\n");
+    g_ota_pending = 1;  /* 让 GUI 主循环去执行备份+复位 */
 }
 
 /* ═══════════════════════════════════════════════════════════

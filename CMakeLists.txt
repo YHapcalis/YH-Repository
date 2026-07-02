@@ -173,12 +173,16 @@ target_sources(bootloader PRIVATE
     Core/Src/stm32f4xx_hal_timebase_tim.c
     Core/Src/inter_flash_cfg.c
     Core/Src/inter_flashif.c
-    Bootloader/Src/ymodem.c
-    Bootloader/Src/ymodem_porting.c
+    BSP/Canif/canif.c
+    Bootloader/Src/isotp.c
+    Bootloader/Src/isotp_porting.c
+    Bootloader/Src/iso_tp_cfg.c
+    Core/Src/en25q128.c
 )
 
 target_include_directories(bootloader PRIVATE
     Bootloader/Inc
+    BSP/Canif
 )
 
 target_link_libraries(bootloader PRIVATE
