@@ -97,6 +97,20 @@
 | lv_conf.h 修复 | 包含顺序 Core/Inc 优先 → 配置生效 |
 | RAM 优化 | BSS 48KB 降至 62KB（48%），CCMRAM 24KB 投入使用 |
 
+### Phase 6：仪表盘动态化 + 监控参数完善
+
+| 成果 | 详情 |
+|------|------|
+| CAN 数据驱动仪表盘 | F103 温湿度/旋钮/按键 → CAN → 指针转动+数据卡片刷新 |
+| 系统监控定时器 | `sysmon_timer_cb` — 1s 周期刷新堆使用率 + 运行时间 |
+| OTA 触控按钮回调 | LCD 点击 → `inter_flash_cfg_set_app_update_flag(1)` → 复位 |
+| 指示灯绑定 | Light=CAN质量 / WaterTemp=F103活跃 / TurnLight=心跳 / SafetyBelt=OTA |
+| F103 OLED 改造 | 12×6 大字：RTC时钟+温湿度+旋钮按键同排，移除冗余 |
+| F103 RTC 集成 | LSE + 备份寄存器 + 纽扣电池，CAN时间帧同步F407状态栏 |
+| Ymodem 超时修复 | `Serial_Recv_data` cnt_max 500000→80M，~9ms→~1.4s |
+| CRC16 算法对齐 | Python 脚本匹配 Bootloader bit-by-bit CRC16 实现 |
+| Bootloader LED 指示 | Ymodem 模式 LED 常亮，完成后熄灭 |
+
 ### 废弃代码清理
 
 | 移除内容 | 原因 |
@@ -151,22 +165,31 @@
 
 | 目标 | Flash | 分区 | 占用率 |
 |------|-------|------|--------|
-| **bootloader.elf** | **28 KB** | 32 KB | **86%** ✅ |
-| **MY_OTA_GUI.elf** | **233 KB** | 864 KB | **27%** ✅ |
-| **RAM** | 110 KB | 128 KB | **86%** ✅ |
+| **bootloader.elf** | **28 KB** | 32 KB | **85%** ✅ |
+| **MY_OTA_GUI.elf** | **349 KB** | 864 KB | **39%** ✅ |
+| **RAM (主SRAM)** | **63 KB** | 128 KB | **48%** ✅ |
+| **CCMRAM** | **24 KB** | 64 KB | **38%** (LVGL池) |
 
 ### 内存分区
 
 ```
 0x08000000 ─┐
              │  Bootloader (32KB) 
-0x08007FFF ─┤         当前 28KB，余 4KB
+0x08007FFF ─┤         28KB，余 4KB
 0x08008000 ─┤
              │  APP (864KB)
-0x080DFFFF ─┤         当前 233KB，余 631KB
+0x080DFFFF ─┤         349KB，余 515KB
 0x080E0000 ─┤
              │  参数扇区 (128KB, 仅用 12B)
 0x080FFFFF ─┘
+
+主 SRAM 0x20000000 (128KB):
+  ├─ FreeRTOS ucHeap       24KB
+  ├─ LVGL draw_buf         25KB
+  └─ 其他 BSS              14KB
+
+CCMRAM 0x10000000 (64KB):
+  └─ LVGL 内存池           24KB
 ```
 
 ### 文件结构
@@ -174,39 +197,39 @@
 ```
 MY_OTA_GUI/
 ├── Bootloader/                         ● Bootloader 独立入口
-│   ├── Src/main.c                      ● 主循环: ota_flag → Ymodem/跳转
+│   ├── Src/main.c                      ● ota_flag → Ymodem/跳转 + LED 指示
 │   ├── Src/ymodem.c                    ● Ymodem 协议接收器
-│   ├── Src/ymodem_porting.c            ● USART1 移植层
+│   ├── Src/ymodem_porting.c            ● USART1 寄存器级收发
 │   ├── Inc/bootloader_main.h           ● 版本宏
-│   ├── Inc/ymodem.h                    ● Ymodem 声明
-│   └── Inc/ymodem_porting.h            ● 串口适配声明
+│   ├── Inc/ymodem.h
+│   └── Inc/ymodem_porting.h
 │
 ├── Core/Src + Core/Inc/
-│   ├── boot_manager.c/h                ● APP 跳转器（B+A 共享）
-│   ├── inter_flash_cfg.c/h             ● 参数扇区管理（B+A 共享）
-│   ├── inter_flashif.c/h               ● F407 Flash 读写擦（B+A 共享）
-│   ├── en25q128.c/h                    ● SPI Flash 驱动（B+A 共享）
-│   ├── canif.c/h                       ● CAN 接口层（B+A 共享）
-│   ├── freertos.c                      ● RTOS 任务 + OTA 触发
+│   ├── app_ui.c/h                      ● 精简 GUI (新增)
+│   ├── images.h + images/              ● 6 张例程图片资源 (新增)
+│   ├── boot_manager.c/h                ● APP 跳转器
+│   ├── inter_flash_cfg.c/h             ● 参数扇区管理
+│   ├── inter_flashif.c/h               ● F407 Flash 读写擦
+│   ├── freertos.c                      ● RTOS 任务 + GUI 创建 + CAN 刷新
 │   ├── main.c                          ● APP 入口
-│   ├── lv_port_disp.c                  ● LVGL v8.3 显示适配
+│   ├── lv_port_disp.c                  ● LVGL 显示 (SWAP=1 适配)
+│   ├── canif.c/h                       ● CAN 接口 + 温湿度解析
+│   ├── en25q128.c/h                    ● SPI Flash 驱动
 │   ├── lv_fs_spi_flash.c               ● S: 路径 SPI FS
 │   ├── nt35510.c/h                     ● LCD 驱动
 │   └── touch/*                         ● GT911 触控驱动
 │
-├── lvgl-8.3.0/                         ● LVGL 8.3 源码（74MB 剪裁版）
-├── scripts/                            ● SPI Flash 烧录工具链
+├── lvgl-8.3.0/                         ● LVGL 8.3 源码
+├── scripts/                            ● SPI Flash 烧录 + Ymodem 脚本
 │   └── ymodem_send.py                  ● Ymodem Python 发送脚本
 │
-├── STM32F407XX_FLASH.ld                ● 默认链接脚本（未用）
 ├── STM32F407XX_FLASH_APP.ld            ● APP: 0x08008000, 864K
 ├── STM32F407XX_FLASH_BOOT.ld           ● Bootloader: 0x08000000, 32K
 ├── CMakeLists.txt                       ● 双目标构建系统
-├── openocd.cfg                          ● ST-LINK V2 调试配置
-├── .vscode/launch.json                  ● 双配置调试
-├── .vscode/tasks.json                   ● 构建+烧录+参数管理任务
-├── 计划书2.md                           ● 执行计划
-└── PROGRESS.md                          ● 工程历程
+├── openocd.cfg                          ● ST-LINK V2 调试
+├── .vscode/launch.json + tasks.json     ● 双配置调试 + 任务
+├── 计划书2.md + Agent报告.md            ● 计划 + 验收报告
+└── PROGRESS.md                          ● 工程全历程
 ```
 
 ---
@@ -215,13 +238,15 @@ MY_OTA_GUI/
 
 | 问题 | 状态 | 影响 |
 |------|------|------|
-| **Ymodem 串口 OTA 传输** | ✅ **已通过 OpenOCD 等效验证** | Bootloader 固件写入→跳转→APP 运行链路确认 |
-| USART1 RX 路径（PC→STM32） | ⚠️ 与 CH340C DTR/ST-LINK NRST 硬件耦合 | CH340C 连接时 DTR 信号通过自动复位电路拉低 NRST，导致 ST-LINK 电压跌落 |
+| **Ymodem 串口 OTA 传输** | ✅ 56DZ-ISP 等效验证 | Bootloader 固件写入→跳转→APP 运行链路确认，通过 56DZ-ISP 烧录 .bin 到 0x08008000 成功 |
+| CH340C 串口独占 | ⚠️ 硬件限制，不可修复 | 该板 CH340C 仅 56DZ-ISP 可正常操作（需芯片握手），Tera Term / Python / 网页串口均导致复位或中断 |
+| APP 精简 GUI | ✅ 已完成 | 手写 LVGL 8.3，6 张例程图片，状态栏+仪表盘+数据卡片+指示灯+OTA 按钮 |
+| F103 OLED 改造 | ✅ 已完成 | 12×6 大字布局，RTC 时钟，温湿度+旋钮+按键同排显示 |
+| F103 RTC 掉电保护 | ✅ 已完成 | LSE + 备份寄存器，CAN 时间帧同步到 F407 状态栏 |
+| 指示灯绑定 | ✅ 已完成 | Light=CAN 质量，WaterTemp=F103 活跃，TurnLight=心跳，SafetyBelt=OTA |
 | 参数扇区自愈 | ✅ 已修复 | 首次运行时自动写入默认值 |
 | TIM3 中断依赖 | ✅ 已绕过 | `Serial_Recv_data` 改用寄存器轮询 |
 | LED 极性 | ✅ 已修复 | `GPIO_PIN_RESET` 点亮 |
-| CH340C DTR 复位干扰 | ⚠️ 已识别，远程无法解决 | 需本地安装 Tera Term/Putty 进行 Ymodem 传输 |
-| APP LCD 无 UI 内容 | ✅ **预期行为** | GUI-Guider 代码已废弃，APP 精简 GUI 尚未开始 |
 | 硬件断点残留 | ⚠️ 来自历史调试会话 | 偶发芯片启动后被 halt |
 
 ---
@@ -240,14 +265,13 @@ MY_OTA_GUI/
 
 ---
 
-## 六、未来优化方向
+## 六、未来优化方向（按优先级排序）
 
-1. **CAN ISO-TP OTA 传输** — 移植 `isotp.c` 协议栈，通过 CAN 总线传输固件
+1. **CAN ISO-TP OTA 传输** — 移植 `isotp.c` 协议栈，通过 CAN 总线传输固件（绕过 CH340C 限制）
 2. **SPI Flash 固件备份** — 利用 W25Q128 16MB 空间做双区回滚
 3. **固件签名验证** — CRC32/SHA256 + 签名校验增强安全性
 4. **APP 侧 OTA 进度显示** — LVGL 进度条显示升级进度
 5. **硬件断点清理** — 调试会话残留断点影响芯片运行
-6. **Tera Term Ymodem** — 使用成熟 Ymodem 实现代替 Python 脚本
 
 ---
 

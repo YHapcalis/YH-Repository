@@ -28,7 +28,7 @@ HAL_StatusTypeDef Serial_PutByte(uint8_t param)
 HAL_StatusTypeDef Serial_Recv_data(uint8_t *pData, uint16_t Size, uint32_t Timeout)
 {
     (void)Timeout;
-    uint32_t cnt_max = 500000;  /* ~10ms 单字节超时 @ 168MHz */
+    uint32_t cnt_max = 80000000;  /* ~7.5s 单字节超时 @ 168MHz (实测) */
     for (uint16_t i = 0; i < Size; i++) {
         uint32_t cnt = 0;
         while (!(USART1->SR & USART_SR_RXNE)) {

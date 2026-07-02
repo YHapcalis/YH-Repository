@@ -25,18 +25,26 @@ CA  = 0x18
 CRC_CODE = 0x43
 
 def crc16(data: bytes) -> int:
+    """与 Bootloader ymodem.c 完全一致的 CRC16 算法"""
+    def update_crc16(crc: int, byte: int) -> int:
+        inv = byte | 0x100
+        while not (inv & 0x10000):
+            crc <<= 1
+            inv <<= 1
+            if inv & 0x100:
+                crc += 1
+            if crc & 0x10000:
+                crc ^= 0x1021
+        return crc & 0xFFFF
+
     crc = 0
     for b in data:
-        crc ^= (b << 8)
-        for _ in range(8):
-            if crc & 0x8000:
-                crc = (crc << 1) ^ 0x1021
-            else:
-                crc <<= 1
-            crc &= 0xFFFF
+        crc = update_crc16(crc, b)
+    crc = update_crc16(crc, 0)
+    crc = update_crc16(crc, 0)
     return crc
 
-def send_packet(ser, pkt_num: int, data: bytes) -> bool:
+def send_packet(ser, pkt_num: int, data: bytes, long_wait: bool = False) -> bool:
     size = len(data)
     pkt_size = 128 if size <= 128 else 1024
     header = SOH if size <= 128 else STX
@@ -54,8 +62,18 @@ def send_packet(ser, pkt_num: int, data: bytes) -> bool:
     for attempt in range(15):
         try:
             ser.write(pkt)
+            # 头包首试用长超时（等待 Bootloader 擦除 Flash）
+            t = 8.0 if (long_wait and attempt == 0) else 0.5
+            saved = ser.timeout
+            ser.timeout = t
             ack = ser.read(1)
+            ser.timeout = saved
             if ack == b'\x06':
+                # 排空后续多余字节（Bootloader 发完 ACK 后可能跟了 CRC 等）
+                ser.timeout = 0.05
+                while ser.read(1):
+                    pass
+                ser.timeout = saved
                 return True
             elif ack == b'\x15':
                 continue
@@ -87,20 +105,21 @@ def ymodem_send(port: str, filepath: str, baud: int = 115200):
     print(f"  File: {filename.decode()} ({filesize} bytes)")
     print(f"  Port: {port} @ {baud}")
 
-    # ── 打开串口，用 DTR 复位芯片 ──
+    # ── 打开串口（禁止 DTR，防 CH340C 自动复位）──
     ser = serial.Serial()
     ser.port = port
     ser.baudrate = baud
     ser.timeout = 0.5
-    ser.dtr = False          # DTR=LOW → 复位
     ser.rts = False
+    ser.dtr = False
     ser.open()
-    time.sleep(0.3)
-    ser.dtr = True           # DTR=HIGH → 释放复位，芯片启动
-    print("  Chip reset via DTR")
+    # Windows 驱动 open 时可能脉冲 DTR，再补一刀确保 DTR 为低
+    ser.dtr = False
+    print("  Serial opened (DTR=OFF, press RESET on board)")
 
     # ── 等待 Bootloader 输出，直到出现 'C' (Ymodem CRC 请求) ──
     print("  Waiting for bootloader (CRC='C')...")
+    print("  >>> Press RESET button on the board now <<<")
     start = time.time()
     found_c = False
     buf = b''
@@ -138,10 +157,13 @@ def ymodem_send(port: str, filepath: str, baud: int = 115200):
         return False
 
     print(f"  Ymodem ready (CRC detected)")
+    print("  Erasing APP sectors (wait ~5s)...")
 
     # ── 发送文件头包 (pkt=0, filename+size) ──
     header_data = filename + b'\x00' + str(filesize).encode() + b'\x00'
-    if not send_packet(ser, 0, header_data):
+    # 头包需要更长超时：Bootloader 收到后先擦除 Flash，数秒后才回 ACK
+    time.sleep(1)
+    if not send_packet(ser, 0, header_data, long_wait=True):
         print("  FAIL: Header packet")
         ser.close()
         return False

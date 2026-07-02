@@ -269,6 +269,11 @@ void StartCanRxTask(void *argument)
                     NVIC_SystemReset();
                 }
             }
+            /* RTC 时间帧 (ID=0x13, F103 每秒发送) */
+            else if (rx_id == 0x13 && len >= 6) {
+                app_ui_update_time(rx_buf[0], rx_buf[1], rx_buf[2],
+                                   rx_buf[3], rx_buf[4], rx_buf[5]);
+            }
             /* 未知 ID — 仅调试时打印 */
             else {
                 printf("[CAN] Unknown ID=0x%03lx L=%u\r\n",

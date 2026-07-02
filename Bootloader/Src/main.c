@@ -64,11 +64,16 @@ int main(void)
     if (ota_flag == 1) {
         printf("[BOOT] OTA flag detected! Waiting for Ymodem...\r\n");
         printf("[BOOT] Send .bin file via Ymodem (115200-8N1)\r\n");
-        printf("[BOOT] Use: SecureCRT/Tera Term → Transfer → Ymodem → Send\r\n");
+
+        /* LED 常亮：视觉提示已进入 Bootloader OTA 模式 */
+        HAL_GPIO_WritePin(LED0_GPIO_Port, LED0_Pin, GPIO_PIN_RESET);
 
         /* 接收固件（阻塞直到完成或失败） */
         uint32_t file_size = 0;
         COM_StatusTypeDef ymodem_ret = Ymodem_Receive(&file_size);
+
+        /* Ymodem 结束（不论成功失败），关闭 LED */
+        HAL_GPIO_WritePin(LED0_GPIO_Port, LED0_Pin, GPIO_PIN_SET);
 
         if (ymodem_ret == COM_OK) {
             printf("[BOOT] OTA success! (%lu bytes)\r\n", file_size);

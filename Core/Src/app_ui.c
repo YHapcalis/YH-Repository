@@ -11,6 +11,7 @@
 #include "FreeRTOS.h"
 #include "task.h"
 #include "stm32f4xx_hal.h"
+#include "canif.h"
 #include <stdio.h>
 
 /* ── 前置函数声明 ── */
@@ -36,6 +37,7 @@ static lv_obj_t *ui_label_knob;
 static lv_obj_t *ui_label_key;
 static lv_obj_t *ui_label_can_status;
 static lv_obj_t *ui_label_ota_status;
+static lv_obj_t *ui_label_clock;
 static lv_obj_t *ui_label_uptime;
 static lv_obj_t *ui_label_heap;
 
@@ -97,6 +99,13 @@ static void create_status_bar(void)
     lv_obj_set_style_text_color(lb, lv_color_hex(0x88aaff), LV_PART_MAIN);
     lv_obj_set_style_text_font(lb, &lv_font_montserrat_12, LV_PART_MAIN);
     lv_obj_align(lb, LV_ALIGN_LEFT_MID, 8, 0);
+
+    /* 时钟（从 F103 RTC 接收） */
+    ui_label_clock = lv_label_create(bar);
+    lv_label_set_text(ui_label_clock, "--:--:--");
+    lv_obj_set_style_text_color(ui_label_clock, lv_color_hex(0xffffff), LV_PART_MAIN);
+    lv_obj_set_style_text_font(ui_label_clock, &lv_font_montserrat_12, LV_PART_MAIN);
+    lv_obj_align(ui_label_clock, LV_ALIGN_CENTER, 0, 0);
 
     /* OTA 状态 */
     ui_label_ota_status = lv_label_create(bar);
@@ -354,6 +363,18 @@ void app_ui_update_sensor(float temp, float hum,
     lv_label_set_text(ui_label_key, buf);
 }
 
+/* ═══════════════════════════════════════════════════════════
+ *  时钟更新（从 F103 CAN 时间帧接收）
+ * ═══════════════════════════════════════════════════════════ */
+void app_ui_update_time(uint8_t year, uint8_t month, uint8_t day,
+                        uint8_t hour, uint8_t min, uint8_t sec)
+{
+    char buf[32];
+    snprintf(buf, sizeof(buf), "20%02u-%02u-%02u  %02u:%02u:%02u",
+             year, month, day, hour, min, sec);
+    lv_label_set_text(ui_label_clock, buf);
+}
+
 void app_ui_set_can_status(uint8_t online)
 {
     lv_label_set_text(ui_label_can_status,
@@ -447,10 +468,28 @@ static void sysmon_timer_cb(lv_timer_t *tmr)
     snprintf(buf, sizeof(buf), "Heap:        %lu/%lu (%lu%%)", used, total, pct);
     lv_label_set_text(ui_label_heap, buf);
 
-    /* ── 指示灯动画：无 CAN 数据时慢闪 ── */
-    /* BIT0 按秒交替 */
-    uint8_t blink = (now / 1000) & 1;
-    app_ui_set_indicator_light(blink);
+    /* ── 指示灯状态绑定 ── */
+    uint32_t can_age = now - g_can_sensor.tick;
+
+    /* 🔆 Light → CAN 连接质量：3s 内收到数据=正常，否则=告警 */
+    if (g_can_sensor.valid && can_age < 3000) {
+        app_ui_set_indicator_light(0);   /* 白: 正常 */
+    } else {
+        app_ui_set_indicator_light(1);   /* 红: 断开 */
+    }
+
+    /* 🌡 WaterTemp → F103 节点活跃：数据 10s 内=正常，否则=超时 */
+    if (g_can_sensor.valid && can_age < 10000) {
+        app_ui_set_indicator_watertemp(0);   /* 白: 活跃 */
+    } else {
+        app_ui_set_indicator_watertemp(1);   /* 红: 超时 */
+    }
+
+    /* 🚗 TurnLight → 系统心跳：每秒翻转 */
+    app_ui_set_indicator_turnlight((now / 1000) & 1);
+
+    /* 🔔 SafetyBelt → OTA 状态：由 app_ui_set_ota_status 控制 */
+    /* 状态由外部调用决定，此处不覆盖 */
 }
 
 /* ═══════════════════════════════════════════════════════════

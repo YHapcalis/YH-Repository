@@ -18,6 +18,10 @@ void app_ui_update_sensor(float temp, float hum, uint16_t knob, uint8_t key_id, 
 /* ── CAN 状态更新 ── */
 void app_ui_set_can_status(uint8_t online);
 
+/* ── 时钟更新（从 F103 CAN 时间帧接收）── */
+void app_ui_update_time(uint8_t year, uint8_t month, uint8_t day,
+                        uint8_t hour, uint8_t min, uint8_t sec);
+
 /* ── OTA 状态更新 ── */
 void app_ui_set_ota_status(uint8_t updating);
 
