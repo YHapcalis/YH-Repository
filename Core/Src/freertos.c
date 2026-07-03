@@ -26,6 +26,8 @@
 #include "canif.h"
 #include "inter_flash_cfg.h"
 #include "app_ui.h"
+#include "mode_ui.h"
+#include "settings_ui.h"
 /* hw_diag.h — 探索期遗留，擦写 SPI Flash 影响启动时间，移除 */
 /* #include "hw_diag.h" */
 
@@ -219,7 +221,9 @@ void StartGUITask(void *argument)
 
     /* 创建精简 GUI */
     app_ui_create();
-    printf("[GUI] App UI created\r\n");
+    mode_ui_create();
+    settings_ui_create();
+    printf("[GUI] All UIs created (Home + Mode + Settings)\r\n");
 
     printf("[GUI] Init done, entering loop\r\n");
 

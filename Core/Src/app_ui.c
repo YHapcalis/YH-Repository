@@ -13,6 +13,8 @@
 #include "task.h"
 #include "stm32f4xx_hal.h"
 #include "canif.h"
+#include "mode_ui.h"
+#include "settings_ui.h"
 #include <stdio.h>
 
 /* ── 自定义中文字体（SimHei 16px 子集，仅含界面所需字符）── */
@@ -21,10 +23,11 @@ LV_FONT_DECLARE(ui_font_chinese_16);
 /* ── 前置函数声明 ── */
 static void sysmon_timer_cb(lv_timer_t *tmr);
 static void btn_ota_cb(lv_event_t *e);
-static void btn_info_cb(lv_event_t *e);
+static void btn_mode_cb(lv_event_t *e);
+static void btn_settings_cb(lv_event_t *e);
 
 /* ── 全局控件引用（供更新函数使用）── */
-static lv_obj_t *ui_scr_main;
+lv_obj_t *ui_scr_main;     /* 非 static — mode_ui.c 需要引用 */
 
 /* 左区：仪表盘 */
 static lv_obj_t *ui_img_gauge_bg;
@@ -42,8 +45,6 @@ static lv_obj_t *ui_label_key;
 static lv_obj_t *ui_label_can_status;
 static lv_obj_t *ui_label_ota_status;
 static lv_obj_t *ui_label_clock;
-static lv_obj_t *ui_label_uptime;
-static lv_obj_t *ui_label_heap;
 
 /* 指示灯颜色缓存 */
 static uint8_t s_indicator_light;
@@ -54,6 +55,14 @@ volatile uint8_t g_ota_pending = 0;
 static uint8_t s_indicator_watertemp;
 static uint8_t s_indicator_turnlight;
 static uint8_t s_indicator_safetybelt;
+
+/* ── 主题 ── */
+static uint8_t g_theme_id = THEME_DARK;
+
+/* Home 屏关键容器（主题切换时改底色） */
+static lv_obj_t *ui_home_statusbar;
+static lv_obj_t *ui_home_card1;
+static lv_obj_t *ui_home_btnbar;
 
 /* ── 内部函数声明 ── */
 static void create_status_bar(void);
@@ -93,6 +102,7 @@ static void create_status_bar(void)
 {
     /* 状态栏背景 */
     lv_obj_t *bar = lv_obj_create(ui_scr_main);
+    ui_home_statusbar = bar;              /* 保存句柄供主题切换 */
     lv_obj_set_size(bar, 800, 28);
     lv_obj_set_pos(bar, 0, 0);
     lv_obj_clear_flag(bar, LV_OBJ_FLAG_SCROLLABLE);
@@ -194,6 +204,7 @@ static void create_data_panel(void)
 
     /* ── 传感器数据卡片 ── */
     lv_obj_t *card1 = lv_obj_create(ui_scr_main);
+    ui_home_card1 = card1;                /* 保存句柄供主题切换 */
     lv_obj_set_size(card1, 470, 200);
     lv_obj_set_pos(card1, px, py);
     lv_obj_clear_flag(card1, LV_OBJ_FLAG_SCROLLABLE);
@@ -237,60 +248,6 @@ static void create_data_panel(void)
     lv_obj_set_style_text_color(ui_label_key, lv_color_hex(0xffffff), LV_PART_MAIN);
     lv_obj_set_style_text_font(ui_label_key, &ui_font_chinese_16, LV_PART_MAIN);
     lv_obj_align(ui_label_key, LV_ALIGN_TOP_LEFT, 0, 122);
-
-    /* ── 系统状态卡片（下方）── */
-    lv_obj_t *card2 = lv_obj_create(ui_scr_main);
-    lv_obj_set_size(card2, 470, 170);
-    lv_obj_set_pos(card2, px, py + 210);
-    lv_obj_clear_flag(card2, LV_OBJ_FLAG_SCROLLABLE);
-    lv_obj_set_style_bg_color(card2, lv_color_hex(0x111111), LV_PART_MAIN);
-    lv_obj_set_style_border_color(card2, lv_color_hex(0x334466), LV_PART_MAIN);
-    lv_obj_set_style_border_width(card2, 1, LV_PART_MAIN);
-    lv_obj_set_style_radius(card2, 8, LV_PART_MAIN);
-    lv_obj_set_style_pad_all(card2, 12, LV_PART_MAIN);
-
-    lv_obj_t *title2 = lv_label_create(card2);
-    lv_label_set_text(title2, "系统状态");
-    lv_obj_set_style_text_color(title2, lv_color_hex(0x88aaff), LV_PART_MAIN);
-    lv_obj_set_style_text_font(title2, &ui_font_chinese_16, LV_PART_MAIN);
-    lv_obj_align(title2, LV_ALIGN_TOP_LEFT, 0, 0);
-
-    lv_obj_t *lb_flash = lv_label_create(card2);
-    lv_label_set_text(lb_flash, "Flash:  864KB APP + 128KB PARAM");
-    lv_obj_set_style_text_color(lb_flash, lv_color_hex(0xcccccc), LV_PART_MAIN);
-    lv_obj_set_style_text_font(lb_flash, &lv_font_montserrat_16, LV_PART_MAIN);
-    lv_obj_align(lb_flash, LV_ALIGN_TOP_LEFT, 0, 32);
-
-    lv_obj_t *lb_ram = lv_label_create(card2);
-    lv_label_set_text(lb_ram, "SRAM:  48% | CCM: 24KB (LVGL)");
-    lv_obj_set_style_text_color(lb_ram, lv_color_hex(0xcccccc), LV_PART_MAIN);
-    lv_obj_set_style_text_font(lb_ram, &lv_font_montserrat_16, LV_PART_MAIN);
-    lv_obj_align(lb_ram, LV_ALIGN_TOP_LEFT, 0, 62);
-
-    ui_label_heap = lv_label_create(card2);
-    lv_label_set_text(ui_label_heap, "堆剩余:           ----");
-    lv_obj_set_style_text_color(ui_label_heap, lv_color_hex(0xcccccc), LV_PART_MAIN);
-    lv_obj_set_style_text_font(ui_label_heap, &ui_font_chinese_16, LV_PART_MAIN);
-    lv_obj_align(ui_label_heap, LV_ALIGN_TOP_LEFT, 0, 92);
-
-    /* OTA 成功计数 */
-    uint16_t ota_cnt = inter_flash_cfg_get_ota_count();
-    char ota_buf[44];
-    snprintf(ota_buf, sizeof(ota_buf), "OTA 完成:    %u 次  via %s",
-             ota_cnt, ota_cnt > 0 ? "CAN" : "---");
-    lv_obj_t *lb_ota = lv_label_create(card2);
-    lv_label_set_text(lb_ota, ota_buf);
-    lv_obj_set_style_text_color(lb_ota, ota_cnt > 0 ?
-        lv_color_hex(0x44ff44) : lv_color_hex(0xaaaaaa), LV_PART_MAIN);
-    lv_obj_set_style_text_font(lb_ota, &ui_font_chinese_16, LV_PART_MAIN);
-    lv_obj_align(lb_ota, LV_ALIGN_TOP_LEFT, 0, 126);
-
-    /* 运行时间（由定时器更新） */
-    ui_label_uptime = lv_label_create(card2);
-    lv_label_set_text(ui_label_uptime, "运行时间:   0s");
-    lv_obj_set_style_text_color(ui_label_uptime, lv_color_hex(0xcccccc), LV_PART_MAIN);
-    lv_obj_set_style_text_font(ui_label_uptime, &ui_font_chinese_16, LV_PART_MAIN);
-    lv_obj_align(ui_label_uptime, LV_ALIGN_TOP_LEFT, 0, 156);
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -299,6 +256,7 @@ static void create_data_panel(void)
 static void create_button_bar(void)
 {
     lv_obj_t *bar = lv_obj_create(ui_scr_main);
+    ui_home_btnbar = bar;                 /* 保存句柄供主题切换 */
     lv_obj_set_size(bar, 800, 36);
     lv_obj_set_pos(bar, 0, 444);
     lv_obj_clear_flag(bar, LV_OBJ_FLAG_SCROLLABLE);
@@ -322,20 +280,31 @@ static void create_button_bar(void)
     lv_obj_set_style_text_font(lbl_ota, &ui_font_chinese_16, LV_PART_MAIN);
     lv_obj_center(lbl_ota);
 
-    /* 系统信息按钮 */
-    lv_obj_t *btn_info = lv_btn_create(bar);
-    lv_obj_set_size(btn_info, 160, 28);
-    lv_obj_set_style_bg_color(btn_info, lv_color_hex(0x224488), LV_PART_MAIN);
-    lv_obj_set_style_radius(btn_info, 4, LV_PART_MAIN);
-    lv_obj_align(btn_info, LV_ALIGN_LEFT_MID, 200, 0);
+    /* Mode 按钮 */
+    lv_obj_t *btn_mode = lv_btn_create(bar);
+    lv_obj_set_size(btn_mode, 100, 28);
+    lv_obj_set_style_bg_color(btn_mode, lv_color_hex(0x224488), LV_PART_MAIN);
+    lv_obj_set_style_radius(btn_mode, 4, LV_PART_MAIN);
+    lv_obj_align(btn_mode, LV_ALIGN_LEFT_MID, 200, 0);
+    lv_obj_add_event_cb(btn_mode, btn_mode_cb, LV_EVENT_CLICKED, NULL);
+    lv_obj_t *lbl_mode = lv_label_create(btn_mode);
+    lv_label_set_text(lbl_mode, "Mode");
+    lv_obj_set_style_text_color(lbl_mode, lv_color_hex(0xffffff), LV_PART_MAIN);
+    lv_obj_set_style_text_font(lbl_mode, &lv_font_montserrat_20, LV_PART_MAIN);
+    lv_obj_center(lbl_mode);
 
-    lv_obj_add_event_cb(btn_info, btn_info_cb, LV_EVENT_CLICKED, NULL);
-
-    lv_obj_t *lbl_info = lv_label_create(btn_info);
-    lv_label_set_text(lbl_info, "系统信息");
-    lv_obj_set_style_text_color(lbl_info, lv_color_hex(0xffffff), LV_PART_MAIN);
-    lv_obj_set_style_text_font(lbl_info, &ui_font_chinese_16, LV_PART_MAIN);
-    lv_obj_center(lbl_info);
+    /* 设置按钮 */
+    lv_obj_t *btn_set = lv_btn_create(bar);
+    lv_obj_set_size(btn_set, 100, 28);
+    lv_obj_set_style_bg_color(btn_set, lv_color_hex(0x224488), LV_PART_MAIN);
+    lv_obj_set_style_radius(btn_set, 4, LV_PART_MAIN);
+    lv_obj_align(btn_set, LV_ALIGN_LEFT_MID, 320, 0);
+    lv_obj_add_event_cb(btn_set, btn_settings_cb, LV_EVENT_CLICKED, NULL);
+    lv_obj_t *lbl_set = lv_label_create(btn_set);
+    lv_label_set_text(lbl_set, "设置");
+    lv_obj_set_style_text_color(lbl_set, lv_color_hex(0xffffff), LV_PART_MAIN);
+    lv_obj_set_style_text_font(lbl_set, &ui_font_chinese_16, LV_PART_MAIN);
+    lv_obj_center(lbl_set);
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -470,23 +439,15 @@ void app_ui_set_indicator_safetybelt(uint8_t color)
 static void sysmon_timer_cb(lv_timer_t *tmr)
 {
     (void)tmr;
-    char buf[64];
     uint32_t now = HAL_GetTick();
-
-    /* ── 运行时间 ── */
     uint32_t sec = now / 1000;
-    uint32_t min = sec / 60;
-    sec %= 60;
-    snprintf(buf, sizeof(buf), "运行时间:   %02um%02us", min, sec);
-    lv_label_set_text(ui_label_uptime, buf);
 
-    /* ── FreeRTOS 堆 ── */
-    uint32_t free = (uint32_t)xPortGetFreeHeapSize();
-    uint32_t total = (uint32_t)configTOTAL_HEAP_SIZE;
-    uint32_t used = total - free;
-    uint32_t pct = used * 100 / total;
-    snprintf(buf, sizeof(buf), "堆剩余:   %lu/%lu (%lu%%)", used, total, pct);
-    lv_label_set_text(ui_label_heap, buf);
+    /* ── 更新 Mode 屏信息页 ── */
+    uint32_t heap_free = (uint32_t)xPortGetFreeHeapSize();
+    uint32_t heap_total = (uint32_t)configTOTAL_HEAP_SIZE;
+    uint16_t ota_cnt = inter_flash_cfg_get_ota_count();
+    uint8_t can_online = (g_can_sensor.valid && (now - g_can_sensor.tick) < 3000);
+    mode_ui_update_info(heap_free, heap_total, sec, ota_cnt, can_online);
 
     /* ── 指示灯状态绑定 ── */
     uint32_t can_age = now - g_can_sensor.tick;
@@ -513,6 +474,61 @@ static void sysmon_timer_cb(lv_timer_t *tmr)
 }
 
 /* ═══════════════════════════════════════════════════════════
+ *  主题系统
+ * ═══════════════════════════════════════════════════════════ */
+
+/* 三套主题色 — 用宏定义解决 C 静态初始化不能调 inline 函数的问题 */
+#define _C(r, g, b)  LV_COLOR_MAKE(r, g, b)
+static const lv_color_t theme_screen_bg[3] = {
+    _C(0x00,0x00,0x00), _C(0x44,0x44,0x44), _C(0x1a,0x2e,0x1a)};
+static const lv_color_t theme_card_bg[3] = {
+    _C(0x11,0x11,0x11), _C(0x55,0x55,0x55), _C(0x25,0x35,0x25)};
+static const lv_color_t theme_bar_bg[3] = {
+    _C(0x11,0x11,0x11), _C(0x33,0x33,0x33), _C(0x1a,0x30,0x1a)};
+
+uint8_t ui_get_theme(void)
+{
+    return g_theme_id;
+}
+
+void ui_apply_theme(uint8_t tid)
+{
+    if (tid > THEME_GREEN) return;
+    g_theme_id = tid;
+
+    /* Home 屏 */
+    lv_obj_set_style_bg_color(ui_scr_main, theme_screen_bg[tid],
+        LV_PART_MAIN | LV_STATE_DEFAULT);
+    if (ui_home_statusbar)
+        lv_obj_set_style_bg_color(ui_home_statusbar, theme_bar_bg[tid], LV_PART_MAIN);
+    if (ui_home_card1)
+        lv_obj_set_style_bg_color(ui_home_card1, theme_card_bg[tid], LV_PART_MAIN);
+    if (ui_home_btnbar)
+        lv_obj_set_style_bg_color(ui_home_btnbar, theme_bar_bg[tid], LV_PART_MAIN);
+
+    /* 通知其他屏 */
+    extern void mode_ui_apply_theme(uint8_t);
+    extern void settings_ui_apply_theme(uint8_t);
+    mode_ui_apply_theme(tid);
+    settings_ui_apply_theme(tid);
+}
+
+/* ═══════════════════════════════════════════════════════════
+ *  Mode 按钮 → 切换到 Mode 屏
+ * ═══════════════════════════════════════════════════════════ */
+static void btn_mode_cb(lv_event_t *e)
+{
+    (void)e;
+    mode_ui_show();
+}
+
+static void btn_settings_cb(lv_event_t *e)
+{
+    (void)e;
+    settings_ui_show();
+}
+
+/* ═══════════════════════════════════════════════════════════
  *  OTA 按钮事件
  * ═══════════════════════════════════════════════════════════ */
 static void btn_ota_cb(lv_event_t *e)
@@ -522,14 +538,3 @@ static void btn_ota_cb(lv_event_t *e)
     g_ota_pending = 1;  /* 让 GUI 主循环去执行备份+复位 */
 }
 
-/* ═══════════════════════════════════════════════════════════
- *  系统信息按钮事件
- * ═══════════════════════════════════════════════════════════ */
-static void btn_info_cb(lv_event_t *e)
-{
-    (void)e;
-    printf("[GUI] System Info:\r\n");
-    uint32_t free = (uint32_t)xPortGetFreeHeapSize();
-    printf("  FreeRTOS heap free: %lu\r\n", free);
-    printf("  Uptime: %lu ms\r\n", HAL_GetTick());
-}

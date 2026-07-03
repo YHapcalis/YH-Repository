@@ -34,4 +34,12 @@ void app_ui_set_indicator_watertemp(uint8_t color);
 void app_ui_set_indicator_turnlight(uint8_t color);
 void app_ui_set_indicator_safetybelt(uint8_t color);
 
+/* ── 主题系统 ── */
+#define THEME_DARK     0
+#define THEME_LIGHT    1
+#define THEME_GREEN    2
+
+void ui_apply_theme(uint8_t theme_id);
+uint8_t ui_get_theme(void);
+
 #endif /* APP_UI_H */
