@@ -11,5 +11,6 @@ E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/en25q128.c:125:6:EN25
 E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/en25q128.c:139:6:EN25Q128_EraseWrite	24	static,ignoring_inline_asm
 E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/en25q128.c:154:6:EN25Q128_SetSpeed	0	static
 E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/en25q128.c:161:6:EN25Q128_Init	8	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/en25q128.c:197:9:EN25Q128_BackupFirmware	288	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/en25q128.c:235:9:EN25Q128_RestoreFirmware	2096	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/en25q128.c:202:6:EN25Q128_SetBackupProgressCb	0	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/en25q128.c:207:9:EN25Q128_BackupFirmware	296	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/en25q128.c:258:9:EN25Q128_RestoreFirmware	48	static

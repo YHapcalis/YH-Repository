@@ -28,7 +28,22 @@
 #include "app_ui.h"
 /* hw_diag.h — 探索期遗留，擦写 SPI Flash 影响启动时间，移除 */
 /* #include "hw_diag.h" */
+
+/* ── 自定义中文字体（OTA 进度提示用）── */
+LV_FONT_DECLARE(ui_font_chinese_16);
 /* USER CODE END Includes */
+
+/* USER CODE BEGIN PFP */
+/* 备份进度回调：仅刷屏不跑定时器（防 sysmon_timer 访问已销毁控件） */
+static void backup_progress_cb(uint32_t cur, uint32_t tot, const char *phase)
+{
+    char buf[56];
+    snprintf(buf, sizeof(buf), "OTA 备份中\n\n%s\n%lu / %lu", phase, (unsigned long)cur, (unsigned long)tot);
+    lv_obj_t *child = lv_obj_get_child(lv_scr_act(), -1);
+    if (child) lv_label_set_text(child, buf);
+    lv_refr_now(NULL);  /* 只刷屏，不跑定时器 */
+}
+/* USER CODE END PFP */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
@@ -62,7 +77,7 @@ const osThreadAttr_t defaultTask_attributes = {
 osThreadId_t guiTaskHandle;
 const osThreadAttr_t guiTask_attributes = {
   .name = "guiTask",
-  .stack_size = 1024 * 4,
+  .stack_size = 1024 * 8,
   .priority = (osPriority_t) osPriorityNormal,
 };
 
@@ -220,9 +235,9 @@ void StartGUITask(void *argument)
             lv_obj_clean(lv_scr_act());
             lv_obj_set_style_bg_color(lv_scr_act(), lv_color_hex(0x000000), LV_PART_MAIN);
             lv_obj_t *lbl = lv_label_create(lv_scr_act());
-            lv_label_set_text(lbl, "OTA Starting...\n\nBacking up current firmware\nto SPI Flash...\n\nPlease wait...");
+            lv_label_set_text(lbl, "OTA 备份中\n\n正准备开始...");
             lv_obj_set_style_text_color(lbl, lv_color_hex(0xffffff), LV_PART_MAIN);
-            lv_obj_set_style_text_font(lbl, &lv_font_montserrat_20, LV_PART_MAIN);
+            lv_obj_set_style_text_font(lbl, &ui_font_chinese_16, LV_PART_MAIN);
             lv_obj_center(lbl);
 
             /* 多次调用 timer handler 确保 LCD 真正刷新 */
@@ -231,11 +246,13 @@ void StartGUITask(void *argument)
                 osDelay(10);
             }
 
-            /* 备份当前固件到 SPI Flash */
+            /* 注册进度回调 → 备份期间实时刷新屏幕 */
+            EN25Q128_SetBackupProgressCb(backup_progress_cb);
             EN25Q128_BackupFirmware();
+            EN25Q128_SetBackupProgressCb(NULL);
 
             /* 更新提示 */
-            lv_label_set_text(lbl, "OTA Starting...\n\nBackup done!\n\nResetting...");
+            lv_label_set_text(lbl, "OTA 备份完成!\n\n即将复位...");
             for (int i = 0; i < 10; i++) {
                 lv_timer_handler();
                 osDelay(10);

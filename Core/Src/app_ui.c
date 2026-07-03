@@ -15,6 +15,9 @@
 #include "canif.h"
 #include <stdio.h>
 
+/* ── 自定义中文字体（SimHei 16px 子集，仅含界面所需字符）── */
+LV_FONT_DECLARE(ui_font_chinese_16);
+
 /* ── 前置函数声明 ── */
 static void sysmon_timer_cb(lv_timer_t *tmr);
 static void btn_ota_cb(lv_event_t *e);
@@ -47,6 +50,7 @@ static uint8_t s_indicator_light;
 
 /* OTA 触发标志 — GUI 主循环检测到后执行备份+复位 */
 volatile uint8_t g_ota_pending = 0;
+
 static uint8_t s_indicator_watertemp;
 static uint8_t s_indicator_turnlight;
 static uint8_t s_indicator_safetybelt;
@@ -113,20 +117,20 @@ static void create_status_bar(void)
 
     /* OTA 状态 */
     ui_label_ota_status = lv_label_create(bar);
-    lv_label_set_text(ui_label_ota_status, "OTA: READY");
+    lv_label_set_text(ui_label_ota_status, "OTA: 就绪");
     lv_obj_set_style_text_color(ui_label_ota_status,
                                 lv_color_hex(0x44ff44), LV_PART_MAIN);
     lv_obj_set_style_text_font(ui_label_ota_status,
-                               &lv_font_montserrat_12, LV_PART_MAIN);
+                               &ui_font_chinese_16, LV_PART_MAIN);
     lv_obj_align(ui_label_ota_status, LV_ALIGN_RIGHT_MID, -8, 0);
 
     /* CAN 状态 */
     ui_label_can_status = lv_label_create(bar);
-    lv_label_set_text(ui_label_can_status, "CAN: ONLINE");
+    lv_label_set_text(ui_label_can_status, "CAN: 在线");
     lv_obj_set_style_text_color(ui_label_can_status,
                                 lv_color_hex(0x44ff44), LV_PART_MAIN);
     lv_obj_set_style_text_font(ui_label_can_status,
-                               &lv_font_montserrat_12, LV_PART_MAIN);
+                               &ui_font_chinese_16, LV_PART_MAIN);
     lv_obj_align(ui_label_can_status, LV_ALIGN_RIGHT_MID, -130, 0);
 }
 
@@ -201,38 +205,38 @@ static void create_data_panel(void)
 
     /* 卡片标题 */
     lv_obj_t *title1 = lv_label_create(card1);
-    lv_label_set_text(title1, "SENSOR DATA  (from F103 via CAN)");
+    lv_label_set_text(title1, "传感器数据");
     lv_obj_set_style_text_color(title1, lv_color_hex(0x88aaff), LV_PART_MAIN);
-    lv_obj_set_style_text_font(title1, &lv_font_montserrat_14, LV_PART_MAIN);
+    lv_obj_set_style_text_font(title1, &ui_font_chinese_16, LV_PART_MAIN);
     lv_obj_align(title1, LV_ALIGN_TOP_LEFT, 0, 0);
 
     /* 温度 */
     ui_label_temp = lv_label_create(card1);
-    lv_label_set_text(ui_label_temp, "Temperature:  --.- C");
+    lv_label_set_text(ui_label_temp, "温度:   --.-°C");
     lv_obj_set_style_text_color(ui_label_temp, lv_color_hex(0xffffff), LV_PART_MAIN);
-    lv_obj_set_style_text_font(ui_label_temp, &lv_font_montserrat_20, LV_PART_MAIN);
-    lv_obj_align(ui_label_temp, LV_ALIGN_TOP_LEFT, 0, 36);
+    lv_obj_set_style_text_font(ui_label_temp, &ui_font_chinese_16, LV_PART_MAIN);
+    lv_obj_align(ui_label_temp, LV_ALIGN_TOP_LEFT, 0, 32);
 
     /* 湿度 */
     ui_label_hum = lv_label_create(card1);
-    lv_label_set_text(ui_label_hum, "Humidity:     --.- %");
+    lv_label_set_text(ui_label_hum, "湿度:   --.-%");
     lv_obj_set_style_text_color(ui_label_hum, lv_color_hex(0xffffff), LV_PART_MAIN);
-    lv_obj_set_style_text_font(ui_label_hum, &lv_font_montserrat_20, LV_PART_MAIN);
-    lv_obj_align(ui_label_hum, LV_ALIGN_TOP_LEFT, 0, 74);
+    lv_obj_set_style_text_font(ui_label_hum, &ui_font_chinese_16, LV_PART_MAIN);
+    lv_obj_align(ui_label_hum, LV_ALIGN_TOP_LEFT, 0, 62);
 
     /* 旋钮 */
     ui_label_knob = lv_label_create(card1);
-    lv_label_set_text(ui_label_knob, "Knob:         ---");
+    lv_label_set_text(ui_label_knob, "旋钮:   ---");
     lv_obj_set_style_text_color(ui_label_knob, lv_color_hex(0xffffff), LV_PART_MAIN);
-    lv_obj_set_style_text_font(ui_label_knob, &lv_font_montserrat_20, LV_PART_MAIN);
-    lv_obj_align(ui_label_knob, LV_ALIGN_TOP_LEFT, 0, 112);
+    lv_obj_set_style_text_font(ui_label_knob, &ui_font_chinese_16, LV_PART_MAIN);
+    lv_obj_align(ui_label_knob, LV_ALIGN_TOP_LEFT, 0, 92);
 
     /* 按键 */
     ui_label_key = lv_label_create(card1);
-    lv_label_set_text(ui_label_key, "Key:          ---");
+    lv_label_set_text(ui_label_key, "按键:   ---");
     lv_obj_set_style_text_color(ui_label_key, lv_color_hex(0xffffff), LV_PART_MAIN);
-    lv_obj_set_style_text_font(ui_label_key, &lv_font_montserrat_20, LV_PART_MAIN);
-    lv_obj_align(ui_label_key, LV_ALIGN_TOP_LEFT, 0, 150);
+    lv_obj_set_style_text_font(ui_label_key, &ui_font_chinese_16, LV_PART_MAIN);
+    lv_obj_align(ui_label_key, LV_ALIGN_TOP_LEFT, 0, 122);
 
     /* ── 系统状态卡片（下方）── */
     lv_obj_t *card2 = lv_obj_create(ui_scr_main);
@@ -246,9 +250,9 @@ static void create_data_panel(void)
     lv_obj_set_style_pad_all(card2, 12, LV_PART_MAIN);
 
     lv_obj_t *title2 = lv_label_create(card2);
-    lv_label_set_text(title2, "SYSTEM STATUS");
+    lv_label_set_text(title2, "系统状态");
     lv_obj_set_style_text_color(title2, lv_color_hex(0x88aaff), LV_PART_MAIN);
-    lv_obj_set_style_text_font(title2, &lv_font_montserrat_14, LV_PART_MAIN);
+    lv_obj_set_style_text_font(title2, &ui_font_chinese_16, LV_PART_MAIN);
     lv_obj_align(title2, LV_ALIGN_TOP_LEFT, 0, 0);
 
     lv_obj_t *lb_flash = lv_label_create(card2);
@@ -264,28 +268,28 @@ static void create_data_panel(void)
     lv_obj_align(lb_ram, LV_ALIGN_TOP_LEFT, 0, 62);
 
     ui_label_heap = lv_label_create(card2);
-    lv_label_set_text(ui_label_heap, "Heap:         ---- free");
+    lv_label_set_text(ui_label_heap, "堆剩余:           ----");
     lv_obj_set_style_text_color(ui_label_heap, lv_color_hex(0xcccccc), LV_PART_MAIN);
-    lv_obj_set_style_text_font(ui_label_heap, &lv_font_montserrat_16, LV_PART_MAIN);
+    lv_obj_set_style_text_font(ui_label_heap, &ui_font_chinese_16, LV_PART_MAIN);
     lv_obj_align(ui_label_heap, LV_ALIGN_TOP_LEFT, 0, 92);
 
     /* OTA 成功计数 */
     uint16_t ota_cnt = inter_flash_cfg_get_ota_count();
-    char ota_buf[40];
-    snprintf(ota_buf, sizeof(ota_buf), "OTA Done:    %u time(s)  via %s",
+    char ota_buf[44];
+    snprintf(ota_buf, sizeof(ota_buf), "OTA 完成:    %u 次  via %s",
              ota_cnt, ota_cnt > 0 ? "CAN" : "---");
     lv_obj_t *lb_ota = lv_label_create(card2);
     lv_label_set_text(lb_ota, ota_buf);
     lv_obj_set_style_text_color(lb_ota, ota_cnt > 0 ?
         lv_color_hex(0x44ff44) : lv_color_hex(0xaaaaaa), LV_PART_MAIN);
-    lv_obj_set_style_text_font(lb_ota, &lv_font_montserrat_16, LV_PART_MAIN);
+    lv_obj_set_style_text_font(lb_ota, &ui_font_chinese_16, LV_PART_MAIN);
     lv_obj_align(lb_ota, LV_ALIGN_TOP_LEFT, 0, 126);
 
     /* 运行时间（由定时器更新） */
     ui_label_uptime = lv_label_create(card2);
-    lv_label_set_text(ui_label_uptime, "Uptime:      0s");
+    lv_label_set_text(ui_label_uptime, "运行时间:   0s");
     lv_obj_set_style_text_color(ui_label_uptime, lv_color_hex(0xcccccc), LV_PART_MAIN);
-    lv_obj_set_style_text_font(ui_label_uptime, &lv_font_montserrat_16, LV_PART_MAIN);
+    lv_obj_set_style_text_font(ui_label_uptime, &ui_font_chinese_16, LV_PART_MAIN);
     lv_obj_align(ui_label_uptime, LV_ALIGN_TOP_LEFT, 0, 156);
 }
 
@@ -313,8 +317,9 @@ static void create_button_bar(void)
     lv_obj_add_event_cb(btn_ota, btn_ota_cb, LV_EVENT_CLICKED, NULL);
 
     lv_obj_t *lbl_ota = lv_label_create(btn_ota);
-    lv_label_set_text(lbl_ota, "OTA Trigger");
+    lv_label_set_text(lbl_ota, "OTA 升级");
     lv_obj_set_style_text_color(lbl_ota, lv_color_hex(0xffffff), LV_PART_MAIN);
+    lv_obj_set_style_text_font(lbl_ota, &ui_font_chinese_16, LV_PART_MAIN);
     lv_obj_center(lbl_ota);
 
     /* 系统信息按钮 */
@@ -327,8 +332,9 @@ static void create_button_bar(void)
     lv_obj_add_event_cb(btn_info, btn_info_cb, LV_EVENT_CLICKED, NULL);
 
     lv_obj_t *lbl_info = lv_label_create(btn_info);
-    lv_label_set_text(lbl_info, "System Info");
+    lv_label_set_text(lbl_info, "系统信息");
     lv_obj_set_style_text_color(lbl_info, lv_color_hex(0xffffff), LV_PART_MAIN);
+    lv_obj_set_style_text_font(lbl_info, &ui_font_chinese_16, LV_PART_MAIN);
     lv_obj_center(lbl_info);
 }
 
@@ -342,22 +348,22 @@ void app_ui_update_sensor(float temp, float hum,
 
     /* 温度 */
     if (temp > -50.0f && temp < 150.0f) {
-        snprintf(buf, sizeof(buf), "Temperature:  %5.1f C", (double)temp);
+        snprintf(buf, sizeof(buf), "温度:   %5.1f°C", (double)temp);
     } else {
-        snprintf(buf, sizeof(buf), "Temperature:  ERR");
+        snprintf(buf, sizeof(buf), "温度:   ERR");
     }
     lv_label_set_text(ui_label_temp, buf);
 
     /* 湿度 */
     if (hum >= 0.0f && hum <= 100.0f) {
-        snprintf(buf, sizeof(buf), "Humidity:     %5.1f %%", (double)hum);
+        snprintf(buf, sizeof(buf), "湿度:   %5.1f%%", (double)hum);
     } else {
-        snprintf(buf, sizeof(buf), "Humidity:     ERR");
+        snprintf(buf, sizeof(buf), "湿度:   ERR");
     }
     lv_label_set_text(ui_label_hum, buf);
 
     /* 旋钮（0-255 → 仪表盘指针 0~270°） */
-    snprintf(buf, sizeof(buf), "Knob:         %3u", knob);
+    snprintf(buf, sizeof(buf), "旋钮:   %3u", knob);
     lv_label_set_text(ui_label_knob, buf);
 
     /* 指针角度映射: knob 0→0, 128→1500, 255→3000 (LVGL角度单位: 0.1°) */
@@ -369,7 +375,11 @@ void app_ui_update_sensor(float temp, float hum,
     static const char *key_types[] = {"---", "PRESS", "RELEASE", "SINGLE", "DOUBLE", "LONG"};
     const char *kn = (key_id < 5) ? key_names[key_id] : "KEY?";
     const char *kt = (key_type < 6) ? key_types[key_type] : "?";
-    snprintf(buf, sizeof(buf), "Key:          %s_%s", kn, kt);
+    if (key_id == 0) {
+        snprintf(buf, sizeof(buf), "按键:   ---");
+    } else {
+        snprintf(buf, sizeof(buf), "按键:   %s_%s", kn, kt);
+    }
     lv_label_set_text(ui_label_key, buf);
 }
 
@@ -388,7 +398,7 @@ void app_ui_update_time(uint8_t year, uint8_t month, uint8_t day,
 void app_ui_set_can_status(uint8_t online)
 {
     lv_label_set_text(ui_label_can_status,
-                      online ? "CAN: ONLINE" : "CAN: OFFLINE");
+                      online ? "CAN: 在线" : "CAN: 离线");
     lv_obj_set_style_text_color(ui_label_can_status,
         lv_color_hex(online ? 0x44ff44 : 0xff4444), LV_PART_MAIN);
 }
@@ -396,7 +406,7 @@ void app_ui_set_can_status(uint8_t online)
 void app_ui_set_ota_status(uint8_t updating)
 {
     lv_label_set_text(ui_label_ota_status,
-                      updating ? "OTA: UPDATING" : "OTA: READY");
+                      updating ? "OTA: 升级中" : "OTA: 就绪");
     lv_obj_set_style_text_color(ui_label_ota_status,
         lv_color_hex(updating ? 0xffaa00 : 0x44ff44), LV_PART_MAIN);
 }
@@ -467,7 +477,7 @@ static void sysmon_timer_cb(lv_timer_t *tmr)
     uint32_t sec = now / 1000;
     uint32_t min = sec / 60;
     sec %= 60;
-    snprintf(buf, sizeof(buf), "Uptime:      %02um%02us", min, sec);
+    snprintf(buf, sizeof(buf), "运行时间:   %02um%02us", min, sec);
     lv_label_set_text(ui_label_uptime, buf);
 
     /* ── FreeRTOS 堆 ── */
@@ -475,7 +485,7 @@ static void sysmon_timer_cb(lv_timer_t *tmr)
     uint32_t total = (uint32_t)configTOTAL_HEAP_SIZE;
     uint32_t used = total - free;
     uint32_t pct = used * 100 / total;
-    snprintf(buf, sizeof(buf), "Heap:        %lu/%lu (%lu%%)", used, total, pct);
+    snprintf(buf, sizeof(buf), "堆剩余:   %lu/%lu (%lu%%)", used, total, pct);
     lv_label_set_text(ui_label_heap, buf);
 
     /* ── 指示灯状态绑定 ── */

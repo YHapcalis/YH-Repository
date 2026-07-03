@@ -95,6 +95,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
 
     # APP 精简 GUI
     Core/Src/app_ui.c
+    Core/Src/ui_font_chinese_16.c
 
     # LVGL 图片资源（来自 uint3code 例程）
     Core/Src/images/ui_img_942215904.c

@@ -40,6 +40,10 @@ uint8_t EN25Q128_BackupFirmware(void);
 /* 从 SPI Flash 恢复固件（由 Bootloader 在 OTA 失败后调用） */
 uint8_t EN25Q128_RestoreFirmware(void);
 
+/* 备份进度回调类型：current/total 步数, phase 阶段名 */
+typedef void (*backup_progress_t)(uint32_t current, uint32_t total, const char *phase);
+void     EN25Q128_SetBackupProgressCb(backup_progress_t cb);
+
 /* ---- API ---- */
 void     EN25Q128_Init(void);
 uint32_t EN25Q128_ReadID(void);

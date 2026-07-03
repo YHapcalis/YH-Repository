@@ -76,6 +76,7 @@
 #define LV_FONT_MONTSERRAT_32 1
 #define LV_FONT_MONTSERRAT_40 1
 #define LV_FONT_MONTSERRAT_48 1
+#define LV_FONT_SIMSUN_16_CJK 0
 
 /*====================
    WIDGETS

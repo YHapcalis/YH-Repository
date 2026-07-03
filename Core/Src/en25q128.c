@@ -194,18 +194,35 @@ extern uint32_t _fw_end;
 #define APP_BASE        ((uint32_t)0x08008000UL)
 #define FW_MAX_SIZE     ((uint32_t)(512UL * 1024UL))
 
+static uint8_t g_block_buf[2048];              /* 恢复用块缓冲（栈上 2KB 太危险） */
+
+/* ---- 备份进度回调（可选，APP 设置后用于实时更新屏幕） ---- */
+static backup_progress_t s_bak_cb = NULL;
+
+void EN25Q128_SetBackupProgressCb(backup_progress_t cb)
+{
+    s_bak_cb = cb;
+}
+
 uint8_t EN25Q128_BackupFirmware(void)
 {
     uint32_t fw_size = (uint32_t)&_fw_end - APP_BASE;
     if (fw_size > FW_MAX_SIZE) fw_size = FW_MAX_SIZE;
     printf("[SPI] Backing up %lu bytes...\r\n", fw_size);
 
+    uint32_t total_steps = 128 + 1 + (fw_size + EN25Q128_PAGE_SIZE - 1) / EN25Q128_PAGE_SIZE;
+    uint32_t step = 0;
+
+    /* 擦除备份区域 128 个 sector (4KB × 128 = 512KB) */
     uint32_t addr = SPI_BAK_ADDR;
     for (uint32_t i = 0; i < 128; i++) {
         EN25Q128_EraseSector(addr);
         addr += EN25Q128_SECTOR_SIZE;
+        step++;
+        if (s_bak_cb) s_bak_cb(step, total_steps, "正在擦除...");
     }
 
+    /* 写入 8 字节备份头 */
     uint8_t hdr[8];
     hdr[0] = (uint8_t)(SPI_BAK_MAGIC >> 0);
     hdr[1] = (uint8_t)(SPI_BAK_MAGIC >> 8);
@@ -216,7 +233,10 @@ uint8_t EN25Q128_BackupFirmware(void)
     hdr[6] = (uint8_t)(fw_size >> 16);
     hdr[7] = (uint8_t)(fw_size >> 24);
     EN25Q128_EraseWrite(hdr, SPI_BAK_ADDR, 8);
+    step++;
+    if (s_bak_cb) s_bak_cb(step, total_steps, "正在写入...");
 
+    /* 分页写入固件数据 */
     uint8_t page[EN25Q128_PAGE_SIZE];
     uint32_t spi_off = SPI_BAK_ADDR + 8;
     for (uint32_t off = 0; off < fw_size; off += EN25Q128_PAGE_SIZE) {
@@ -227,6 +247,9 @@ uint8_t EN25Q128_BackupFirmware(void)
             memset(page + n, 0xFF, EN25Q128_PAGE_SIZE - n);
         EN25Q128_Write(page, spi_off, EN25Q128_PAGE_SIZE);
         spi_off += EN25Q128_PAGE_SIZE;
+        step++;
+        if (s_bak_cb && (step & 0x1F) == 0)
+            s_bak_cb(step, total_steps, "正在写入...");
     }
     printf("[SPI] Backup done (%lu bytes)\r\n", fw_size);
     return 0;
@@ -255,18 +278,17 @@ uint8_t EN25Q128_RestoreFirmware(void)
     }
 
 #define RB 2048
-    uint8_t block[RB];
     uint32_t spi_off = SPI_BAK_ADDR + 8;
     for (uint32_t off = 0; off < fw_size; off += RB) {
         uint32_t n = fw_size - off;
         if (n > RB) n = RB;
-        EN25Q128_Read(block, spi_off, n);
+        EN25Q128_Read(g_block_buf, spi_off, n);
         uint32_t words = n / 4;
-        if (words > 0) inter_flashif_write(APP_BASE + off, (uint32_t *)block, words);
+        if (words > 0) inter_flashif_write(APP_BASE + off, (uint32_t *)g_block_buf, words);
         uint32_t rem = n % 4;
         if (rem > 0) {
             uint32_t last = 0xFFFFFFFF;
-            memcpy(&last, block + words * 4, rem);
+            memcpy(&last, g_block_buf + words * 4, rem);
             inter_flashif_write(APP_BASE + off + words * 4, &last, 1);
         }
         spi_off += n;
