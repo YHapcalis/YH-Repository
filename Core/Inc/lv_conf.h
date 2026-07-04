@@ -24,7 +24,7 @@
 
 /* LVGL 内存池: 48KB 驻 CCMRAM (0x10000000, 不与 DMA 争抢) */
 #define LV_MEM_CUSTOM 0
-#define LV_MEM_SIZE (24U * 1024U)
+#define LV_MEM_SIZE (32U * 1024U)
 #define LV_MEM_ADR 0x10000000
 
 /*====================
@@ -99,6 +99,8 @@
 #define LV_USE_CANVAS 1
 #define LV_USE_WIN 1
 #define LV_USE_TABVIEW 1
+#define LV_USE_CALENDAR 1
+#define LV_USE_CALENDAR_HEADER_ARROW 1
 #define LV_USE_DROPDOWN 1
 #define LV_USE_LIST 1
 #define LV_USE_METER 1

@@ -69,7 +69,7 @@ void settings_ui_create(void)
     lv_obj_t *lbl_title = lv_label_create(ui_settings_topbar);
     lv_label_set_text(lbl_title, "设置");
     lv_obj_set_style_text_color(lbl_title, lv_color_hex(0x88aaff), LV_PART_MAIN);
-    lv_obj_set_style_text_font(lbl_title, &lv_font_montserrat_16, LV_PART_MAIN);
+    lv_obj_set_style_text_font(lbl_title, &ui_font_chinese_16, LV_PART_MAIN);
     lv_obj_align(lbl_title, LV_ALIGN_CENTER, 0, 0);
 
     /* ═══════════════════════════════════════════════════════
@@ -77,16 +77,19 @@ void settings_ui_create(void)
      * ═══════════════════════════════════════════════════════ */
     int y = 50;
 
+    const int cx = 280;  /* 按钮水平居中 x = (800-240)/2 */
+    const int tx = 350;  /* 标题水平居中 (约 100px 宽) */
+
     lv_obj_t *sec = lv_label_create(ui_scr_settings);
     lv_label_set_text(sec, "— 系统操作 —");
     lv_obj_set_style_text_color(sec, lv_color_hex(0x88aaff), LV_PART_MAIN);
     lv_obj_set_style_text_font(sec, &ui_font_chinese_16, LV_PART_MAIN);
-    lv_obj_set_pos(sec, 10, y); y += 36;
+    lv_obj_set_pos(sec, tx, y); y += 36;
 
     /* 重启系统 */
     lv_obj_t *btn = lv_btn_create(ui_scr_settings);
     lv_obj_set_size(btn, 240, 36);
-    lv_obj_set_pos(btn, 10, y);
+    lv_obj_set_pos(btn, cx, y);
     lv_obj_set_style_bg_color(btn, lv_color_hex(0x881111), LV_PART_MAIN);
     lv_obj_set_style_radius(btn, 6, LV_PART_MAIN);
     lv_obj_add_event_cb(btn, btn_reboot_cb, LV_EVENT_CLICKED, NULL);
@@ -100,7 +103,7 @@ void settings_ui_create(void)
     /* 进入 Bootloader */
     btn = lv_btn_create(ui_scr_settings);
     lv_obj_set_size(btn, 240, 36);
-    lv_obj_set_pos(btn, 10, y);
+    lv_obj_set_pos(btn, cx, y);
     lv_obj_set_style_bg_color(btn, lv_color_hex(0x884411), LV_PART_MAIN);
     lv_obj_set_style_radius(btn, 6, LV_PART_MAIN);
     lv_obj_add_event_cb(btn, btn_bootloader_cb, LV_EVENT_CLICKED, NULL);
@@ -114,7 +117,7 @@ void settings_ui_create(void)
     /* 恢复出厂设置 */
     btn = lv_btn_create(ui_scr_settings);
     lv_obj_set_size(btn, 240, 36);
-    lv_obj_set_pos(btn, 10, y);
+    lv_obj_set_pos(btn, cx, y);
     lv_obj_set_style_bg_color(btn, lv_color_hex(0x444444), LV_PART_MAIN);
     lv_obj_set_style_radius(btn, 6, LV_PART_MAIN);
     lv_obj_add_event_cb(btn, btn_factory_reset_cb, LV_EVENT_CLICKED, NULL);
@@ -133,13 +136,15 @@ void settings_ui_create(void)
     lv_label_set_text(sec, "— 主题 —");
     lv_obj_set_style_text_color(sec, lv_color_hex(0x88aaff), LV_PART_MAIN);
     lv_obj_set_style_text_font(sec, &ui_font_chinese_16, LV_PART_MAIN);
-    lv_obj_set_pos(sec, 10, y); y += 36;
+    lv_obj_set_pos(sec, tx, y); y += 36;
 
+    /* 三个主题按钮整体居中：3×100 + 2×10 = 320px，起始 x=240 */
+    const int tx0 = 240;
     static const char *theme_names[] = {"暗黑", "明亮", "护眼"};
     for (int i = 0; i < 3; i++) {
         btn_theme[i] = lv_btn_create(ui_scr_settings);
         lv_obj_set_size(btn_theme[i], 100, 34);
-        lv_obj_set_pos(btn_theme[i], 10 + i * 110, y);
+        lv_obj_set_pos(btn_theme[i], tx0 + i * 110, y);
         lv_obj_set_style_radius(btn_theme[i], 6, LV_PART_MAIN);
         lv_obj_add_event_cb(btn_theme[i], btn_theme_cb, LV_EVENT_CLICKED,
                             (void *)(intptr_t)i);
@@ -162,14 +167,14 @@ void settings_ui_show(void)
 {
     if (ui_scr_settings) {
         update_theme_buttons();
-        lv_scr_load(ui_scr_settings);
+        lv_scr_load_anim(ui_scr_settings, LV_SCR_LOAD_ANIM_FADE_IN, 200, 0, false);
     }
 }
 
 void settings_ui_hide(void)
 {
     extern lv_obj_t *ui_scr_main;
-    if (ui_scr_main) lv_scr_load(ui_scr_main);
+    if (ui_scr_main) lv_scr_load_anim(ui_scr_main, LV_SCR_LOAD_ANIM_FADE_IN, 200, 0, false);
 }
 
 /* ═════════════════════════════════════════════════════════════
@@ -220,9 +225,8 @@ static void btn_factory_reset_cb(lv_event_t *e)
 {
     (void)e;
     printf("[Settings] Factory reset...\r\n");
-    /* 清 OTA 计数 */
-    uint8_t zero[2] = {0, 0};
-    inter_flash_cfg_inc_ota_count();   /* 先增到 1 再复位清零简化 */
+    /* 清 OTA 计数：增到 1 再设标志 0 即可复位 */
+    inter_flash_cfg_inc_ota_count();
     inter_flash_cfg_set_app_update_flag(0);
     printf("[Settings] OTA count cleared. Reboot...\r\n");
     osDelay(100);

@@ -28,6 +28,7 @@
 #include "app_ui.h"
 #include "mode_ui.h"
 #include "settings_ui.h"
+#include "clock_ui.h"
 /* hw_diag.h — 探索期遗留，擦写 SPI Flash 影响启动时间，移除 */
 /* #include "hw_diag.h" */
 
@@ -80,7 +81,7 @@ osThreadId_t guiTaskHandle;
 const osThreadAttr_t guiTask_attributes = {
   .name = "guiTask",
   .stack_size = 1024 * 8,
-  .priority = (osPriority_t) osPriorityNormal,
+  .priority = (osPriority_t) osPriorityAboveNormal,
 };
 
 osThreadId_t touchTaskHandle;
@@ -223,7 +224,8 @@ void StartGUITask(void *argument)
     app_ui_create();
     mode_ui_create();
     settings_ui_create();
-    printf("[GUI] All UIs created (Home + Mode + Settings)\r\n");
+    clock_ui_create();
+    printf("[GUI] All UIs created (Home + Mode + Settings + Clock)\r\n");
 
     printf("[GUI] Init done, entering loop\r\n");
 

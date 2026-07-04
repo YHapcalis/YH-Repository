@@ -15,16 +15,19 @@
 #include "canif.h"
 #include "mode_ui.h"
 #include "settings_ui.h"
+#include "clock_ui.h"
 #include <stdio.h>
 
 /* ── 自定义中文字体（SimHei 16px 子集，仅含界面所需字符）── */
 LV_FONT_DECLARE(ui_font_chinese_16);
+LV_FONT_DECLARE(ui_font_chinese_20);
 
 /* ── 前置函数声明 ── */
 static void sysmon_timer_cb(lv_timer_t *tmr);
 static void btn_ota_cb(lv_event_t *e);
 static void btn_mode_cb(lv_event_t *e);
 static void btn_settings_cb(lv_event_t *e);
+static void btn_clock_cb(lv_event_t *e);
 
 /* ── 全局控件引用（供更新函数使用）── */
 lv_obj_t *ui_scr_main;     /* 非 static — mode_ui.c 需要引用 */
@@ -59,9 +62,11 @@ static uint8_t s_indicator_safetybelt;
 /* ── 主题 ── */
 static uint8_t g_theme_id = THEME_DARK;
 
+/* ── 指针缓动动画 ── */
+static lv_anim_t a_needle;
+
 /* Home 屏关键容器（主题切换时改底色） */
 static lv_obj_t *ui_home_statusbar;
-static lv_obj_t *ui_home_card1;
 static lv_obj_t *ui_home_btnbar;
 
 /* ── 内部函数声明 ── */
@@ -85,14 +90,14 @@ void app_ui_create(void)
     lv_obj_set_style_bg_opa(ui_scr_main, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     create_status_bar();      /* 顶部状态栏 */
-    create_gauge_section();   /* 左区仪表盘 */
+    create_gauge_section();   /* 居中仪表盘 */
     create_data_panel();      /* 右区数据面板 */
     create_button_bar();      /* 底部按钮 */
 
     /* 启动系统监控定时器（1000ms 周期） */
     lv_timer_create(sysmon_timer_cb, 1000, NULL);
 
-    lv_scr_load(ui_scr_main);
+    lv_scr_load_anim(ui_scr_main, LV_SCR_LOAD_ANIM_FADE_IN, 300, 0, false);
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -145,109 +150,99 @@ static void create_status_bar(void)
 }
 
 /* ═══════════════════════════════════════════════════════════
- *  仪表盘（左区）
+ *  仪表盘（居中新布局）
+ *   仪表盘圆心对齐屏幕水平中线 (400, 266)
  * ═══════════════════════════════════════════════════════════ */
 static void create_gauge_section(void)
 {
-    /* ── 仪表盘背景（233×233）── */
+    /* ── 仪表盘背景（233×233），居中 y=150 ── */
     ui_img_gauge_bg = lv_img_create(ui_scr_main);
     lv_img_set_src(ui_img_gauge_bg, &ui_img_942215904);
-    lv_obj_set_pos(ui_img_gauge_bg, 24, 45);
+    lv_obj_set_pos(ui_img_gauge_bg, 284, 50);
     lv_obj_add_flag(ui_img_gauge_bg, LV_OBJ_FLAG_ADV_HITTEST);
     lv_obj_clear_flag(ui_img_gauge_bg, LV_OBJ_FLAG_SCROLLABLE);
 
-    /* ── 仪表指针（22×86）── */
-    /* 指针轴心 (10,-30) 对齐到仪表盘中心 (141,162) */
+    /* ── 指针: 轴心 (10,-30) 对齐圆心 (400,266)，无需改 pivot ── */
     ui_img_needle = lv_img_create(ui_scr_main);
     lv_img_set_src(ui_img_needle, &ui_img_1601502596);
-    lv_obj_set_pos(ui_img_needle, 131, 192);
-    lv_img_set_pivot(ui_img_needle, 10, -30);      /* 旋转轴心 */
-    lv_img_set_angle(ui_img_needle, 1500);           /* 初始角度 */
+    lv_obj_set_pos(ui_img_needle, 390, 196);    /* 对齐圆心 (400,166) */
+    lv_img_set_pivot(ui_img_needle, 10, -30);
+    lv_img_set_angle(ui_img_needle, 1500);
     lv_obj_add_flag(ui_img_needle, LV_OBJ_FLAG_ADV_HITTEST);
     lv_obj_clear_flag(ui_img_needle, LV_OBJ_FLAG_SCROLLABLE);
 
     /* ── 指示灯 ── */
-    /* 4 个图标，32×32，居中在仪表盘下方 */
-    const int icon_y = 45 + 233 + 12;
-    const int icon_w = 32;
-    const int gap = (280 - 4 * icon_w) / 5;  /* 280px 宽度 */
-    const int base_x = 24 + gap;
+    /* 4 个图标，32×32，仪表盘下方居中 */
+    const int iy = 50 + 233 + 7;     /* 仪表盘底部 + 7px */
+    const int iw = 32;
+    const int igap = 24;
+    const int tw = 4 * iw + 3 * igap;  /* 总宽度 */
+    const int ix0 = (800 - tw) / 2;    /* 水平居中 */
 
     ui_img_light = lv_img_create(ui_scr_main);
     lv_img_set_src(ui_img_light, &ui_img_light_png);
-    lv_obj_set_pos(ui_img_light, base_x, icon_y);
+    lv_obj_set_pos(ui_img_light, ix0, iy);
     lv_obj_add_flag(ui_img_light, LV_OBJ_FLAG_ADV_HITTEST);
 
     ui_img_watertemp = lv_img_create(ui_scr_main);
     lv_img_set_src(ui_img_watertemp, &ui_img_temp_gray_png);
-    lv_obj_set_pos(ui_img_watertemp, base_x + (icon_w + gap) * 1, icon_y);
+    lv_obj_set_pos(ui_img_watertemp, ix0 + (iw + igap), iy);
     lv_obj_add_flag(ui_img_watertemp, LV_OBJ_FLAG_ADV_HITTEST);
 
     ui_img_turnlight = lv_img_create(ui_scr_main);
     lv_img_set_src(ui_img_turnlight, &ui_img_turn_light_png);
-    lv_obj_set_pos(ui_img_turnlight, base_x + (icon_w + gap) * 2, icon_y);
+    lv_obj_set_pos(ui_img_turnlight, ix0 + (iw + igap) * 2, iy);
     lv_obj_add_flag(ui_img_turnlight, LV_OBJ_FLAG_ADV_HITTEST);
 
     ui_img_safetybelt = lv_img_create(ui_scr_main);
     lv_img_set_src(ui_img_safetybelt, &ui_img_safety_belt_png);
-    lv_obj_set_pos(ui_img_safetybelt, base_x + (icon_w + gap) * 3, icon_y);
+    lv_obj_set_pos(ui_img_safetybelt, ix0 + (iw + igap) * 3, iy);
     lv_obj_add_flag(ui_img_safetybelt, LV_OBJ_FLAG_ADV_HITTEST);
 }
 
 /* ═══════════════════════════════════════════════════════════
- *  数据面板（右区）
+ *  传感器数据一行（底栏上方，无卡片）
  * ═══════════════════════════════════════════════════════════ */
 static void create_data_panel(void)
 {
-    const int px = 310;   /* 面板起始 X */
-    const int py = 45;    /* 面板起始 Y */
+    const int sy = 418;  /* 传感器行 Y（按钮栏上方，20px 字体预留高度） */
 
-    /* ── 传感器数据卡片 ── */
-    lv_obj_t *card1 = lv_obj_create(ui_scr_main);
-    ui_home_card1 = card1;                /* 保存句柄供主题切换 */
-    lv_obj_set_size(card1, 470, 200);
-    lv_obj_set_pos(card1, px, py);
-    lv_obj_clear_flag(card1, LV_OBJ_FLAG_SCROLLABLE);
-    lv_obj_set_style_bg_color(card1, lv_color_hex(0x111111), LV_PART_MAIN);
-    lv_obj_set_style_border_color(card1, lv_color_hex(0x334466), LV_PART_MAIN);
-    lv_obj_set_style_border_width(card1, 1, LV_PART_MAIN);
-    lv_obj_set_style_radius(card1, 8, LV_PART_MAIN);
-    lv_obj_set_style_pad_all(card1, 12, LV_PART_MAIN);
-
-    /* 卡片标题 */
-    lv_obj_t *title1 = lv_label_create(card1);
-    lv_label_set_text(title1, "传感器数据");
-    lv_obj_set_style_text_color(title1, lv_color_hex(0x88aaff), LV_PART_MAIN);
-    lv_obj_set_style_text_font(title1, &ui_font_chinese_16, LV_PART_MAIN);
-    lv_obj_align(title1, LV_ALIGN_TOP_LEFT, 0, 0);
+    /* 分隔细线 */
+    lv_obj_t *line = lv_obj_create(ui_scr_main);
+    lv_obj_set_size(line, 760, 1);
+    lv_obj_set_pos(line, 20, sy - 6);
+    lv_obj_clear_flag(line, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_set_style_bg_color(line, lv_color_hex(0x334466), LV_PART_MAIN);
+    lv_obj_set_style_border_width(line, 0, LV_PART_MAIN);
+    lv_obj_set_style_radius(line, 0, LV_PART_MAIN);
 
     /* 温度 */
-    ui_label_temp = lv_label_create(card1);
-    lv_label_set_text(ui_label_temp, "温度:   --.-°C");
+    ui_label_temp = lv_label_create(ui_scr_main);
+    lv_label_set_text(ui_label_temp, "温度:  --.-°C");
     lv_obj_set_style_text_color(ui_label_temp, lv_color_hex(0xffffff), LV_PART_MAIN);
-    lv_obj_set_style_text_font(ui_label_temp, &ui_font_chinese_16, LV_PART_MAIN);
-    lv_obj_align(ui_label_temp, LV_ALIGN_TOP_LEFT, 0, 32);
+    lv_obj_set_style_text_font(ui_label_temp, &ui_font_chinese_20, LV_PART_MAIN);
+    lv_obj_set_pos(ui_label_temp, 20, sy);
 
     /* 湿度 */
-    ui_label_hum = lv_label_create(card1);
-    lv_label_set_text(ui_label_hum, "湿度:   --.-%");
+    ui_label_hum = lv_label_create(ui_scr_main);
+    lv_label_set_text(ui_label_hum, "湿度:  --.-%");
     lv_obj_set_style_text_color(ui_label_hum, lv_color_hex(0xffffff), LV_PART_MAIN);
-    lv_obj_set_style_text_font(ui_label_hum, &ui_font_chinese_16, LV_PART_MAIN);
-    lv_obj_align(ui_label_hum, LV_ALIGN_TOP_LEFT, 0, 62);
+    lv_obj_set_style_text_font(ui_label_hum, &ui_font_chinese_20, LV_PART_MAIN);
+    lv_obj_set_pos(ui_label_hum, 210, sy);
 
     /* 旋钮 */
-    ui_label_knob = lv_label_create(card1);
-    lv_label_set_text(ui_label_knob, "旋钮:   ---");
+    ui_label_knob = lv_label_create(ui_scr_main);
+    lv_label_set_text(ui_label_knob, "旋钮:  ---");
     lv_obj_set_style_text_color(ui_label_knob, lv_color_hex(0xffffff), LV_PART_MAIN);
-    lv_obj_set_style_text_font(ui_label_knob, &ui_font_chinese_16, LV_PART_MAIN);
-    lv_obj_align(ui_label_knob, LV_ALIGN_TOP_LEFT, 0, 92);
+    lv_obj_set_style_text_font(ui_label_knob, &ui_font_chinese_20, LV_PART_MAIN);
+    lv_obj_set_pos(ui_label_knob, 410, sy);
 
     /* 按键 */
-    ui_label_key = lv_label_create(card1);
-    lv_label_set_text(ui_label_key, "按键:   ---");
+    ui_label_key = lv_label_create(ui_scr_main);
+    lv_label_set_text(ui_label_key, "按键:  ---");
     lv_obj_set_style_text_color(ui_label_key, lv_color_hex(0xffffff), LV_PART_MAIN);
-    lv_obj_set_style_text_font(ui_label_key, &ui_font_chinese_16, LV_PART_MAIN);
-    lv_obj_align(ui_label_key, LV_ALIGN_TOP_LEFT, 0, 122);
+    lv_obj_set_style_text_font(ui_label_key, &ui_font_chinese_20, LV_PART_MAIN);
+    lv_obj_set_pos(ui_label_key, 610, sy);
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -305,6 +300,19 @@ static void create_button_bar(void)
     lv_obj_set_style_text_color(lbl_set, lv_color_hex(0xffffff), LV_PART_MAIN);
     lv_obj_set_style_text_font(lbl_set, &ui_font_chinese_16, LV_PART_MAIN);
     lv_obj_center(lbl_set);
+
+    /* 时钟设置按钮 */
+    lv_obj_t *btn_clock = lv_btn_create(bar);
+    lv_obj_set_size(btn_clock, 100, 28);
+    lv_obj_set_style_bg_color(btn_clock, lv_color_hex(0x224488), LV_PART_MAIN);
+    lv_obj_set_style_radius(btn_clock, 4, LV_PART_MAIN);
+    lv_obj_align(btn_clock, LV_ALIGN_LEFT_MID, 440, 0);
+    lv_obj_add_event_cb(btn_clock, btn_clock_cb, LV_EVENT_CLICKED, NULL);
+    lv_obj_t *lbl_clock = lv_label_create(btn_clock);
+    lv_label_set_text(lbl_clock, "时钟");
+    lv_obj_set_style_text_color(lbl_clock, lv_color_hex(0xffffff), LV_PART_MAIN);
+    lv_obj_set_style_text_font(lbl_clock, &ui_font_chinese_16, LV_PART_MAIN);
+    lv_obj_center(lbl_clock);
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -335,9 +343,17 @@ void app_ui_update_sensor(float temp, float hum,
     snprintf(buf, sizeof(buf), "旋钮:   %3u", knob);
     lv_label_set_text(ui_label_knob, buf);
 
-    /* 指针角度映射: knob 0→0, 128→1500, 255→3000 (LVGL角度单位: 0.1°) */
-    uint32_t angle = (uint32_t)knob * 3000 / 255;
-    lv_img_set_angle(ui_img_needle, angle);
+    /* 指针缓动: knob 0→0, 128→1500, 255→3000 (LVGL角度单位: 0.1°) */
+    int16_t target = (int16_t)((uint32_t)knob * 3000 / 255);
+    int16_t cur = lv_img_get_angle(ui_img_needle);
+    if (cur != target) {
+        lv_anim_set_var(&a_needle, ui_img_needle);
+        lv_anim_set_exec_cb(&a_needle, (lv_anim_exec_xcb_t)lv_img_set_angle);
+        lv_anim_set_values(&a_needle, cur, target);
+        lv_anim_set_time(&a_needle, 120);
+        lv_anim_set_path_cb(&a_needle, lv_anim_path_ease_out);
+        lv_anim_start(&a_needle);
+    }
 
     /* 按键 */
     static const char *key_names[] = {"---", "KEY1", "KEY2", "KEY3", "KEY_UP"};
@@ -362,6 +378,7 @@ void app_ui_update_time(uint8_t year, uint8_t month, uint8_t day,
     snprintf(buf, sizeof(buf), "20%02u-%02u-%02u  %02u:%02u:%02u",
              year, month, day, hour, min, sec);
     lv_label_set_text(ui_label_clock, buf);
+    clock_ui_set_time(year, month, day, hour, min, sec);
 }
 
 void app_ui_set_can_status(uint8_t online)
@@ -481,8 +498,6 @@ static void sysmon_timer_cb(lv_timer_t *tmr)
 #define _C(r, g, b)  LV_COLOR_MAKE(r, g, b)
 static const lv_color_t theme_screen_bg[3] = {
     _C(0x00,0x00,0x00), _C(0x44,0x44,0x44), _C(0x1a,0x2e,0x1a)};
-static const lv_color_t theme_card_bg[3] = {
-    _C(0x11,0x11,0x11), _C(0x55,0x55,0x55), _C(0x25,0x35,0x25)};
 static const lv_color_t theme_bar_bg[3] = {
     _C(0x11,0x11,0x11), _C(0x33,0x33,0x33), _C(0x1a,0x30,0x1a)};
 
@@ -501,8 +516,6 @@ void ui_apply_theme(uint8_t tid)
         LV_PART_MAIN | LV_STATE_DEFAULT);
     if (ui_home_statusbar)
         lv_obj_set_style_bg_color(ui_home_statusbar, theme_bar_bg[tid], LV_PART_MAIN);
-    if (ui_home_card1)
-        lv_obj_set_style_bg_color(ui_home_card1, theme_card_bg[tid], LV_PART_MAIN);
     if (ui_home_btnbar)
         lv_obj_set_style_bg_color(ui_home_btnbar, theme_bar_bg[tid], LV_PART_MAIN);
 
@@ -526,6 +539,12 @@ static void btn_settings_cb(lv_event_t *e)
 {
     (void)e;
     settings_ui_show();
+}
+
+static void btn_clock_cb(lv_event_t *e)
+{
+    (void)e;
+    clock_ui_show();
 }
 
 /* ═══════════════════════════════════════════════════════════
