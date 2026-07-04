@@ -29,6 +29,8 @@
 #include "mode_ui.h"
 #include "settings_ui.h"
 #include "clock_ui.h"
+#include "spi_img_loader.h"
+#include "lfs_port.h"
 /* hw_diag.h — 探索期遗留，擦写 SPI Flash 影响启动时间，移除 */
 /* #include "hw_diag.h" */
 
@@ -214,11 +216,18 @@ void StartGUITask(void *argument)
     lv_fs_spi_flash_init();     /* 注册 "S:" 盘符 (只读)               */
     printf("[GUI] SPI Flash FS init done\r\n");
 
+    /* ---- LittleFS 文件系统 (SPI Flash 0x000000~0xDFFFFF) ---- */
+    lfs_storage_init();
+    printf("[GUI] LittleFS init done\r\n");
+
     /* ---- CAN 接口启动 ---- */
     canif_init();
 
     /* 触摸屏初始化 + LVGL indev 注册 */
     touch_init();
+
+    /* 从 SPI Flash 预加载图片到外部 SRAM */
+    spi_img_load_all();
 
     /* 创建精简 GUI */
     app_ui_create();
@@ -339,17 +348,6 @@ void StartCanRxTask(void *argument)
                 printf("[CAN] Unknown ID=0x%03lx L=%u\r\n",
                        (unsigned long)rx_id, len);
             }
-        }
-        /* 5 秒诊断：打印 CAN 状态寄存器 */
-        if (HAL_GetTick() - diag_tick >= 5000) {
-            diag_tick = HAL_GetTick();
-            /* RM0090 Rev19 §28.9.4: EWGF=bit23, EPVF=bit24, BOFF=bit25 */
-            /* TEC=bits16-22(7bit), REC=bits0-7(8bit) */
-            uint32_t esr = hcan1.Instance->ESR;
-            printf("[CAN] ESR=0x%08lx (EWGF=%lu EPVF=%lu BOFF=%lu TEC=%lu REC=%lu)\r\n",
-                   esr,
-                   (esr >> 23) & 1, (esr >> 24) & 1, (esr >> 25) & 1,
-                   (esr >> 16) & 0x7F, esr & 0xFF);
         }
         osDelay(20);  /* 50Hz 轮询 */
     }

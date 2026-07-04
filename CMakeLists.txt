@@ -99,7 +99,12 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     Core/Src/ui_font_chinese_20.c
     Core/Src/mode_ui.c
     Core/Src/settings_ui.c
+    Core/Src/spi_img_loader.c
     Core/Src/clock_ui.c
+
+    # LittleFS 文件系统
+    Core/ThirdParty/littlefs/lfs.c
+    Core/Src/lfs_port.c
 
     # LVGL 图片资源（来自 uint3code 例程）
     Core/Src/images/ui_img_942215904.c
@@ -117,6 +122,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
     Core/Inc/touch
     BSP/Canif
+    Core/ThirdParty/littlefs
 )
 
 # Ensure LVGL config is found (inherited by all source files)
