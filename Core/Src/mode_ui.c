@@ -8,6 +8,7 @@
 #include "en25q128.h"
 #include "FreeRTOS.h"
 #include "task.h"
+#include "spi_img_loader.h"
 #include <stdio.h>
 
 LV_FONT_DECLARE(ui_font_chinese_16);
@@ -256,7 +257,7 @@ void mode_ui_create(void)
 
     /* 外部 SRAM */
     ui_label_diag_sram = lv_label_create(ui_card_right);
-    lv_label_set_text(ui_label_diag_sram, "外部 SRAM:  IS62WV51216  1MB");
+    lv_label_set_text(ui_label_diag_sram, "外部 SRAM:  待检测");
     lv_obj_set_style_text_color(ui_label_diag_sram, lv_color_hex(0xcccccc), LV_PART_MAIN);
     lv_obj_set_style_text_font(ui_label_diag_sram, &ui_font_chinese_16, LV_PART_MAIN);
     lv_obj_set_pos(ui_label_diag_sram, 0, ry); ry += 26;
@@ -330,6 +331,14 @@ void mode_ui_update_info(uint32_t heap_free, uint32_t heap_total,
     uint32_t heap_pct = heap_used * 100 / heap_total;
     snprintf(buf, sizeof(buf), "FreeRTOS 堆:  %lu%%  (%lu/%lu)", heap_pct, heap_used, heap_total);
     lv_label_set_text(ui_label_info_sram, buf);
+
+    /* ── 外部 SRAM + 图片数据源 ── */
+    {
+        const char *src_str = spi_img_get_source() ?
+            "外部 SRAM:  IS62WV51216  (图片@SRAM)" :
+            "外部 SRAM:  IS62WV51216  (图片@Flash)";
+        lv_label_set_text(ui_label_diag_sram, src_str);
+    }
 
     /* ── CAN 错误计数器 ── */
     uint32_t esr = CAN1->ESR;

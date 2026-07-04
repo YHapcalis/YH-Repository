@@ -16,6 +16,7 @@
 #include "mode_ui.h"
 #include "settings_ui.h"
 #include "clock_ui.h"
+#include "spi_img_loader.h"
 #include <stdio.h>
 
 /* ── 自定义中文字体（SimHei 16px 子集，仅含界面所需字符）── */
@@ -157,14 +158,14 @@ static void create_gauge_section(void)
 {
     /* ── 仪表盘背景（233×233），居中 y=150 ── */
     ui_img_gauge_bg = lv_img_create(ui_scr_main);
-    lv_img_set_src(ui_img_gauge_bg, &ui_img_942215904);
+    lv_img_set_src(ui_img_gauge_bg, &img_sram_gauge_bg);
     lv_obj_set_pos(ui_img_gauge_bg, 284, 50);
     lv_obj_add_flag(ui_img_gauge_bg, LV_OBJ_FLAG_ADV_HITTEST);
     lv_obj_clear_flag(ui_img_gauge_bg, LV_OBJ_FLAG_SCROLLABLE);
 
     /* ── 指针: 轴心 (10,-30) 对齐圆心 (400,266)，无需改 pivot ── */
     ui_img_needle = lv_img_create(ui_scr_main);
-    lv_img_set_src(ui_img_needle, &ui_img_1601502596);
+    lv_img_set_src(ui_img_needle, &img_sram_needle);
     lv_obj_set_pos(ui_img_needle, 390, 196);    /* 对齐圆心 (400,166) */
     lv_img_set_pivot(ui_img_needle, 10, -30);
     lv_img_set_angle(ui_img_needle, 1500);
@@ -180,22 +181,22 @@ static void create_gauge_section(void)
     const int ix0 = (800 - tw) / 2;    /* 水平居中 */
 
     ui_img_light = lv_img_create(ui_scr_main);
-    lv_img_set_src(ui_img_light, &ui_img_light_png);
+    lv_img_set_src(ui_img_light, &img_sram_light);
     lv_obj_set_pos(ui_img_light, ix0, iy);
     lv_obj_add_flag(ui_img_light, LV_OBJ_FLAG_ADV_HITTEST);
 
     ui_img_watertemp = lv_img_create(ui_scr_main);
-    lv_img_set_src(ui_img_watertemp, &ui_img_temp_gray_png);
+    lv_img_set_src(ui_img_watertemp, &img_sram_watertemp);
     lv_obj_set_pos(ui_img_watertemp, ix0 + (iw + igap), iy);
     lv_obj_add_flag(ui_img_watertemp, LV_OBJ_FLAG_ADV_HITTEST);
 
     ui_img_turnlight = lv_img_create(ui_scr_main);
-    lv_img_set_src(ui_img_turnlight, &ui_img_turn_light_png);
+    lv_img_set_src(ui_img_turnlight, &img_sram_turnlight);
     lv_obj_set_pos(ui_img_turnlight, ix0 + (iw + igap) * 2, iy);
     lv_obj_add_flag(ui_img_turnlight, LV_OBJ_FLAG_ADV_HITTEST);
 
     ui_img_safetybelt = lv_img_create(ui_scr_main);
-    lv_img_set_src(ui_img_safetybelt, &ui_img_safety_belt_png);
+    lv_img_set_src(ui_img_safetybelt, &img_sram_safetybelt);
     lv_obj_set_pos(ui_img_safetybelt, ix0 + (iw + igap) * 3, iy);
     lv_obj_add_flag(ui_img_safetybelt, LV_OBJ_FLAG_ADV_HITTEST);
 }
