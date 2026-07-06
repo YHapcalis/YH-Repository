@@ -186,6 +186,9 @@ target_sources(bootloader PRIVATE
     # Bootloader LFS 只读支持（用于从 LFS 恢复固件备份）
     Bootloader/Src/lfs_boot.c
     Core/ThirdParty/littlefs/lfs.c
+
+    # HMAC-SHA256 固件签名验证
+    Core/Src/sha256.c
 )
 
 target_include_directories(bootloader PRIVATE
@@ -219,6 +222,13 @@ add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${CMAKE_PROJECT_NAME}>
             "${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}.bin"
     COMMENT "Generating APP .bin..."
+)
+# 固件签名: 自动对生成的 .bin 追加 HMAC-SHA256
+add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
+    COMMAND python "${CMAKE_SOURCE_DIR}/scripts/sign_firmware.py"
+            "${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}.bin"
+            "${CMAKE_BINARY_DIR}"
+    COMMENT "Signing firmware (HMAC-SHA256)..."
 )
 add_custom_command(TARGET bootloader POST_BUILD
     COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:bootloader>

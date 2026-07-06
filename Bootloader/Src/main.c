@@ -21,6 +21,7 @@
 #include "iso_tp_cfg.h"
 #include "en25q128.h"
 #include "lfs_boot.h"
+#include "sha256.h"
 #include <stdio.h>
 
 /* ── 全局变量 ── */
@@ -141,6 +142,32 @@ int main(void)
         printf("[BOOT] No OTA pending. Jumping to APP...\r\n");
     } else {
         printf("[BOOT] ota_flag invalid (ret=%d). Jumping to APP anyway.\r\n", ota_flag);
+    }
+
+    /* ── 固件签名验证 ── */
+    {
+        int sig_ret = verify_firmware_sig();
+        if (sig_ret == 0) {
+            printf("[BOOT] Signature OK\r\n");
+        } else {
+            printf("[BOOT] Signature INVALID (ret=%d)!\r\n", sig_ret);
+            printf("[BOOT] Trying SPI Flash restore...\r\n");
+            int restored = 0;
+            if (lfs_boot_init() == 0) {
+                restored = (EN25Q128_RestoreFirmwareLFS() == 0);
+                lfs_unmount(&g_lfs);
+            }
+            if (!restored)
+                restored = (EN25Q128_RestoreFirmware() == 0);
+            if (!restored) {
+                printf("[BOOT] Restore FAILED, halting!\r\n");
+                while (1) {
+                    HAL_GPIO_TogglePin(LED0_GPIO_Port, LED0_Pin);
+                    for (volatile int d = 0; d < 1000000; d++);
+                }
+            }
+            printf("[BOOT] Restore OK, jumping to APP\r\n");
+        }
     }
 
     /* ── 跳转到 APP ── */
