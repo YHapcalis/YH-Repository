@@ -23,7 +23,7 @@
         {
             "label": "CMake: 构建 (Debug)",
             "type": "shell",
-            "command": "cmake --build \"${workspaceFolder}/build/Debug\" --parallel 8",
+            "command": "cmake --build \"${workspaceFolder}/build/Debug\" --parallel 8 && cmake --build \"${workspaceFolder}/build/Debug\" --target bootloader --parallel 8",
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
