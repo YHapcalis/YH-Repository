@@ -104,7 +104,7 @@ int main(void)
   MX_GPIO_Init();
   MX_USART1_UART_Init();
 #if 0
-  MX_ETH_Init();  /* ETH PHY 未连接时卡死，禁用 */
+  MX_ETH_Init();  /* ETH PHY 未连接时卡死 */
 #endif
   MX_FSMC_Init();
   MX_SPI1_Init();

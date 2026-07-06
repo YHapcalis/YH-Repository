@@ -53,7 +53,6 @@
 /* USER CODE BEGIN 0 */
 #ifndef LFS_READONLY
 #include "ov7670.h"
-#include "wifi_config.h"
 #endif
 /* USART1 接收完成回调 — HAL 库在中断链路中自动调用 */
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
@@ -177,9 +176,8 @@ void DebugMon_Handler(void)
 void EXTI9_5_IRQHandler(void)
 {
   /* USER CODE BEGIN EXTI9_5_IRQn 0 */
-#ifndef LFS_READONLY
-  /* OV7670 VSYNC: FIFO 写完成, 标记帧就绪 */
   if (EXTI->PR & EXTI_PR_PR8) {
+#ifndef LFS_READONLY
       if (ov_sta < 2) {
           if (ov_sta == 0) {
               OV7670_WRST = 0; OV7670_WRST = 1;
@@ -190,10 +188,14 @@ void EXTI9_5_IRQHandler(void)
           }
           ov_sta++;
       }
-      EXTI->PR = EXTI_PR_PR8;
-  }
 #endif
+      EXTI->PR = EXTI_PR_PR8;  /* 必须清除, 否则中断死循环! */
+  }
   /* USER CODE END EXTI9_5_IRQn 0 */
+  HAL_GPIO_EXTI_IRQHandler(OV7670_VSYNC_Pin);
+  /* USER CODE BEGIN EXTI9_5_IRQn 1 */
+
+  /* USER CODE END EXTI9_5_IRQn 1 */
 }
 
 /**
@@ -222,29 +224,6 @@ void USART1_IRQHandler(void)
   /* USER CODE BEGIN USART1_IRQn 1 */
 
   /* USER CODE END USART1_IRQn 1 */
-}
-
-/**
-  * @brief This function handles USART3 global interrupt (ESP8266 WiFi).
-  */
-void USART3_IRQHandler(void)
-{
-  /* USER CODE BEGIN USART3_IRQn 0 */
-#ifndef LFS_READONLY
-  uint8_t ch;
-  if (USART3->SR & USART_SR_RXNE) {
-      ch = (uint8_t)(USART3->DR & 0xFF);
-      if (strEsp8266_Fram_Record.InfBit.FramLength < (RX_BUF_MAX_LEN - 1)) {
-          strEsp8266_Fram_Record.Data_RX_BUF[
-              strEsp8266_Fram_Record.InfBit.FramLength++] = ch;
-      }
-  }
-  if (USART3->SR & USART_SR_IDLE) {
-      strEsp8266_Fram_Record.InfBit.FramFinishFlag = 1;
-      (void)(USART3->DR);
-  }
-#endif
-  /* USER CODE END USART3_IRQn 0 */
 }
 
 /* USER CODE BEGIN 1 */
