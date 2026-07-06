@@ -106,6 +106,17 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     Core/ThirdParty/littlefs/lfs.c
     Core/Src/lfs_port.c
 
+    # OV7670 摄像头 + SCCB
+    Core/Src/ov7670.c
+    Core/Src/sccb.c
+
+    # ESP8266 WiFi
+    Core/Src/wifi_config.c
+    Core/Src/wifi_function.c
+
+    # 延时适配层
+    Core/Src/delay.c
+
     # 电机/舵机驱动已移除 — 电源限制导致三方案均失败
     # BSP/Driver/DRV8833.c
     # BSP/Driver/SG-90.c

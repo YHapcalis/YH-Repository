@@ -69,16 +69,7 @@ static void backup_progress_cb(uint32_t cur, uint32_t tot, const char *phase)
 /* USER CODE BEGIN Variables */
 extern volatile uint8_t  g_rx_byte;
 extern volatile uint8_t  g_rx_flag;
-/* USER CODE END Variables */
-/* Definitions for defaultTask */
-osThreadId_t defaultTaskHandle;
-const osThreadAttr_t defaultTask_attributes = {
-  .name = "defaultTask",
-  .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityNormal,
-};
 
-/* USER CODE BEGIN Variables */
 osThreadId_t guiTaskHandle;
 const osThreadAttr_t guiTask_attributes = {
   .name = "guiTask",
@@ -100,6 +91,13 @@ const osThreadAttr_t canRxTask_attributes = {
   .priority = (osPriority_t) osPriorityNormal,
 };
 /* USER CODE END Variables */
+/* Definitions for defaultTask */
+osThreadId_t defaultTaskHandle;
+const osThreadAttr_t defaultTask_attributes = {
+  .name = "defaultTask",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityNormal,
+};
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */

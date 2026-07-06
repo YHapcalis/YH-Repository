@@ -58,22 +58,34 @@ void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOF, ESP8266_CH_Pin|LED0_Pin|LED1_Pin, GPIO_PIN_SET);
+
+  /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(BEEP_GPIO_Port, BEEP_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOF, LED0_Pin|LED1_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(ESP8266_RAT_GPIO_Port, ESP8266_RAT_Pin, GPIO_PIN_SET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOA, OV7670_RRST_Pin|OV7670_RCK_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(FLASH_CS_GPIO_Port, FLASH_CS_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(LCD_BL_GPIO_Port, LCD_BL_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, LCD_BL_Pin|OV7670_WRST_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(NRF_CS_GPIO_Port, NRF_CS_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOG, NRF_CS_Pin|OV7670_CS_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(ETH_RST_GPIO_Port, ETH_RST_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOD, ETH_RST_Pin|SCCB_SCL_Pin, GPIO_PIN_SET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_7, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(OV7670_WREN_GPIO_Port, OV7670_WREN_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : KEY2_Pin KEY0_Pin */
   GPIO_InitStruct.Pin = KEY2_Pin|KEY0_Pin;
@@ -87,12 +99,25 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : PC13 */
-  GPIO_InitStruct.Pin = GPIO_PIN_13;
+  /*Configure GPIO pins : OV7670_D6_Pin OV7670_D7_Pin */
+  GPIO_InitStruct.Pin = OV7670_D6_Pin|OV7670_D7_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : PC13 ESP8266_RAT_Pin */
+  GPIO_InitStruct.Pin = GPIO_PIN_13|ESP8266_RAT_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : ESP8266_CH_Pin */
+  GPIO_InitStruct.Pin = ESP8266_CH_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(ESP8266_CH_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : BEEP_Pin */
   GPIO_InitStruct.Pin = BEEP_Pin;
@@ -113,6 +138,13 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   HAL_GPIO_Init(KEY_UP_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : OV7670_RRST_Pin OV7670_RCK_Pin */
+  GPIO_InitStruct.Pin = OV7670_RRST_Pin|OV7670_RCK_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pin : TP_INT_Pin */
   GPIO_InitStruct.Pin = TP_INT_Pin;
@@ -141,12 +173,57 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(NRF_CS_GPIO_Port, &GPIO_InitStruct);
 
+  /*Configure GPIO pins : OV7670_D0_Pin OV7670_D1_Pin OV7670_D2_Pin OV7670_D3_Pin
+                           OV7670_D4_Pin */
+  GPIO_InitStruct.Pin = OV7670_D0_Pin|OV7670_D1_Pin|OV7670_D2_Pin|OV7670_D3_Pin
+                          |OV7670_D4_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : OV7670_VSYNC_Pin */
+  GPIO_InitStruct.Pin = OV7670_VSYNC_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(OV7670_VSYNC_GPIO_Port, &GPIO_InitStruct);
+
   /*Configure GPIO pin : ETH_RST_Pin */
   GPIO_InitStruct.Pin = ETH_RST_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(ETH_RST_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : SCCB_SCL_Pin PD7 */
+  GPIO_InitStruct.Pin = SCCB_SCL_Pin|GPIO_PIN_7;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_OD;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : OV7670_WREN_Pin OV7670_CS_Pin */
+  GPIO_InitStruct.Pin = OV7670_WREN_Pin|OV7670_CS_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : OV7670_D5_Pin */
+  GPIO_InitStruct.Pin = OV7670_D5_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  HAL_GPIO_Init(OV7670_D5_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : OV7670_WRST_Pin */
+  GPIO_InitStruct.Pin = OV7670_WRST_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(OV7670_WRST_GPIO_Port, &GPIO_InitStruct);
+
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
 
 }
 

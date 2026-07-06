@@ -36,7 +36,7 @@ rule C_COMPILER__MY_OTA_GUI_unscanned_Debug
 
 rule C_EXECUTABLE_LINKER__MY_OTA_GUI_Debug
   command = C:\Windows\system32\cmd.exe /C "$PRE_LINK && C:\Users\RYUMEI~1\AppData\Local\STM32C~1\bundles\GNU-TO~2\1431_S~1.2\bin\AR19DD~1.EXE $FLAGS $LINK_FLAGS @$RSP_FILE -o $TARGET_FILE && $POST_BUILD"
-  description = Linking C executable $TARGET_FILE; Generating APP .bin...
+  description = Linking C executable $TARGET_FILE; Generating APP .bin...; Signing firmware (HMAC-SHA256)...
   rspfile = $RSP_FILE
   rspfile_content = $in $LINK_PATH $LINK_LIBRARIES
   restat = $RESTAT

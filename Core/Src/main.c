@@ -22,7 +22,6 @@
 #include "can.h"
 #include "eth.h"
 #include "spi.h"
-#include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 #include "fsmc.h"
@@ -104,18 +103,13 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART1_UART_Init();
-  /* ETH PHY 未使用，初始化会卡死 HAL_ETH_Init() */
-  /* 如需使用以太网，将下方 #if 0 改为 #if 1 */
 #if 0
-  MX_ETH_Init();
+  MX_ETH_Init();  /* ETH PHY 未连接时卡死，禁用 */
 #endif
   MX_FSMC_Init();
   MX_SPI1_Init();
   MX_CAN1_Init();
-  MX_TIM2_Init();
-  MX_TIM4_Init();
-  MX_TIM8_Init();
-  MX_TIM11_Init();
+  MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
 
   /* ---- 按键重配: FSMC 覆盖了 PE2-PE4, 重新设为输入 ---- */
