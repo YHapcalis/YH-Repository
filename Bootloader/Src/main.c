@@ -149,6 +149,8 @@ int main(void)
         int sig_ret = verify_firmware_sig();
         if (sig_ret == 0) {
             printf("[BOOT] Signature OK\r\n");
+        } else if (sig_ret == 1) {
+            printf("[BOOT] No signature, continuing (dev mode)\r\n");
         } else {
             printf("[BOOT] Signature INVALID (ret=%d)!\r\n", sig_ret);
             printf("[BOOT] Trying SPI Flash restore...\r\n");

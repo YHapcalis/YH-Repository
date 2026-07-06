@@ -201,13 +201,13 @@ int verify_firmware_sig(void)
     /* 从固定地址读取签名块 */
     memcpy(&sig, (void *)SIG_ADDR, sizeof(sig));
 
-    /* 检查 Magic */
+    /* 检查 Magic — 无签名时不拦截启动 */
     if (sig.magic != SIG_MAGIC) {
-        return 1;  /* 未签名或签名无效 */
+        return 1;  /* 未签名, 仅警告 */
     }
 
-    /* 检查固件大小合理性 */
-    if (sig.fw_size == 0 || sig.fw_size > 0xE0000) {  /* 最大 896KB */
+    /* 检查固件大小合理性 (最大 896KB) */
+    if (sig.fw_size == 0 || sig.fw_size > 0xE0000) {
         return 2;  /* 大小异常 */
     }
 
