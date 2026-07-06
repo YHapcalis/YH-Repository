@@ -9,6 +9,6 @@
 #define BOOT_VERSION_MINOR  0
 #define BOOT_VERSION_PATCH  0
 
-#define APP_START_ADDR      0x08008000U
+#define APP_START_ADDR      0x08010000U
 
 #endif /* __BOOTLOADER_MAIN_H__ */

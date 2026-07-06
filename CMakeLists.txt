@@ -106,13 +106,6 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     Core/ThirdParty/littlefs/lfs.c
     Core/Src/lfs_port.c
 
-    # LVGL 图片资源（来自 uint3code 例程）
-    Core/Src/images/ui_img_942215904.c
-    Core/Src/images/ui_img_1601502596.c
-    Core/Src/images/ui_img_light_png.c
-    Core/Src/images/ui_img_safety_belt_png.c
-    Core/Src/images/ui_img_temp_gray_png.c
-    Core/Src/images/ui_img_turn_light_png.c
     # 电机/舵机驱动已移除 — 电源限制导致三方案均失败
     # BSP/Driver/DRV8833.c
     # BSP/Driver/SG-90.c
@@ -131,15 +124,15 @@ target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
 )
 
 # ── APP 分区配置 ──
-# 1. 链接脚本: APP 从 0x08008000 开始
-# 2. VTOR: 启动时系统自动将向量表重定位到 0x08008000
+# 1. 链接脚本: APP 从 0x08010000 开始
+# 2. VTOR: 启动时系统自动将向量表重定位到 0x08010000
 target_link_options(${CMAKE_PROJECT_NAME} PRIVATE
     -T "${CMAKE_SOURCE_DIR}/STM32F407XX_FLASH_APP.ld"
     -Wl,-Map=${CMAKE_PROJECT_NAME}.map
 )
 target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
     USER_VECT_TAB_ADDRESS
-    VECT_TAB_OFFSET=0x8000
+    VECT_TAB_OFFSET=0x10000
 )
 
 # Remove wrong libob.a library dependency when using cpp files
@@ -189,11 +182,22 @@ target_sources(bootloader PRIVATE
     Bootloader/Src/isotp_porting.c
     Bootloader/Src/iso_tp_cfg.c
     Core/Src/en25q128.c
+
+    # Bootloader LFS 只读支持（用于从 LFS 恢复固件备份）
+    Bootloader/Src/lfs_boot.c
+    Core/ThirdParty/littlefs/lfs.c
 )
 
 target_include_directories(bootloader PRIVATE
     Bootloader/Inc
     BSP/Canif
+    Core/ThirdParty/littlefs
+    Core/Inc
+)
+
+# Bootloader 使用 LFS_READONLY（只读挂载，不包含写入/格式化代码）
+target_compile_definitions(bootloader PRIVATE
+    LFS_READONLY
 )
 
 target_link_libraries(bootloader PRIVATE

@@ -57,9 +57,9 @@ uint8_t inter_flashif_write(uint32_t addr, uint32_t *buf, uint32_t word_len)
  * 根据地址自动确定 F407 的 sector 编号:
  *   0x08000000-0x08003FFF: Sector 0  (16KB)
  *   0x08004000-0x08007FFF: Sector 1  (16KB)
- *   0x08008000-0x0800BFFF: Sector 2  (16KB)
- *   0x0800C000-0x0800FFFF: Sector 3  (16KB)
- *   0x08010000-0x0801FFFF: Sector 4  (64KB)
+ *   0x08008000-0x0800BFFF: Sector 2  (16KB)  ← Bootloader (64KB, Sectors 0-3)
+ *   0x0800C000-0x0800FFFF: Sector 3  (16KB)  ← "
+ *   0x08010000-0x0801FFFF: Sector 4  (64KB)  ← APP 起始
  *   0x08020000-0x0803FFFF: Sector 5  (128KB)
  *   0x08040000-0x0805FFFF: Sector 6  (128KB)
  *   0x08060000-0x0807FFFF: Sector 7  (128KB)

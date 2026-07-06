@@ -3,8 +3,8 @@
  **
  **  File        : LinkerScript.ld (APP variant)
  **  Author      : STM32CubeMX + YHapcalis
- **  Abstract    : Linker script for STM32F407ZGTx — APP at 0x08008000
- **                480KB FLASH for APP, 32KB reserved for Bootloader
+ **  Abstract    : Linker script for STM32F407ZGTx — APP at 0x08010000
+ **                832KB FLASH for APP, 64KB reserved for Bootloader
  **
  **  Target      : STMicroelectronics STM32
  **
@@ -19,7 +19,7 @@ MEMORY
 {
 RAM (xrw)      : ORIGIN = 0x20000000, LENGTH = 128K
 CCMRAM (xrw)   : ORIGIN = 0x10000000, LENGTH = 64K
-FLASH (rx)     : ORIGIN = 0x08008000, LENGTH = 864K   /* 顶部 128KB 保留给参数扇区 */
+FLASH (rx)     : ORIGIN = 0x08010000, LENGTH = 832K   /* 顶部 128KB 保留给参数扇区 */
 }
 
 /* Highest address of the user mode stack */

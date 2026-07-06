@@ -6,6 +6,7 @@
 
 #include "en25q128.h"
 #include "inter_flashif.h"
+#include "lfs_port.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -191,7 +192,7 @@ void EN25Q128_Init(void)
  * ═══════════════════════════════════════════════════════════ */
 
 extern uint32_t _fw_end;
-#define APP_BASE        ((uint32_t)0x08008000UL)
+#define APP_BASE        ((uint32_t)0x08010000UL)
 #define FW_MAX_SIZE     ((uint32_t)(512UL * 1024UL))
 
 static uint8_t g_block_buf[2048];              /* 恢复用块缓冲（栈上 2KB 太危险） */
@@ -294,5 +295,103 @@ uint8_t EN25Q128_RestoreFirmware(void)
         spi_off += n;
     }
     printf("[SPI] Restore done\r\n");
+    return 0;
+}
+
+/* ═════════════════════════════════════════════════════════════
+ *  LFS 文件备份 / 恢复（首选路径）
+ * ═════════════════════════════════════════════════════════════ */
+
+#define BAK_FILENAME    "firmware.bak"
+
+#ifndef LFS_READONLY
+uint8_t EN25Q128_BackupFirmwareLFS(void)
+{
+    uint32_t fw_size = (uint32_t)&_fw_end - APP_BASE;
+    if (fw_size > FW_MAX_SIZE) fw_size = FW_MAX_SIZE;
+    printf("[LFS_BAK] Backing up %lu bytes -> %s\n", fw_size, BAK_FILENAME);
+
+    lfs_file_t f;
+    int err = lfs_file_open(&g_lfs, &f, BAK_FILENAME,
+                            LFS_O_WRONLY | LFS_O_CREAT | LFS_O_TRUNC);
+    if (err) {
+        printf("[LFS_BAK] FAIL open: %d\n", err);
+        return 1;
+    }
+
+    /* 分块写入 */
+    uint8_t buf[256];
+    uint32_t remain = fw_size;
+    uint32_t off = 0;
+    while (remain > 0) {
+        uint32_t n = (remain > 256) ? 256 : remain;
+        memcpy(buf, (const void *)(APP_BASE + off), n);
+        lfs_ssize_t written = lfs_file_write(&g_lfs, &f, buf, n);
+        if (written != (lfs_ssize_t)n) {
+            printf("[LFS_BAK] FAIL write @ %lu: %d\n", off, (int)written);
+            lfs_file_close(&g_lfs, &f);
+            return 2;
+        }
+        off += n;
+        remain -= n;
+    }
+
+    lfs_file_close(&g_lfs, &f);
+    printf("[LFS_BAK] Backup done (%lu bytes)\n", fw_size);
+    return 0;
+}
+#endif /* LFS_READONLY */
+
+uint8_t EN25Q128_RestoreFirmwareLFS(void)
+{
+    /* 先尝试打开文件检查是否存在 */
+    lfs_file_t f;
+    int err = lfs_file_open(&g_lfs, &f, BAK_FILENAME, LFS_O_RDONLY);
+    if (err) {
+        printf("[LFS_BAK] No backup file: %d\n", err);
+        return 1;
+    }
+
+    /* 读文件大小 */
+    lfs_size_t fw_size = lfs_file_size(&g_lfs, &f);
+    if (fw_size == 0 || fw_size > FW_MAX_SIZE) {
+        printf("[LFS_BAK] Invalid size: %lu\n", (unsigned long)fw_size);
+        lfs_file_close(&g_lfs, &f);
+        return 2;
+    }
+    printf("[LFS_BAK] Restoring %lu bytes...\n", (unsigned long)fw_size);
+
+    /* 擦除 APP 区 */
+    uint32_t addr = APP_BASE;
+    while (addr < APP_BASE + fw_size) {
+        if (addr < 0x08020000)      { inter_flashif_erase_sector(addr); addr += 0x10000; }
+        else if (addr < 0x08040000) { inter_flashif_erase_sector(addr); addr += 0x20000; }
+        else                        { inter_flashif_erase_sector(addr); addr += 0x20000; }
+    }
+
+    /* 分块读取 + 写入内部 Flash */
+    uint8_t buf[2048];
+    uint32_t flash_off = 0;
+    while (flash_off < fw_size) {
+        uint32_t n = fw_size - flash_off;
+        if (n > sizeof(buf)) n = sizeof(buf);
+
+        lfs_ssize_t rd = lfs_file_read(&g_lfs, &f, buf, n);
+        if (rd <= 0) break;
+
+        uint32_t words = (uint32_t)rd / 4;
+        if (words > 0) inter_flashif_write(APP_BASE + flash_off,
+                                           (uint32_t *)buf, words);
+        uint32_t rem = (uint32_t)rd % 4;
+        if (rem > 0) {
+            uint32_t last = 0xFFFFFFFF;
+            memcpy(&last, buf + words * 4, rem);
+            inter_flashif_write(APP_BASE + flash_off + words * 4, &last, 1);
+        }
+        flash_off += (uint32_t)rd;
+    }
+
+    lfs_file_close(&g_lfs, &f);
+    printf("[LFS_BAK] Restore done (%lu bytes)\n", (unsigned long)fw_size);
     return 0;
 }

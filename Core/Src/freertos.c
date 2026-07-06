@@ -263,7 +263,11 @@ void StartGUITask(void *argument)
 
             /* 注册进度回调 → 备份期间实时刷新屏幕 */
             EN25Q128_SetBackupProgressCb(backup_progress_cb);
-            EN25Q128_BackupFirmware();
+            /* LFS 文件备份（首选），失败降级到裸备份 */
+            if (EN25Q128_BackupFirmwareLFS() != 0) {
+                printf("[GUI] LFS backup failed, fallback to raw...\n");
+                EN25Q128_BackupFirmware();
+            }
             EN25Q128_SetBackupProgressCb(NULL);
 
             /* 更新提示 */

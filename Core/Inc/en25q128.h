@@ -30,15 +30,17 @@
 #define EN25Q128_BR_SAFE            7U          /* fPCLK/256 = 328KHz  */
 #define EN25Q128_BR_FAST            0U          /* fPCLK/2   = 42MHz   */
 
-/* SPI Flash 固件备份区域（使用 SPI Flash 尾部 2MB） */
+/* SPI Flash 固件备份区域（使用 SPI Flash 尾部 2MB，降级备用） */
 #define SPI_BAK_ADDR        0x00E00000U   /* 14MB 偏移处开始存放备份 */
 #define SPI_BAK_MAGIC       0x2141544F    /* "OTA!" = 0x4F544121 */
 
-/* 备份当前固件到 SPI Flash（由 APP 在 OTA 前调用） */
-uint8_t EN25Q128_BackupFirmware(void);
+/* ── LFS 文件备份（首选）── */
+uint8_t EN25Q128_BackupFirmwareLFS(void);   /* 写到 LFS 文件 "firmware.bak" */
+uint8_t EN25Q128_RestoreFirmwareLFS(void);  /* 从 LFS 文件 "firmware.bak" 恢复 */
 
-/* 从 SPI Flash 恢复固件（由 Bootloader 在 OTA 失败后调用） */
-uint8_t EN25Q128_RestoreFirmware(void);
+/* ── 裸地址备份（降级 / Bootloader 用）── */
+uint8_t EN25Q128_BackupFirmware(void);      /* 写到 SPI Flash 0xE00000 */
+uint8_t EN25Q128_RestoreFirmware(void);     /* 从 SPI Flash 0xE00000 恢复 */
 
 /* 备份进度回调类型：current/total 步数, phase 阶段名 */
 typedef void (*backup_progress_t)(uint32_t current, uint32_t total, const char *phase);

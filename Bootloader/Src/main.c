@@ -20,6 +20,7 @@
 #include "inter_flash_cfg.h"
 #include "iso_tp_cfg.h"
 #include "en25q128.h"
+#include "lfs_boot.h"
 #include <stdio.h>
 
 /* ── 全局变量 ── */
@@ -117,11 +118,22 @@ int main(void)
             inter_flash_cfg_inc_ota_count();
             inter_flash_cfg_set_app_update_flag(0);
         } else {
-            printf("[BOOT] OTA failed. Trying SPI Flash restore...\r\n");
-            if (EN25Q128_RestoreFirmware() == 0) {
+            printf("[BOOT] OTA failed. Trying restore...\r\n");
+            /* 先尝试 LFS 文件恢复 */
+            int restored = 0;
+            if (lfs_boot_init() == 0) {
+                restored = (EN25Q128_RestoreFirmwareLFS() == 0);
+                lfs_unmount(&g_lfs);
+            }
+            /* LFS 失败则降级到裸备份 */
+            if (!restored) {
+                printf("[BOOT] LFS restore failed, trying raw backup...\r\n");
+                restored = (EN25Q128_RestoreFirmware() == 0);
+            }
+            if (restored) {
                 printf("[BOOT] Restore OK, jumping to APP\r\n");
             } else {
-                printf("[BOOT] No backup, clearing flag\r\n");
+                printf("[BOOT] No valid backup, clearing flag\r\n");
                 inter_flash_cfg_set_app_update_flag(0);
             }
         }

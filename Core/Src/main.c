@@ -81,7 +81,7 @@ int main(void)
 
   /* USER CODE BEGIN 1 */
   /* VTOR: STM32_Drivers 编译 system_stm32f4xx.c 时不带 USER_VECT_TAB_ADDRESS */
-  SCB->VTOR = (uint32_t)0x08008000;
+  SCB->VTOR = (uint32_t)0x08010000;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/

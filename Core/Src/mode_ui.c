@@ -6,6 +6,7 @@
 #include "mode_ui.h"
 #include "lvgl.h"
 #include "en25q128.h"
+#include "lfs_port.h"
 #include "FreeRTOS.h"
 #include "task.h"
 #include "spi_img_loader.h"
@@ -39,6 +40,7 @@ static lv_obj_t *ui_label_diag_uptime;
 static lv_obj_t *ui_label_diag_can_err;
 static lv_obj_t *ui_label_diag_reset;
 static lv_obj_t *ui_label_diag_sram;
+static lv_obj_t *ui_label_diag_bak;
 
 /* ── 前置声明 ── */
 static void btn_back_cb(lv_event_t *e);
@@ -121,7 +123,15 @@ void mode_ui_create(void)
     lv_obj_set_pos(ui_label_info_fw, 0, ly); ly += 26;
 
     ui_label_info_flash = lv_label_create(ui_card_left);
-    lv_label_set_text(ui_label_info_flash, "Flash:  864KB APP");
+    {
+        /* APP 分区: 0x08010000 ~ 0x080E0000 = 832KB */
+        extern uint32_t _fw_end;
+        uint32_t total = (0x080E0000 - 0x08010000) / 1024;
+        uint32_t used  = ((uint32_t)&_fw_end - 0x08010000) / 1024;
+        char buf[48];
+        snprintf(buf, sizeof(buf), "Flash:  %lu/%lu KB APP", (unsigned long)used, (unsigned long)total);
+        lv_label_set_text(ui_label_info_flash, buf);
+    }
     lv_obj_set_style_text_color(ui_label_info_flash, lv_color_hex(0xcccccc), LV_PART_MAIN);
     lv_obj_set_style_text_font(ui_label_info_flash, &ui_font_chinese_16, LV_PART_MAIN);
     lv_obj_set_pos(ui_label_info_flash, 0, ly); ly += 26;
@@ -261,6 +271,43 @@ void mode_ui_create(void)
     lv_obj_set_style_text_color(ui_label_diag_sram, lv_color_hex(0xcccccc), LV_PART_MAIN);
     lv_obj_set_style_text_font(ui_label_diag_sram, &ui_font_chinese_16, LV_PART_MAIN);
     lv_obj_set_pos(ui_label_diag_sram, 0, ry); ry += 26;
+
+    /* ── OTA 备份状态 ── */
+    ui_label_diag_bak = lv_label_create(ui_card_right);
+    {
+        char buf[64];
+        int has_lfs = 0;
+        lfs_size_t bak_size = 0;
+
+        /* 检查 LFS 文件备份 */
+        struct lfs_info info;
+        if (lfs_stat(&g_lfs, "firmware.bak", &info) == 0) {
+            has_lfs = 1;
+            bak_size = info.size;
+        }
+
+        /* 检查裸备份 (0xE00000 magic) */
+        int has_raw = 0;
+        uint8_t hdr[4];
+        EN25Q128_Read(hdr, SPI_BAK_ADDR, 4);
+        uint32_t magic = (uint32_t)hdr[0] | ((uint32_t)hdr[1] << 8) |
+                         ((uint32_t)hdr[2] << 16) | ((uint32_t)hdr[3] << 24);
+        if (magic == SPI_BAK_MAGIC) has_raw = 1;
+
+        if (has_lfs && has_raw)
+            snprintf(buf, sizeof(buf), "Backup: LFS + Raw");
+        else if (has_lfs)
+            snprintf(buf, sizeof(buf), "Backup: LFS  (%lu KB)", (unsigned long)(bak_size / 1024));
+        else if (has_raw)
+            snprintf(buf, sizeof(buf), "Backup: Raw (fallback)");
+        else
+            snprintf(buf, sizeof(buf), "Backup: None");
+
+        lv_label_set_text(ui_label_diag_bak, buf);
+    }
+    lv_obj_set_style_text_color(ui_label_diag_bak, lv_color_hex(0xcccccc), LV_PART_MAIN);
+    lv_obj_set_style_text_font(ui_label_diag_bak, &ui_font_chinese_16, LV_PART_MAIN);
+    lv_obj_set_pos(ui_label_diag_bak, 0, ry); ry += 26;
 }
 
 /* ═════════════════════════════════════════════════════════════

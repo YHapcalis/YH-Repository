@@ -14,7 +14,7 @@
 
 /* ── 参数扇区地址（位于 Flash 最高端，不与其他代码重叠） ── */
 #define INTER_FLASH_PARAM_ADDR      (0x080E0000U)   /* Sector 11, 128KB */
-#define INTER_FLASH_APP_ADDR        (0x08008000U)   /* APP 起始地址      */
+#define INTER_FLASH_APP_ADDR        (0x08010000U)   /* APP 起始地址      */
 
 /* ── 接口函数 ── */
 uint8_t inter_flashif_read(uint32_t addr, uint8_t *buf, uint32_t len);
