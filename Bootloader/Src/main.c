@@ -53,6 +53,10 @@ int main(void)
 
     /* 外设初始化（最小集） */
     MX_GPIO_Init();
+
+    /* PA8 (VSYNC) 浮空噪声会触发 EXTI9_5，Bootloader 不需要摄像头，直接关掉 */
+    HAL_NVIC_DisableIRQ(EXTI9_5_IRQn);
+
     MX_USART1_UART_Init();
     MX_CAN1_Init();
 

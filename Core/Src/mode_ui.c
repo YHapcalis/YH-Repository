@@ -315,7 +315,12 @@ void mode_ui_create(void)
  * ═════════════════════════════════════════════════════════════ */
 void mode_ui_show(void)
 {
-    if (ui_scr_mode) lv_scr_load_anim(ui_scr_mode, LV_SCR_LOAD_ANIM_FADE_IN, 200, 0, false);
+    printf("[DBG] mode_ui_show: scr=%p\n", (void*)ui_scr_mode);
+    fflush(stdout);
+    if (ui_scr_mode) {
+        lv_scr_load_anim(ui_scr_mode, LV_SCR_LOAD_ANIM_FADE_IN, 200, 0, false);
+        printf("[DBG] mode_ui_show: lv_scr_load_anim done\n");
+    }
 }
 
 void mode_ui_hide(void)

@@ -1,28 +1,24 @@
-#ifndef _sccb_H
-#define _sccb_H
-
+#ifndef _SCCB_H_
+#define _SCCB_H_
 
 #include "system.h"
 
+/* SCCB æ€»çº¿å¼•è„š (GPIO æ¨¡æ‹Ÿ) */
+#define SCCB_SCL        PDout(6)  /* SCL â€” PD6 */
+#define SCCB_SDA        PDout(7)  /* SDA â€” PD7 (è¾“å‡ºæ—¶) */
+#define SCCB_READ_SDA   PDin(7)   /* SDA â€” PD7 (è¾“å…¥æ—¶) */
 
-//IO²Ù×÷º¯Êı	 
-#define SCCB_SCL    		PDout(6) 	//SCL
-#define SCCB_SDA    		PDout(7) 	//SDA	 
+/* OV7670 SCCB è®¾å¤‡åœ°å€ (7-bit: 0x21, å·¦ç§»1ä½: 0x42) */
+#define SCCB_ID         0x42
 
-#define SCCB_READ_SDA    	PDin(7)  		//ÊäÈëSDA    
-#define SCCB_ID   			0X42  			//OV7670µÄID
-
-///////////////////////////////////////////
+/* å‡½æ•°å£°æ˜ */
 void SCCB_Init(void);
 void SCCB_Start(void);
 void SCCB_Stop(void);
 void SCCB_No_Ack(void);
-u8 SCCB_WR_Byte(u8 dat);
-u8 SCCB_RD_Byte(void);
-u8 SCCB_WR_Reg(u8 reg,u8 data);
-u8 SCCB_RD_Reg(u8 reg);
+u8   SCCB_WR_Byte(u8 dat);
+u8   SCCB_RD_Byte(void);
+u8   SCCB_WR_Reg(u8 reg, u8 data);
+u8   SCCB_RD_Reg(u8 reg);
 
-
-
-#endif
-
+#endif /* _SCCB_H_ */

@@ -29,6 +29,8 @@
 #include "mode_ui.h"
 #include "settings_ui.h"
 #include "clock_ui.h"
+#include "camera_ui.h"
+#include "ov7670.h"
 #include "spi_img_loader.h"
 #include "lfs_port.h"
 /* hw_diag.h — 探索期遗留，擦写 SPI Flash 影响启动时间，移除 */
@@ -73,7 +75,7 @@ extern volatile uint8_t  g_rx_flag;
 osThreadId_t guiTaskHandle;
 const osThreadAttr_t guiTask_attributes = {
   .name = "guiTask",
-  .stack_size = 1024 * 8,
+  .stack_size = 1024 * 32,
   .priority = (osPriority_t) osPriorityAboveNormal,
 };
 
@@ -237,6 +239,12 @@ void StartGUITask(void *argument)
     printf("[GUI] Init done, entering loop\r\n");
 
     for (;;) {
+        if (g_camera_active) {
+            camera_refresh();
+            lv_timer_handler();  /* 保持 LVGL 活性（Back 按钮响应、屏幕刷新） */
+            osDelay(5);
+            continue;
+        }
         lv_timer_handler();
 
         /* OTA 触发：由按钮回调设标志，主循环执行（确保 LVGL 刷新完毕） */

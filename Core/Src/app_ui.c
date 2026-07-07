@@ -16,6 +16,7 @@
 #include "mode_ui.h"
 #include "settings_ui.h"
 #include "clock_ui.h"
+#include "camera_ui.h"
 #include "spi_img_loader.h"
 #include <stdio.h>
 
@@ -29,6 +30,7 @@ static void btn_ota_cb(lv_event_t *e);
 static void btn_mode_cb(lv_event_t *e);
 static void btn_settings_cb(lv_event_t *e);
 static void btn_clock_cb(lv_event_t *e);
+static void btn_camera_cb(lv_event_t *e);
 
 /* ── 全局控件引用（供更新函数使用）── */
 lv_obj_t *ui_scr_main;     /* 非 static — mode_ui.c 需要引用 */
@@ -314,6 +316,19 @@ static void create_button_bar(void)
     lv_obj_set_style_text_color(lbl_clock, lv_color_hex(0xffffff), LV_PART_MAIN);
     lv_obj_set_style_text_font(lbl_clock, &ui_font_chinese_16, LV_PART_MAIN);
     lv_obj_center(lbl_clock);
+
+    /* 摄像头按钮 */
+    lv_obj_t *btn_cam = lv_btn_create(bar);
+    lv_obj_set_size(btn_cam, 100, 28);
+    lv_obj_set_style_bg_color(btn_cam, lv_color_hex(0x224488), LV_PART_MAIN);
+    lv_obj_set_style_radius(btn_cam, 4, LV_PART_MAIN);
+    lv_obj_align(btn_cam, LV_ALIGN_LEFT_MID, 560, 0);
+    lv_obj_add_event_cb(btn_cam, btn_camera_cb, LV_EVENT_CLICKED, NULL);
+    lv_obj_t *lbl_cam = lv_label_create(btn_cam);
+    lv_label_set_text(lbl_cam, "Camera");
+    lv_obj_set_style_text_color(lbl_cam, lv_color_hex(0xffffff), LV_PART_MAIN);
+    lv_obj_set_style_text_font(lbl_cam, &lv_font_montserrat_20, LV_PART_MAIN);
+    lv_obj_center(lbl_cam);
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -533,19 +548,37 @@ void ui_apply_theme(uint8_t tid)
 static void btn_mode_cb(lv_event_t *e)
 {
     (void)e;
+    printf("[DBG] mode_ui_show enter\n");
+    fflush(stdout);
     mode_ui_show();
+    printf("[DBG] mode_ui_show exit\n");
 }
 
 static void btn_settings_cb(lv_event_t *e)
 {
     (void)e;
+    printf("[DBG] settings_ui_show enter\n");
+    fflush(stdout);
     settings_ui_show();
+    printf("[DBG] settings_ui_show exit\n");
 }
 
 static void btn_clock_cb(lv_event_t *e)
 {
     (void)e;
+    printf("[DBG] clock_ui_show enter\n");
+    fflush(stdout);
     clock_ui_show();
+    printf("[DBG] clock_ui_show exit\n");
+}
+
+/* ═══════════════════════════════════════════════════════════
+ *  摄像头按钮事件
+ * ═══════════════════════════════════════════════════════════ */
+static void btn_camera_cb(lv_event_t *e)
+{
+    (void)e;
+    camera_ui_show();
 }
 
 /* ═══════════════════════════════════════════════════════════

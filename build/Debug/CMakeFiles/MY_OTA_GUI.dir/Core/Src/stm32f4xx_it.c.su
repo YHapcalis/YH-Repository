@@ -5,6 +5,6 @@ E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/stm32f4xx_it.c:111:6:
 E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/stm32f4xx_it.c:126:6:BusFault_Handler	0	static
 E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/stm32f4xx_it.c:141:6:UsageFault_Handler	0	static
 E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/stm32f4xx_it.c:156:6:DebugMon_Handler	0	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/stm32f4xx_it.c:176:6:EXTI9_5_IRQHandler	8	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/stm32f4xx_it.c:204:6:TIM3_IRQHandler	8	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/stm32f4xx_it.c:218:6:USART1_IRQHandler	8	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/stm32f4xx_it.c:180:6:EXTI9_5_IRQHandler	0	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/stm32f4xx_it.c:211:6:TIM3_IRQHandler	8	static
+E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/stm32f4xx_it.c:225:6:USART1_IRQHandler	8	static

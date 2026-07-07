@@ -101,6 +101,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     Core/Src/settings_ui.c
     Core/Src/spi_img_loader.c
     Core/Src/clock_ui.c
+    Core/Src/camera_ui.c
 
     # LittleFS 文件系统
     Core/ThirdParty/littlefs/lfs.c
