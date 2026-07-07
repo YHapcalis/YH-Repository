@@ -75,7 +75,7 @@ extern volatile uint8_t  g_rx_flag;
 osThreadId_t guiTaskHandle;
 const osThreadAttr_t guiTask_attributes = {
   .name = "guiTask",
-  .stack_size = 1024 * 32,
+  .stack_size = 1024 * 12,
   .priority = (osPriority_t) osPriorityAboveNormal,
 };
 
@@ -92,6 +92,10 @@ const osThreadAttr_t canRxTask_attributes = {
   .stack_size = 512 * 4,
   .priority = (osPriority_t) osPriorityNormal,
 };
+/* ── CAN → LVGL 延迟更新标志 (CAN 任务只设标志, GUI 任务消费, 避免线程冲突) ── */
+volatile uint8_t g_can_sensor_pending = 0;
+volatile uint8_t g_can_time_pending   = 0;
+volatile uint8_t g_can_time_buf[6]    = {0};
 /* USER CODE END Variables */
 /* Definitions for defaultTask */
 osThreadId_t defaultTaskHandle;
@@ -239,6 +243,24 @@ void StartGUITask(void *argument)
     printf("[GUI] Init done, entering loop\r\n");
 
     for (;;) {
+        /* ── 处理 CAN 数据延迟更新 (避免 CAN 任务直接调用 LVGL) ── */
+        if (g_can_sensor_pending) {
+            g_can_sensor_pending = 0;
+            uint8_t key_id   = (g_can_sensor.key_event >> 4) & 0x0F;
+            uint8_t key_type = g_can_sensor.key_event & 0x0F;
+            app_ui_update_sensor(g_can_sensor.temperature,
+                                 g_can_sensor.humidity,
+                                 g_can_sensor.knob,
+                                 key_id, key_type);
+            app_ui_set_can_status(1);
+        }
+        if (g_can_time_pending) {
+            g_can_time_pending = 0;
+            app_ui_update_time(g_can_time_buf[0], g_can_time_buf[1],
+                               g_can_time_buf[2], g_can_time_buf[3],
+                               g_can_time_buf[4], g_can_time_buf[5]);
+        }
+
         if (g_camera_active) {
             camera_refresh();
             lv_timer_handler();  /* 保持 LVGL 活性（Back 按钮响应、屏幕刷新） */
@@ -328,14 +350,7 @@ void StartCanRxTask(void *argument)
             /* 识别 F103 传感器帧 (ID=0x12) */
             if (rx_id == CAN_ID_SENSOR) {
                 canif_parse_sensor(rx_buf, len);
-                /* 更新 GUI */
-                uint8_t key_id   = (g_can_sensor.key_event >> 4) & 0x0F;
-                uint8_t key_type = g_can_sensor.key_event & 0x0F;
-                app_ui_update_sensor(g_can_sensor.temperature,
-                                     g_can_sensor.humidity,
-                                     g_can_sensor.knob,
-                                     key_id, key_type);
-                app_ui_set_can_status(1);
+                g_can_sensor_pending = 1;  /* GUI 任务统一更新 LVGL, 避免线程冲突 */
             }
             /* OTA 触发命令 (ID=0x0B3, Magic=BE AD BE EF) */
             else if (rx_id == CAN_ID_CALL_OTA && len >= 5) {
@@ -350,8 +365,8 @@ void StartCanRxTask(void *argument)
             }
             /* RTC 时间帧 (ID=0x13, F103 每秒发送) */
             else if (rx_id == 0x13 && len >= 6) {
-                app_ui_update_time(rx_buf[0], rx_buf[1], rx_buf[2],
-                                   rx_buf[3], rx_buf[4], rx_buf[5]);
+                for (int i = 0; i < 6; i++) g_can_time_buf[i] = rx_buf[i];
+                g_can_time_pending = 1;
             }
             /* 未知 ID — 仅调试时打印 */
             else {

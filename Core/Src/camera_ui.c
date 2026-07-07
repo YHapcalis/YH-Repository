@@ -11,6 +11,8 @@
 #include "ov7670.h"
 #include <stdio.h>
 
+LV_FONT_DECLARE(ui_font_chinese_16);
+
 static lv_obj_t *ui_scr_camera = NULL;
 
 volatile uint8_t g_camera_active = 0;
@@ -66,7 +68,7 @@ static void camera_ui_build(void)
     lv_obj_add_event_cb(btn_back, btn_back_cb, LV_EVENT_CLICKED, NULL);
     lv_obj_t *lbl_back = lv_label_create(btn_back);
     lv_label_set_text(lbl_back, "\xE2\x86\x90 Back");
-    lv_obj_set_style_text_font(lbl_back, &lv_font_montserrat_16, LV_PART_MAIN);
+    lv_obj_set_style_text_font(lbl_back, &ui_font_chinese_16, LV_PART_MAIN);
     lv_obj_set_style_text_color(lbl_back, lv_color_hex(0xffffff), LV_PART_MAIN);
     lv_obj_center(lbl_back);
 
@@ -127,7 +129,7 @@ void camera_ui_hide(void)
 
     extern lv_obj_t *ui_scr_main;
     if (ui_scr_main)
-        lv_scr_load_anim(ui_scr_main, LV_SCR_LOAD_ANIM_FADE_IN, 200, 0, false);
+        lv_scr_load(ui_scr_main);  /* 立即切换, 不用渐变动画 */
 
     printf("[CAM] Preview stopped\n");
 }
