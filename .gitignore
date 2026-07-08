@@ -18,3 +18,4 @@ build/
 # 临时
 param_ota.bin
 param_init.bin
+archive/
