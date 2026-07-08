@@ -113,6 +113,29 @@ const osThreadAttr_t defaultTask_attributes = {
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
+
+/**
+ * ============================================================
+ *  GUI 主任务 (APPLICATION 层)
+ * ============================================================
+ * 职责: 管理整个图形界面生命周期
+ *
+ * 初始化顺序 (必须):
+ *   1. LVGL 内核 + 显示驱动 (lcd_init / lv_port_disp_init)
+ *   2. SPI Flash 驱动 (图片文件系统基石)
+ *   3. LittleFS 挂载 (管理文件备份)
+ *   4. CAN 接口启动 (接收 F103 传感器数据)
+ *   5. 触摸屏初始化 + 注册 LVGL 输入设备
+ *   6. 从 SPI Flash 预加载图片到外部 SRAM
+ *   7. 创建四屏 UI 对象 (Home / Mode / Settings / Clock)
+ *
+ * 主循环逻辑:
+ *   - 摄像头激活时: camera_refresh + lv_timer_handler
+ *   - 正常模式: lv_timer_handler(处理触摸事件+渲染)
+ *   - 每次循环检查 CAN 延迟更新标志
+ *   - osDelay(5) 让出 CPU 给低优先级任务
+ */
+
 void StartGUITask(void *argument);
 void StartTouchTask(void *argument);
 void StartCanRxTask(void *argument);

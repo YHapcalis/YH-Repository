@@ -1,7 +1,26 @@
 /**
  * @file    en25q128.c
- * @brief   W25Q128JV 寄存器级驱动 — SPI1 直接操作，不依赖 HAL SPI 句柄
- *          硬件：PB3=SCK, PB4=MISO, PB5=MOSI, PB14=CS (SPI1-AF5)
+ * @brief   W25Q128JV SPI Flash 驱动 (DRIVER 层)
+ *
+ * 硬件连接: SPI1 @ PB3(SCK) PB4(MISO) PB5(MOSI) PB14(CS)
+ * 通信协议: SPI Mode 3 (CPOL=1, CPHA=1), MSB first
+ *
+ * 关键命令表:
+ *   0x03  读数据         1+3+N 字节, 无页限制
+ *   0x02  页编程(写)     1+3+N 字节, 每页 ≤256 字节
+ *   0x20  扇区擦除(4KB)  1+3 字节, ~45ms
+ *   0xD8  块擦除(64KB)   1+3 字节, ~1s
+ *   0x06  写使能
+ *   0x9F  读 JEDEC ID    1+3 字节 → 0xEF6018 (Winbond W25Q128JV)
+ *
+ * 注意: SPI GPIO 速度用 MEDIUM(25MHz) 而非 VERY_HIGH(100MHz),
+ *       后者会引起过冲/串扰导致通信出错！
+ *
+ * ============================================================
+ * 本文件同时承担了两层职责:
+ *   DRIVER:  EN25Q128_Read/Write/Erase — 裸 SPI Flash 操作
+ *   SERVICE: EN25Q128_BackupFirmware   — 固件备份/恢复
+ * ============================================================
  */
 
 #include "en25q128.h"
@@ -16,7 +35,7 @@
 
 static uint8_t g_br = EN25Q128_BR_SAFE; /* 当前分频系数 */
 
-/* ---- SPI1 字节交换 ---- */
+/* ---- SPI1 单字节收发 (等待模式, 阻塞直到完成) ---- */
 static uint8_t spi1_xfer(uint8_t tx)
 {
     /* 等待 TXE (发送缓冲空) */

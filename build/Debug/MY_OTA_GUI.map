@@ -38601,7 +38601,7 @@ LOAD linker stubs
  .comment       0x00000043       0x44 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-ctype_.o)
  .comment       0x00000043       0x44 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-msizer.o)
 
-.debug_info     0x00000000   0x16c60d
+.debug_info     0x00000000   0x16c611
  .debug_info    0x00000000      0x52b cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Core/Src/system_stm32f4xx.c.obj
  .debug_info    0x0000052b     0x3c57 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c.obj
  .debug_info    0x00004182     0x1ae2 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c.obj
@@ -38725,105 +38725,105 @@ LOAD linker stubs
  .debug_info    0x0011041e     0x6875 CMakeFiles/lvgl.dir/lvgl-8.3.0/src/widgets/lv_textarea.c.obj
  .debug_info    0x00116c93     0x155f CMakeFiles/MY_OTA_GUI.dir/Core/Src/main.c.obj
  .debug_info    0x001181f2      0xa97 CMakeFiles/MY_OTA_GUI.dir/Core/Src/gpio.c.obj
- .debug_info    0x00118c89     0x35f5 CMakeFiles/MY_OTA_GUI.dir/Core/Src/freertos.c.obj
- .debug_info    0x0011c27e      0x8c5 CMakeFiles/MY_OTA_GUI.dir/Core/Src/can.c.obj
- .debug_info    0x0011cb43      0xbda CMakeFiles/MY_OTA_GUI.dir/Core/Src/fsmc.c.obj
- .debug_info    0x0011d71d      0x9ae CMakeFiles/MY_OTA_GUI.dir/Core/Src/spi.c.obj
- .debug_info    0x0011e0cb      0xd9a CMakeFiles/MY_OTA_GUI.dir/Core/Src/usart.c.obj
- .debug_info    0x0011ee65      0xa32 CMakeFiles/MY_OTA_GUI.dir/Core/Src/stm32f4xx_it.c.obj
- .debug_info    0x0011f897      0x4d5 CMakeFiles/MY_OTA_GUI.dir/Core/Src/stm32f4xx_hal_msp.c.obj
- .debug_info    0x0011fd6c      0xc92 CMakeFiles/MY_OTA_GUI.dir/Core/Src/stm32f4xx_hal_timebase_tim.c.obj
- .debug_info    0x001209fe      0x175 CMakeFiles/MY_OTA_GUI.dir/Core/Src/sysmem.c.obj
- .debug_info    0x00120b73      0x797 CMakeFiles/MY_OTA_GUI.dir/Core/Src/syscalls.c.obj
- .debug_info    0x0012130a       0x30 CMakeFiles/MY_OTA_GUI.dir/startup_stm32f407xx.s.obj
- .debug_info    0x0012133a     0x193f CMakeFiles/MY_OTA_GUI.dir/Core/Src/en25q128.c.obj
- .debug_info    0x00122c79      0x9d7 CMakeFiles/MY_OTA_GUI.dir/Core/Src/nt35510.c.obj
- .debug_info    0x00123650     0x1f2f CMakeFiles/MY_OTA_GUI.dir/Core/Src/lv_port_disp.c.obj
- .debug_info    0x0012557f      0x77b CMakeFiles/MY_OTA_GUI.dir/Core/Src/lv_fs_spi_flash.c.obj
- .debug_info    0x00125cfa      0x512 CMakeFiles/MY_OTA_GUI.dir/Core/Src/inter_flash_cfg.c.obj
- .debug_info    0x0012620c      0x3d1 CMakeFiles/MY_OTA_GUI.dir/Core/Src/inter_flashif.c.obj
- .debug_info    0x001265dd      0x80c CMakeFiles/MY_OTA_GUI.dir/Core/Src/touch/ctiic.c.obj
- .debug_info    0x00126de9      0xb0d CMakeFiles/MY_OTA_GUI.dir/Core/Src/touch/gt5663.c.obj
- .debug_info    0x001278f6     0x2666 CMakeFiles/MY_OTA_GUI.dir/Core/Src/touch/touch.c.obj
- .debug_info    0x00129f5c      0xa05 CMakeFiles/MY_OTA_GUI.dir/BSP/Canif/canif.c.obj
- .debug_info    0x0012a961     0x46de CMakeFiles/MY_OTA_GUI.dir/Core/Src/app_ui.c.obj
- .debug_info    0x0012f03f      0x66f CMakeFiles/MY_OTA_GUI.dir/Core/Src/ui_font_chinese_16.c.obj
- .debug_info    0x0012f6ae      0x66f CMakeFiles/MY_OTA_GUI.dir/Core/Src/ui_font_chinese_20.c.obj
- .debug_info    0x0012fd1d     0x45dc CMakeFiles/MY_OTA_GUI.dir/Core/Src/mode_ui.c.obj
- .debug_info    0x001342f9     0x276a CMakeFiles/MY_OTA_GUI.dir/Core/Src/settings_ui.c.obj
- .debug_info    0x00136a63      0xe78 CMakeFiles/MY_OTA_GUI.dir/Core/Src/spi_img_loader.c.obj
- .debug_info    0x001378db     0x2cfb CMakeFiles/MY_OTA_GUI.dir/Core/Src/clock_ui.c.obj
- .debug_info    0x0013a5d6     0x1b65 CMakeFiles/MY_OTA_GUI.dir/Core/Src/camera_ui.c.obj
- .debug_info    0x0013c13b     0xda9e CMakeFiles/MY_OTA_GUI.dir/Core/ThirdParty/littlefs/lfs.c.obj
- .debug_info    0x00149bd9      0x9b9 CMakeFiles/MY_OTA_GUI.dir/Core/Src/lfs_port.c.obj
- .debug_info    0x0014a592      0xfcd CMakeFiles/MY_OTA_GUI.dir/Core/Src/ov7670.c.obj
- .debug_info    0x0014b55f      0x88a CMakeFiles/MY_OTA_GUI.dir/Core/Src/sccb.c.obj
- .debug_info    0x0014bde9      0x2f8 CMakeFiles/MY_OTA_GUI.dir/Core/Src/delay.c.obj
- .debug_info    0x0014c0e1      0x836 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-assert.o)
- .debug_info    0x0014c917      0x7a0 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-malloc.o)
- .debug_info    0x0014d0b7      0x9bc C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-mallocr.o)
- .debug_info    0x0014da73      0x76b C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-mlock.o)
- .debug_info    0x0014e1de     0x12df C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-nano-vfprintf_float.o)
- .debug_info    0x0014f4bd      0xde2 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-nano-vfprintf_i.o)
- .debug_info    0x0015029f      0x9f2 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-fflush.o)
- .debug_info    0x00150c91      0xfb8 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-findfp.o)
- .debug_info    0x00151c49      0x867 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-fprintf.o)
- .debug_info    0x001524b0      0x7d2 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-fwalk.o)
- .debug_info    0x00152c82      0x841 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-printf.o)
- .debug_info    0x001534c3      0x950 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-puts.o)
- .debug_info    0x00153e13      0x8b9 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-snprintf.o)
- .debug_info    0x001546cc      0x8f6 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-sscanf.o)
- .debug_info    0x00154fc2      0xa90 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-stdio.o)
- .debug_info    0x00155a52      0x874 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-wbuf.o)
- .debug_info    0x001562c6      0x7bb C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-wsetup.o)
- .debug_info    0x00156a81      0x100 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memcmp.o)
- .debug_info    0x00156b81      0x10f C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memmove.o)
- .debug_info    0x00156c90       0xe0 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memset.o)
- .debug_info    0x00156d70       0xf4 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strchr.o)
- .debug_info    0x00156e64       0xf5 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strcspn.o)
- .debug_info    0x00156f59       0xf5 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strspn.o)
- .debug_info    0x0015704e      0xa18 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-localeconv.o)
- .debug_info    0x00157a66      0x75d C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-closer.o)
- .debug_info    0x001581c3      0x8a1 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-reent.o)
- .debug_info    0x00158a64      0x715 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-impure.o)
- .debug_info    0x00159179      0x7a8 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-lseekr.o)
- .debug_info    0x00159921      0x7bf C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-readr.o)
- .debug_info    0x0015a0e0      0x782 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-sbrkr.o)
- .debug_info    0x0015a862      0x7c5 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-writer.o)
- .debug_info    0x0015b027      0x6fb C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-errno.o)
- .debug_info    0x0015b722      0x10b C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-init.o)
- .debug_info    0x0015b82d      0x218 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-lock.o)
- .debug_info    0x0015ba45       0x31 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strcmp.o)
- .debug_info    0x0015ba76       0xc3 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strcpy.o)
- .debug_info    0x0015bb39       0x25 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memchr.o)
- .debug_info    0x0015bb5e      0x121 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memcpy-stub.o)
- .debug_info    0x0015bc7f       0x31 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strlen.o)
- .debug_info    0x0015bcb0       0xd8 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-abort.o)
- .debug_info    0x0015bd88     0x17f5 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-dtoa.o)
- .debug_info    0x0015d57d      0x851 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-freer.o)
- .debug_info    0x0015ddce     0x1dcc C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-mprec.o)
- .debug_info    0x0015fb9a     0x10b3 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-nano-svfprintf.o)
- .debug_info    0x00160c4d      0xf09 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-nano-svfscanf.o)
- .debug_info    0x00161b56     0x1094 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-nano-vfprintf.o)
- .debug_info    0x00162bea      0xdc0 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-nano-vfscanf_i.o)
- .debug_info    0x001639aa      0xb15 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-makebuf.o)
- .debug_info    0x001644bf      0x10e C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-sccl.o)
- .debug_info    0x001645cd      0x99f C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-ungetc.o)
- .debug_info    0x00164f6c      0xa13 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-signal.o)
- .debug_info    0x0016597f      0xb44 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-locale.o)
- .debug_info    0x001664c3      0x981 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-fstatr.o)
- .debug_info    0x00166e44      0x75d C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-isattyr.o)
- .debug_info    0x001675a1      0x7ea C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-signalr.o)
- .debug_info    0x00167d8b      0x7cd C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-callocr.o)
- .debug_info    0x00168558      0xaba C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-mbtowc_r.o)
- .debug_info    0x00169012      0x8cd C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-reallocr.o)
- .debug_info    0x001698df      0xd7f C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strtol.o)
- .debug_info    0x0016a65e      0xce3 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strtoul.o)
- .debug_info    0x0016b341      0xa7f C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-wctomb_r.o)
- .debug_info    0x0016bdc0       0xb9 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-ctype_.o)
- .debug_info    0x0016be79      0x794 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-msizer.o)
+ .debug_info    0x00118c89     0x35f3 CMakeFiles/MY_OTA_GUI.dir/Core/Src/freertos.c.obj
+ .debug_info    0x0011c27c      0x8c5 CMakeFiles/MY_OTA_GUI.dir/Core/Src/can.c.obj
+ .debug_info    0x0011cb41      0xbda CMakeFiles/MY_OTA_GUI.dir/Core/Src/fsmc.c.obj
+ .debug_info    0x0011d71b      0x9ae CMakeFiles/MY_OTA_GUI.dir/Core/Src/spi.c.obj
+ .debug_info    0x0011e0c9      0xd9a CMakeFiles/MY_OTA_GUI.dir/Core/Src/usart.c.obj
+ .debug_info    0x0011ee63      0xa32 CMakeFiles/MY_OTA_GUI.dir/Core/Src/stm32f4xx_it.c.obj
+ .debug_info    0x0011f895      0x4d5 CMakeFiles/MY_OTA_GUI.dir/Core/Src/stm32f4xx_hal_msp.c.obj
+ .debug_info    0x0011fd6a      0xc92 CMakeFiles/MY_OTA_GUI.dir/Core/Src/stm32f4xx_hal_timebase_tim.c.obj
+ .debug_info    0x001209fc      0x175 CMakeFiles/MY_OTA_GUI.dir/Core/Src/sysmem.c.obj
+ .debug_info    0x00120b71      0x797 CMakeFiles/MY_OTA_GUI.dir/Core/Src/syscalls.c.obj
+ .debug_info    0x00121308       0x30 CMakeFiles/MY_OTA_GUI.dir/startup_stm32f407xx.s.obj
+ .debug_info    0x00121338     0x1945 CMakeFiles/MY_OTA_GUI.dir/Core/Src/en25q128.c.obj
+ .debug_info    0x00122c7d      0x9d7 CMakeFiles/MY_OTA_GUI.dir/Core/Src/nt35510.c.obj
+ .debug_info    0x00123654     0x1f2f CMakeFiles/MY_OTA_GUI.dir/Core/Src/lv_port_disp.c.obj
+ .debug_info    0x00125583      0x77b CMakeFiles/MY_OTA_GUI.dir/Core/Src/lv_fs_spi_flash.c.obj
+ .debug_info    0x00125cfe      0x512 CMakeFiles/MY_OTA_GUI.dir/Core/Src/inter_flash_cfg.c.obj
+ .debug_info    0x00126210      0x3d1 CMakeFiles/MY_OTA_GUI.dir/Core/Src/inter_flashif.c.obj
+ .debug_info    0x001265e1      0x80c CMakeFiles/MY_OTA_GUI.dir/Core/Src/touch/ctiic.c.obj
+ .debug_info    0x00126ded      0xb0d CMakeFiles/MY_OTA_GUI.dir/Core/Src/touch/gt5663.c.obj
+ .debug_info    0x001278fa     0x2666 CMakeFiles/MY_OTA_GUI.dir/Core/Src/touch/touch.c.obj
+ .debug_info    0x00129f60      0xa05 CMakeFiles/MY_OTA_GUI.dir/BSP/Canif/canif.c.obj
+ .debug_info    0x0012a965     0x46de CMakeFiles/MY_OTA_GUI.dir/Core/Src/app_ui.c.obj
+ .debug_info    0x0012f043      0x66f CMakeFiles/MY_OTA_GUI.dir/Core/Src/ui_font_chinese_16.c.obj
+ .debug_info    0x0012f6b2      0x66f CMakeFiles/MY_OTA_GUI.dir/Core/Src/ui_font_chinese_20.c.obj
+ .debug_info    0x0012fd21     0x45dc CMakeFiles/MY_OTA_GUI.dir/Core/Src/mode_ui.c.obj
+ .debug_info    0x001342fd     0x276a CMakeFiles/MY_OTA_GUI.dir/Core/Src/settings_ui.c.obj
+ .debug_info    0x00136a67      0xe78 CMakeFiles/MY_OTA_GUI.dir/Core/Src/spi_img_loader.c.obj
+ .debug_info    0x001378df     0x2cfb CMakeFiles/MY_OTA_GUI.dir/Core/Src/clock_ui.c.obj
+ .debug_info    0x0013a5da     0x1b65 CMakeFiles/MY_OTA_GUI.dir/Core/Src/camera_ui.c.obj
+ .debug_info    0x0013c13f     0xda9e CMakeFiles/MY_OTA_GUI.dir/Core/ThirdParty/littlefs/lfs.c.obj
+ .debug_info    0x00149bdd      0x9b9 CMakeFiles/MY_OTA_GUI.dir/Core/Src/lfs_port.c.obj
+ .debug_info    0x0014a596      0xfcd CMakeFiles/MY_OTA_GUI.dir/Core/Src/ov7670.c.obj
+ .debug_info    0x0014b563      0x88a CMakeFiles/MY_OTA_GUI.dir/Core/Src/sccb.c.obj
+ .debug_info    0x0014bded      0x2f8 CMakeFiles/MY_OTA_GUI.dir/Core/Src/delay.c.obj
+ .debug_info    0x0014c0e5      0x836 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-assert.o)
+ .debug_info    0x0014c91b      0x7a0 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-malloc.o)
+ .debug_info    0x0014d0bb      0x9bc C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-mallocr.o)
+ .debug_info    0x0014da77      0x76b C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-mlock.o)
+ .debug_info    0x0014e1e2     0x12df C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-nano-vfprintf_float.o)
+ .debug_info    0x0014f4c1      0xde2 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-nano-vfprintf_i.o)
+ .debug_info    0x001502a3      0x9f2 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-fflush.o)
+ .debug_info    0x00150c95      0xfb8 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-findfp.o)
+ .debug_info    0x00151c4d      0x867 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-fprintf.o)
+ .debug_info    0x001524b4      0x7d2 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-fwalk.o)
+ .debug_info    0x00152c86      0x841 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-printf.o)
+ .debug_info    0x001534c7      0x950 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-puts.o)
+ .debug_info    0x00153e17      0x8b9 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-snprintf.o)
+ .debug_info    0x001546d0      0x8f6 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-sscanf.o)
+ .debug_info    0x00154fc6      0xa90 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-stdio.o)
+ .debug_info    0x00155a56      0x874 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-wbuf.o)
+ .debug_info    0x001562ca      0x7bb C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-wsetup.o)
+ .debug_info    0x00156a85      0x100 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memcmp.o)
+ .debug_info    0x00156b85      0x10f C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memmove.o)
+ .debug_info    0x00156c94       0xe0 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memset.o)
+ .debug_info    0x00156d74       0xf4 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strchr.o)
+ .debug_info    0x00156e68       0xf5 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strcspn.o)
+ .debug_info    0x00156f5d       0xf5 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strspn.o)
+ .debug_info    0x00157052      0xa18 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-localeconv.o)
+ .debug_info    0x00157a6a      0x75d C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-closer.o)
+ .debug_info    0x001581c7      0x8a1 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-reent.o)
+ .debug_info    0x00158a68      0x715 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-impure.o)
+ .debug_info    0x0015917d      0x7a8 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-lseekr.o)
+ .debug_info    0x00159925      0x7bf C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-readr.o)
+ .debug_info    0x0015a0e4      0x782 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-sbrkr.o)
+ .debug_info    0x0015a866      0x7c5 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-writer.o)
+ .debug_info    0x0015b02b      0x6fb C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-errno.o)
+ .debug_info    0x0015b726      0x10b C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-init.o)
+ .debug_info    0x0015b831      0x218 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-lock.o)
+ .debug_info    0x0015ba49       0x31 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strcmp.o)
+ .debug_info    0x0015ba7a       0xc3 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strcpy.o)
+ .debug_info    0x0015bb3d       0x25 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memchr.o)
+ .debug_info    0x0015bb62      0x121 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memcpy-stub.o)
+ .debug_info    0x0015bc83       0x31 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strlen.o)
+ .debug_info    0x0015bcb4       0xd8 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-abort.o)
+ .debug_info    0x0015bd8c     0x17f5 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-dtoa.o)
+ .debug_info    0x0015d581      0x851 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-freer.o)
+ .debug_info    0x0015ddd2     0x1dcc C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-mprec.o)
+ .debug_info    0x0015fb9e     0x10b3 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-nano-svfprintf.o)
+ .debug_info    0x00160c51      0xf09 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-nano-svfscanf.o)
+ .debug_info    0x00161b5a     0x1094 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-nano-vfprintf.o)
+ .debug_info    0x00162bee      0xdc0 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-nano-vfscanf_i.o)
+ .debug_info    0x001639ae      0xb15 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-makebuf.o)
+ .debug_info    0x001644c3      0x10e C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-sccl.o)
+ .debug_info    0x001645d1      0x99f C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-ungetc.o)
+ .debug_info    0x00164f70      0xa13 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-signal.o)
+ .debug_info    0x00165983      0xb44 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-locale.o)
+ .debug_info    0x001664c7      0x981 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-fstatr.o)
+ .debug_info    0x00166e48      0x75d C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-isattyr.o)
+ .debug_info    0x001675a5      0x7ea C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-signalr.o)
+ .debug_info    0x00167d8f      0x7cd C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-callocr.o)
+ .debug_info    0x0016855c      0xaba C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-mbtowc_r.o)
+ .debug_info    0x00169016      0x8cd C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-reallocr.o)
+ .debug_info    0x001698e3      0xd7f C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strtol.o)
+ .debug_info    0x0016a662      0xce3 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strtoul.o)
+ .debug_info    0x0016b345      0xa7f C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-wctomb_r.o)
+ .debug_info    0x0016bdc4       0xb9 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-ctype_.o)
+ .debug_info    0x0016be7d      0x794 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-msizer.o)
 
-.debug_abbrev   0x00000000    0x27b71
+.debug_abbrev   0x00000000    0x27b72
  .debug_abbrev  0x00000000      0x120 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Core/Src/system_stm32f4xx.c.obj
  .debug_abbrev  0x00000120      0x273 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c.obj
  .debug_abbrev  0x00000393      0x271 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c.obj
@@ -38947,103 +38947,103 @@ LOAD linker stubs
  .debug_abbrev  0x0001a324      0x633 CMakeFiles/lvgl.dir/lvgl-8.3.0/src/widgets/lv_textarea.c.obj
  .debug_abbrev  0x0001a957      0x333 CMakeFiles/MY_OTA_GUI.dir/Core/Src/main.c.obj
  .debug_abbrev  0x0001ac8a      0x188 CMakeFiles/MY_OTA_GUI.dir/Core/Src/gpio.c.obj
- .debug_abbrev  0x0001ae12      0x507 CMakeFiles/MY_OTA_GUI.dir/Core/Src/freertos.c.obj
- .debug_abbrev  0x0001b319      0x220 CMakeFiles/MY_OTA_GUI.dir/Core/Src/can.c.obj
- .debug_abbrev  0x0001b539      0x269 CMakeFiles/MY_OTA_GUI.dir/Core/Src/fsmc.c.obj
- .debug_abbrev  0x0001b7a2      0x21a CMakeFiles/MY_OTA_GUI.dir/Core/Src/spi.c.obj
- .debug_abbrev  0x0001b9bc      0x272 CMakeFiles/MY_OTA_GUI.dir/Core/Src/usart.c.obj
- .debug_abbrev  0x0001bc2e      0x1cc CMakeFiles/MY_OTA_GUI.dir/Core/Src/stm32f4xx_it.c.obj
- .debug_abbrev  0x0001bdfa      0x122 CMakeFiles/MY_OTA_GUI.dir/Core/Src/stm32f4xx_hal_msp.c.obj
- .debug_abbrev  0x0001bf1c      0x234 CMakeFiles/MY_OTA_GUI.dir/Core/Src/stm32f4xx_hal_timebase_tim.c.obj
- .debug_abbrev  0x0001c150       0xec CMakeFiles/MY_OTA_GUI.dir/Core/Src/sysmem.c.obj
- .debug_abbrev  0x0001c23c      0x1ca CMakeFiles/MY_OTA_GUI.dir/Core/Src/syscalls.c.obj
- .debug_abbrev  0x0001c406       0x24 CMakeFiles/MY_OTA_GUI.dir/startup_stm32f407xx.s.obj
- .debug_abbrev  0x0001c42a      0x3bb CMakeFiles/MY_OTA_GUI.dir/Core/Src/en25q128.c.obj
- .debug_abbrev  0x0001c7e5      0x281 CMakeFiles/MY_OTA_GUI.dir/Core/Src/nt35510.c.obj
- .debug_abbrev  0x0001ca66      0x361 CMakeFiles/MY_OTA_GUI.dir/Core/Src/lv_port_disp.c.obj
- .debug_abbrev  0x0001cdc7      0x1eb CMakeFiles/MY_OTA_GUI.dir/Core/Src/lv_fs_spi_flash.c.obj
- .debug_abbrev  0x0001cfb2      0x17b CMakeFiles/MY_OTA_GUI.dir/Core/Src/inter_flash_cfg.c.obj
- .debug_abbrev  0x0001d12d      0x1bd CMakeFiles/MY_OTA_GUI.dir/Core/Src/inter_flashif.c.obj
- .debug_abbrev  0x0001d2ea      0x1d8 CMakeFiles/MY_OTA_GUI.dir/Core/Src/touch/ctiic.c.obj
- .debug_abbrev  0x0001d4c2      0x264 CMakeFiles/MY_OTA_GUI.dir/Core/Src/touch/gt5663.c.obj
- .debug_abbrev  0x0001d726      0x31e CMakeFiles/MY_OTA_GUI.dir/Core/Src/touch/touch.c.obj
- .debug_abbrev  0x0001da44      0x260 CMakeFiles/MY_OTA_GUI.dir/BSP/Canif/canif.c.obj
- .debug_abbrev  0x0001dca4      0x598 CMakeFiles/MY_OTA_GUI.dir/Core/Src/app_ui.c.obj
- .debug_abbrev  0x0001e23c      0x173 CMakeFiles/MY_OTA_GUI.dir/Core/Src/ui_font_chinese_16.c.obj
- .debug_abbrev  0x0001e3af      0x173 CMakeFiles/MY_OTA_GUI.dir/Core/Src/ui_font_chinese_20.c.obj
- .debug_abbrev  0x0001e522      0x51e CMakeFiles/MY_OTA_GUI.dir/Core/Src/mode_ui.c.obj
- .debug_abbrev  0x0001ea40      0x44b CMakeFiles/MY_OTA_GUI.dir/Core/Src/settings_ui.c.obj
- .debug_abbrev  0x0001ee8b      0x2f5 CMakeFiles/MY_OTA_GUI.dir/Core/Src/spi_img_loader.c.obj
- .debug_abbrev  0x0001f180      0x403 CMakeFiles/MY_OTA_GUI.dir/Core/Src/clock_ui.c.obj
- .debug_abbrev  0x0001f583      0x3ee CMakeFiles/MY_OTA_GUI.dir/Core/Src/camera_ui.c.obj
- .debug_abbrev  0x0001f971      0x581 CMakeFiles/MY_OTA_GUI.dir/Core/ThirdParty/littlefs/lfs.c.obj
- .debug_abbrev  0x0001fef2      0x255 CMakeFiles/MY_OTA_GUI.dir/Core/Src/lfs_port.c.obj
- .debug_abbrev  0x00020147      0x378 CMakeFiles/MY_OTA_GUI.dir/Core/Src/ov7670.c.obj
- .debug_abbrev  0x000204bf      0x222 CMakeFiles/MY_OTA_GUI.dir/Core/Src/sccb.c.obj
- .debug_abbrev  0x000206e1      0x13b CMakeFiles/MY_OTA_GUI.dir/Core/Src/delay.c.obj
- .debug_abbrev  0x0002081c      0x1ea C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-assert.o)
- .debug_abbrev  0x00020a06      0x1cf C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-malloc.o)
- .debug_abbrev  0x00020bd5      0x24a C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-mallocr.o)
- .debug_abbrev  0x00020e1f      0x1bf C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-mlock.o)
- .debug_abbrev  0x00020fde      0x2f1 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-nano-vfprintf_float.o)
- .debug_abbrev  0x000212cf      0x28e C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-nano-vfprintf_i.o)
- .debug_abbrev  0x0002155d      0x2b2 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-fflush.o)
- .debug_abbrev  0x0002180f      0x424 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-findfp.o)
- .debug_abbrev  0x00021c33      0x21d C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-fprintf.o)
- .debug_abbrev  0x00021e50      0x19b C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-fwalk.o)
- .debug_abbrev  0x00021feb      0x21a C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-printf.o)
- .debug_abbrev  0x00022205      0x2a7 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-puts.o)
- .debug_abbrev  0x000224ac      0x231 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-snprintf.o)
- .debug_abbrev  0x000226dd      0x226 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-sscanf.o)
- .debug_abbrev  0x00022903      0x221 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-stdio.o)
- .debug_abbrev  0x00022b24      0x22d C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-wbuf.o)
- .debug_abbrev  0x00022d51      0x1e2 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-wsetup.o)
- .debug_abbrev  0x00022f33       0x8e C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memcmp.o)
- .debug_abbrev  0x00022fc1       0xac C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memmove.o)
- .debug_abbrev  0x0002306d       0x9e C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memset.o)
- .debug_abbrev  0x0002310b       0x82 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strchr.o)
- .debug_abbrev  0x0002318d       0xae C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strcspn.o)
- .debug_abbrev  0x0002323b       0xae C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strspn.o)
- .debug_abbrev  0x000232e9      0x237 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-localeconv.o)
- .debug_abbrev  0x00023520      0x1b0 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-closer.o)
- .debug_abbrev  0x000236d0      0x1f7 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-reent.o)
- .debug_abbrev  0x000238c7      0x149 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-impure.o)
- .debug_abbrev  0x00023a10      0x1c4 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-lseekr.o)
- .debug_abbrev  0x00023bd4      0x1b0 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-readr.o)
- .debug_abbrev  0x00023d84      0x1da C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-sbrkr.o)
- .debug_abbrev  0x00023f5e      0x1b5 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-writer.o)
- .debug_abbrev  0x00024113      0x15e C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-errno.o)
- .debug_abbrev  0x00024271       0xc9 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-init.o)
- .debug_abbrev  0x0002433a      0x115 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-lock.o)
- .debug_abbrev  0x0002444f       0x28 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strcmp.o)
- .debug_abbrev  0x00024477       0x7b C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strcpy.o)
- .debug_abbrev  0x000244f2       0x14 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memchr.o)
- .debug_abbrev  0x00024506       0xc1 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memcpy-stub.o)
- .debug_abbrev  0x000245c7       0x28 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strlen.o)
- .debug_abbrev  0x000245ef       0x99 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-abort.o)
- .debug_abbrev  0x00024688      0x32f C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-dtoa.o)
- .debug_abbrev  0x000249b7      0x236 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-freer.o)
- .debug_abbrev  0x00024bed      0x451 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-mprec.o)
- .debug_abbrev  0x0002503e      0x31e C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-nano-svfprintf.o)
- .debug_abbrev  0x0002535c      0x312 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-nano-svfscanf.o)
- .debug_abbrev  0x0002566e      0x316 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-nano-vfprintf.o)
- .debug_abbrev  0x00025984      0x29f C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-nano-vfscanf_i.o)
- .debug_abbrev  0x00025c23      0x290 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-makebuf.o)
- .debug_abbrev  0x00025eb3       0x9a C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-sccl.o)
- .debug_abbrev  0x00025f4d      0x278 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-ungetc.o)
- .debug_abbrev  0x000261c5      0x24e C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-signal.o)
- .debug_abbrev  0x00026413      0x25a C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-locale.o)
- .debug_abbrev  0x0002666d      0x1c3 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-fstatr.o)
- .debug_abbrev  0x00026830      0x1b0 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-isattyr.o)
- .debug_abbrev  0x000269e0      0x1fd C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-signalr.o)
- .debug_abbrev  0x00026bdd      0x1cd C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-callocr.o)
- .debug_abbrev  0x00026daa      0x211 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-mbtowc_r.o)
- .debug_abbrev  0x00026fbb      0x217 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-reallocr.o)
- .debug_abbrev  0x000271d2      0x2ee C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strtol.o)
- .debug_abbrev  0x000274c0      0x2c0 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strtoul.o)
- .debug_abbrev  0x00027780      0x1f9 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-wctomb_r.o)
- .debug_abbrev  0x00027979       0x62 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-ctype_.o)
- .debug_abbrev  0x000279db      0x196 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-msizer.o)
+ .debug_abbrev  0x0001ae12      0x509 CMakeFiles/MY_OTA_GUI.dir/Core/Src/freertos.c.obj
+ .debug_abbrev  0x0001b31b      0x220 CMakeFiles/MY_OTA_GUI.dir/Core/Src/can.c.obj
+ .debug_abbrev  0x0001b53b      0x269 CMakeFiles/MY_OTA_GUI.dir/Core/Src/fsmc.c.obj
+ .debug_abbrev  0x0001b7a4      0x21a CMakeFiles/MY_OTA_GUI.dir/Core/Src/spi.c.obj
+ .debug_abbrev  0x0001b9be      0x272 CMakeFiles/MY_OTA_GUI.dir/Core/Src/usart.c.obj
+ .debug_abbrev  0x0001bc30      0x1cc CMakeFiles/MY_OTA_GUI.dir/Core/Src/stm32f4xx_it.c.obj
+ .debug_abbrev  0x0001bdfc      0x122 CMakeFiles/MY_OTA_GUI.dir/Core/Src/stm32f4xx_hal_msp.c.obj
+ .debug_abbrev  0x0001bf1e      0x234 CMakeFiles/MY_OTA_GUI.dir/Core/Src/stm32f4xx_hal_timebase_tim.c.obj
+ .debug_abbrev  0x0001c152       0xec CMakeFiles/MY_OTA_GUI.dir/Core/Src/sysmem.c.obj
+ .debug_abbrev  0x0001c23e      0x1ca CMakeFiles/MY_OTA_GUI.dir/Core/Src/syscalls.c.obj
+ .debug_abbrev  0x0001c408       0x24 CMakeFiles/MY_OTA_GUI.dir/startup_stm32f407xx.s.obj
+ .debug_abbrev  0x0001c42c      0x3ba CMakeFiles/MY_OTA_GUI.dir/Core/Src/en25q128.c.obj
+ .debug_abbrev  0x0001c7e6      0x281 CMakeFiles/MY_OTA_GUI.dir/Core/Src/nt35510.c.obj
+ .debug_abbrev  0x0001ca67      0x361 CMakeFiles/MY_OTA_GUI.dir/Core/Src/lv_port_disp.c.obj
+ .debug_abbrev  0x0001cdc8      0x1eb CMakeFiles/MY_OTA_GUI.dir/Core/Src/lv_fs_spi_flash.c.obj
+ .debug_abbrev  0x0001cfb3      0x17b CMakeFiles/MY_OTA_GUI.dir/Core/Src/inter_flash_cfg.c.obj
+ .debug_abbrev  0x0001d12e      0x1bd CMakeFiles/MY_OTA_GUI.dir/Core/Src/inter_flashif.c.obj
+ .debug_abbrev  0x0001d2eb      0x1d8 CMakeFiles/MY_OTA_GUI.dir/Core/Src/touch/ctiic.c.obj
+ .debug_abbrev  0x0001d4c3      0x264 CMakeFiles/MY_OTA_GUI.dir/Core/Src/touch/gt5663.c.obj
+ .debug_abbrev  0x0001d727      0x31e CMakeFiles/MY_OTA_GUI.dir/Core/Src/touch/touch.c.obj
+ .debug_abbrev  0x0001da45      0x260 CMakeFiles/MY_OTA_GUI.dir/BSP/Canif/canif.c.obj
+ .debug_abbrev  0x0001dca5      0x598 CMakeFiles/MY_OTA_GUI.dir/Core/Src/app_ui.c.obj
+ .debug_abbrev  0x0001e23d      0x173 CMakeFiles/MY_OTA_GUI.dir/Core/Src/ui_font_chinese_16.c.obj
+ .debug_abbrev  0x0001e3b0      0x173 CMakeFiles/MY_OTA_GUI.dir/Core/Src/ui_font_chinese_20.c.obj
+ .debug_abbrev  0x0001e523      0x51e CMakeFiles/MY_OTA_GUI.dir/Core/Src/mode_ui.c.obj
+ .debug_abbrev  0x0001ea41      0x44b CMakeFiles/MY_OTA_GUI.dir/Core/Src/settings_ui.c.obj
+ .debug_abbrev  0x0001ee8c      0x2f5 CMakeFiles/MY_OTA_GUI.dir/Core/Src/spi_img_loader.c.obj
+ .debug_abbrev  0x0001f181      0x403 CMakeFiles/MY_OTA_GUI.dir/Core/Src/clock_ui.c.obj
+ .debug_abbrev  0x0001f584      0x3ee CMakeFiles/MY_OTA_GUI.dir/Core/Src/camera_ui.c.obj
+ .debug_abbrev  0x0001f972      0x581 CMakeFiles/MY_OTA_GUI.dir/Core/ThirdParty/littlefs/lfs.c.obj
+ .debug_abbrev  0x0001fef3      0x255 CMakeFiles/MY_OTA_GUI.dir/Core/Src/lfs_port.c.obj
+ .debug_abbrev  0x00020148      0x378 CMakeFiles/MY_OTA_GUI.dir/Core/Src/ov7670.c.obj
+ .debug_abbrev  0x000204c0      0x222 CMakeFiles/MY_OTA_GUI.dir/Core/Src/sccb.c.obj
+ .debug_abbrev  0x000206e2      0x13b CMakeFiles/MY_OTA_GUI.dir/Core/Src/delay.c.obj
+ .debug_abbrev  0x0002081d      0x1ea C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-assert.o)
+ .debug_abbrev  0x00020a07      0x1cf C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-malloc.o)
+ .debug_abbrev  0x00020bd6      0x24a C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-mallocr.o)
+ .debug_abbrev  0x00020e20      0x1bf C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-mlock.o)
+ .debug_abbrev  0x00020fdf      0x2f1 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-nano-vfprintf_float.o)
+ .debug_abbrev  0x000212d0      0x28e C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-nano-vfprintf_i.o)
+ .debug_abbrev  0x0002155e      0x2b2 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-fflush.o)
+ .debug_abbrev  0x00021810      0x424 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-findfp.o)
+ .debug_abbrev  0x00021c34      0x21d C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-fprintf.o)
+ .debug_abbrev  0x00021e51      0x19b C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-fwalk.o)
+ .debug_abbrev  0x00021fec      0x21a C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-printf.o)
+ .debug_abbrev  0x00022206      0x2a7 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-puts.o)
+ .debug_abbrev  0x000224ad      0x231 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-snprintf.o)
+ .debug_abbrev  0x000226de      0x226 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-sscanf.o)
+ .debug_abbrev  0x00022904      0x221 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-stdio.o)
+ .debug_abbrev  0x00022b25      0x22d C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-wbuf.o)
+ .debug_abbrev  0x00022d52      0x1e2 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-wsetup.o)
+ .debug_abbrev  0x00022f34       0x8e C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memcmp.o)
+ .debug_abbrev  0x00022fc2       0xac C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memmove.o)
+ .debug_abbrev  0x0002306e       0x9e C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memset.o)
+ .debug_abbrev  0x0002310c       0x82 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strchr.o)
+ .debug_abbrev  0x0002318e       0xae C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strcspn.o)
+ .debug_abbrev  0x0002323c       0xae C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strspn.o)
+ .debug_abbrev  0x000232ea      0x237 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-localeconv.o)
+ .debug_abbrev  0x00023521      0x1b0 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-closer.o)
+ .debug_abbrev  0x000236d1      0x1f7 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-reent.o)
+ .debug_abbrev  0x000238c8      0x149 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-impure.o)
+ .debug_abbrev  0x00023a11      0x1c4 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-lseekr.o)
+ .debug_abbrev  0x00023bd5      0x1b0 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-readr.o)
+ .debug_abbrev  0x00023d85      0x1da C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-sbrkr.o)
+ .debug_abbrev  0x00023f5f      0x1b5 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-writer.o)
+ .debug_abbrev  0x00024114      0x15e C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-errno.o)
+ .debug_abbrev  0x00024272       0xc9 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-init.o)
+ .debug_abbrev  0x0002433b      0x115 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-lock.o)
+ .debug_abbrev  0x00024450       0x28 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strcmp.o)
+ .debug_abbrev  0x00024478       0x7b C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strcpy.o)
+ .debug_abbrev  0x000244f3       0x14 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memchr.o)
+ .debug_abbrev  0x00024507       0xc1 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memcpy-stub.o)
+ .debug_abbrev  0x000245c8       0x28 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strlen.o)
+ .debug_abbrev  0x000245f0       0x99 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-abort.o)
+ .debug_abbrev  0x00024689      0x32f C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-dtoa.o)
+ .debug_abbrev  0x000249b8      0x236 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-freer.o)
+ .debug_abbrev  0x00024bee      0x451 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-mprec.o)
+ .debug_abbrev  0x0002503f      0x31e C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-nano-svfprintf.o)
+ .debug_abbrev  0x0002535d      0x312 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-nano-svfscanf.o)
+ .debug_abbrev  0x0002566f      0x316 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-nano-vfprintf.o)
+ .debug_abbrev  0x00025985      0x29f C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-nano-vfscanf_i.o)
+ .debug_abbrev  0x00025c24      0x290 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-makebuf.o)
+ .debug_abbrev  0x00025eb4       0x9a C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-sccl.o)
+ .debug_abbrev  0x00025f4e      0x278 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-ungetc.o)
+ .debug_abbrev  0x000261c6      0x24e C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-signal.o)
+ .debug_abbrev  0x00026414      0x25a C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-locale.o)
+ .debug_abbrev  0x0002666e      0x1c3 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-fstatr.o)
+ .debug_abbrev  0x00026831      0x1b0 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-isattyr.o)
+ .debug_abbrev  0x000269e1      0x1fd C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-signalr.o)
+ .debug_abbrev  0x00026bde      0x1cd C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-callocr.o)
+ .debug_abbrev  0x00026dab      0x211 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-mbtowc_r.o)
+ .debug_abbrev  0x00026fbc      0x217 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-reallocr.o)
+ .debug_abbrev  0x000271d3      0x2ee C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strtol.o)
+ .debug_abbrev  0x000274c1      0x2c0 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strtoul.o)
+ .debug_abbrev  0x00027781      0x1f9 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-wctomb_r.o)
+ .debug_abbrev  0x0002797a       0x62 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-ctype_.o)
+ .debug_abbrev  0x000279dc      0x196 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-msizer.o)
 
 .debug_loclists
                 0x00000000    0x687cd
@@ -40631,7 +40631,7 @@ LOAD linker stubs
  .debug_macro   0x000515ad       0x1c CMakeFiles/MY_OTA_GUI.dir/Core/Src/sccb.c.obj
  .debug_macro   0x000515c9      0x216 CMakeFiles/MY_OTA_GUI.dir/Core/Src/delay.c.obj
 
-.debug_line     0x00000000   0x15f363
+.debug_line     0x00000000   0x15f365
  .debug_line    0x00000000      0x916 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Core/Src/system_stm32f4xx.c.obj
  .debug_line    0x00000916     0x4d13 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c.obj
  .debug_line    0x00005629     0x206b cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c.obj
@@ -40766,92 +40766,92 @@ LOAD linker stubs
  .debug_line    0x001133dd      0x41e CMakeFiles/MY_OTA_GUI.dir/Core/Src/sysmem.c.obj
  .debug_line    0x001137fb      0x796 CMakeFiles/MY_OTA_GUI.dir/Core/Src/syscalls.c.obj
  .debug_line    0x00113f91       0x7a CMakeFiles/MY_OTA_GUI.dir/startup_stm32f407xx.s.obj
- .debug_line    0x0011400b     0x11f3 CMakeFiles/MY_OTA_GUI.dir/Core/Src/en25q128.c.obj
- .debug_line    0x001151fe      0xd7c CMakeFiles/MY_OTA_GUI.dir/Core/Src/nt35510.c.obj
- .debug_line    0x00115f7a     0x3baa CMakeFiles/MY_OTA_GUI.dir/Core/Src/lv_port_disp.c.obj
- .debug_line    0x00119b24     0x4245 CMakeFiles/MY_OTA_GUI.dir/Core/Src/lv_fs_spi_flash.c.obj
- .debug_line    0x0011dd69      0x69d CMakeFiles/MY_OTA_GUI.dir/Core/Src/inter_flash_cfg.c.obj
- .debug_line    0x0011e406      0xa65 CMakeFiles/MY_OTA_GUI.dir/Core/Src/inter_flashif.c.obj
- .debug_line    0x0011ee6b      0xba8 CMakeFiles/MY_OTA_GUI.dir/Core/Src/touch/ctiic.c.obj
- .debug_line    0x0011fa13      0xc4d CMakeFiles/MY_OTA_GUI.dir/Core/Src/touch/gt5663.c.obj
- .debug_line    0x00120660     0x41e1 CMakeFiles/MY_OTA_GUI.dir/Core/Src/touch/touch.c.obj
- .debug_line    0x00124841      0xad2 CMakeFiles/MY_OTA_GUI.dir/BSP/Canif/canif.c.obj
- .debug_line    0x00125313     0x4d16 CMakeFiles/MY_OTA_GUI.dir/Core/Src/app_ui.c.obj
- .debug_line    0x0012a029     0x3abc CMakeFiles/MY_OTA_GUI.dir/Core/Src/ui_font_chinese_16.c.obj
- .debug_line    0x0012dae5     0x3abc CMakeFiles/MY_OTA_GUI.dir/Core/Src/ui_font_chinese_20.c.obj
- .debug_line    0x001315a1     0x4cf4 CMakeFiles/MY_OTA_GUI.dir/Core/Src/mode_ui.c.obj
- .debug_line    0x00136295     0x473d CMakeFiles/MY_OTA_GUI.dir/Core/Src/settings_ui.c.obj
- .debug_line    0x0013a9d2     0x4226 CMakeFiles/MY_OTA_GUI.dir/Core/Src/spi_img_loader.c.obj
- .debug_line    0x0013ebf8     0x46dd CMakeFiles/MY_OTA_GUI.dir/Core/Src/clock_ui.c.obj
- .debug_line    0x001432d5     0x4270 CMakeFiles/MY_OTA_GUI.dir/Core/Src/camera_ui.c.obj
- .debug_line    0x00147545     0x77cb CMakeFiles/MY_OTA_GUI.dir/Core/ThirdParty/littlefs/lfs.c.obj
- .debug_line    0x0014ed10      0xb0f CMakeFiles/MY_OTA_GUI.dir/Core/Src/lfs_port.c.obj
- .debug_line    0x0014f81f      0xe24 CMakeFiles/MY_OTA_GUI.dir/Core/Src/ov7670.c.obj
- .debug_line    0x00150643      0xb67 CMakeFiles/MY_OTA_GUI.dir/Core/Src/sccb.c.obj
- .debug_line    0x001511aa      0x910 CMakeFiles/MY_OTA_GUI.dir/Core/Src/delay.c.obj
- .debug_line    0x00151aba      0x23d C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-assert.o)
- .debug_line    0x00151cf7      0x201 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-malloc.o)
- .debug_line    0x00151ef8      0x4e5 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-mallocr.o)
- .debug_line    0x001523dd      0x1ed C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-mlock.o)
- .debug_line    0x001525ca      0x9ed C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-nano-vfprintf_float.o)
- .debug_line    0x00152fb7      0x70e C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-nano-vfprintf_i.o)
- .debug_line    0x001536c5      0x453 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-fflush.o)
- .debug_line    0x00153b18      0x5d1 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-findfp.o)
- .debug_line    0x001540e9      0x23e C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-fprintf.o)
- .debug_line    0x00154327      0x23d C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-fwalk.o)
- .debug_line    0x00154564      0x259 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-printf.o)
- .debug_line    0x001547bd      0x34c C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-puts.o)
- .debug_line    0x00154b09      0x357 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-snprintf.o)
- .debug_line    0x00154e60      0x2fd C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-sscanf.o)
- .debug_line    0x0015515d      0x2ee C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-stdio.o)
- .debug_line    0x0015544b      0x2cb C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-wbuf.o)
- .debug_line    0x00155716      0x2e3 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-wsetup.o)
- .debug_line    0x001559f9      0x19b C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memcmp.o)
- .debug_line    0x00155b94      0x1bb C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memmove.o)
- .debug_line    0x00155d4f      0x17e C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memset.o)
- .debug_line    0x00155ecd      0x114 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strchr.o)
- .debug_line    0x00155fe1      0x18b C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strcspn.o)
- .debug_line    0x0015616c      0x18c C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strspn.o)
- .debug_line    0x001562f8      0x22c C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-localeconv.o)
- .debug_line    0x00156524      0x21f C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-closer.o)
- .debug_line    0x00156743      0x2f5 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-reent.o)
- .debug_line    0x00156a38      0x163 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-impure.o)
- .debug_line    0x00156b9b      0x21e C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-lseekr.o)
- .debug_line    0x00156db9      0x21d C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-readr.o)
- .debug_line    0x00156fd6      0x21f C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-sbrkr.o)
- .debug_line    0x001571f5      0x21e C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-writer.o)
- .debug_line    0x00157413      0x185 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-errno.o)
- .debug_line    0x00157598      0x168 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-init.o)
- .debug_line    0x00157700      0x19b C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-lock.o)
- .debug_line    0x0015789b       0x50 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strcmp.o)
- .debug_line    0x001578eb       0xf6 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strcpy.o)
- .debug_line    0x001579e1       0x84 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memchr.o)
- .debug_line    0x00157a65      0x202 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memcpy-stub.o)
- .debug_line    0x00157c67       0x4f C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strlen.o)
- .debug_line    0x00157cb6      0x167 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-abort.o)
- .debug_line    0x00157e1d     0x1287 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-dtoa.o)
- .debug_line    0x001590a4      0x30d C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-freer.o)
- .debug_line    0x001593b1     0x1315 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-mprec.o)
- .debug_line    0x0015a6c6      0x877 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-nano-svfprintf.o)
- .debug_line    0x0015af3d      0x7c0 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-nano-svfscanf.o)
- .debug_line    0x0015b6fd      0x6a3 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-nano-vfprintf.o)
- .debug_line    0x0015bda0      0x722 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-nano-vfscanf_i.o)
- .debug_line    0x0015c4c2      0x3a2 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-makebuf.o)
- .debug_line    0x0015c864      0x1bf C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-sccl.o)
- .debug_line    0x0015ca23      0x47d C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-ungetc.o)
- .debug_line    0x0015cea0      0x455 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-signal.o)
- .debug_line    0x0015d2f5      0x2f2 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-locale.o)
- .debug_line    0x0015d5e7      0x2b3 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-fstatr.o)
- .debug_line    0x0015d89a      0x220 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-isattyr.o)
- .debug_line    0x0015daba      0x250 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-signalr.o)
- .debug_line    0x0015dd0a      0x236 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-callocr.o)
- .debug_line    0x0015df40      0x2c2 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-mbtowc_r.o)
- .debug_line    0x0015e202      0x272 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-reallocr.o)
- .debug_line    0x0015e474      0x4c8 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strtol.o)
- .debug_line    0x0015e93c      0x48e C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strtoul.o)
- .debug_line    0x0015edca      0x2be C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-wctomb_r.o)
- .debug_line    0x0015f088       0xd6 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-ctype_.o)
- .debug_line    0x0015f15e      0x205 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-msizer.o)
+ .debug_line    0x0011400b     0x11f5 CMakeFiles/MY_OTA_GUI.dir/Core/Src/en25q128.c.obj
+ .debug_line    0x00115200      0xd7c CMakeFiles/MY_OTA_GUI.dir/Core/Src/nt35510.c.obj
+ .debug_line    0x00115f7c     0x3baa CMakeFiles/MY_OTA_GUI.dir/Core/Src/lv_port_disp.c.obj
+ .debug_line    0x00119b26     0x4245 CMakeFiles/MY_OTA_GUI.dir/Core/Src/lv_fs_spi_flash.c.obj
+ .debug_line    0x0011dd6b      0x69d CMakeFiles/MY_OTA_GUI.dir/Core/Src/inter_flash_cfg.c.obj
+ .debug_line    0x0011e408      0xa65 CMakeFiles/MY_OTA_GUI.dir/Core/Src/inter_flashif.c.obj
+ .debug_line    0x0011ee6d      0xba8 CMakeFiles/MY_OTA_GUI.dir/Core/Src/touch/ctiic.c.obj
+ .debug_line    0x0011fa15      0xc4d CMakeFiles/MY_OTA_GUI.dir/Core/Src/touch/gt5663.c.obj
+ .debug_line    0x00120662     0x41e1 CMakeFiles/MY_OTA_GUI.dir/Core/Src/touch/touch.c.obj
+ .debug_line    0x00124843      0xad2 CMakeFiles/MY_OTA_GUI.dir/BSP/Canif/canif.c.obj
+ .debug_line    0x00125315     0x4d16 CMakeFiles/MY_OTA_GUI.dir/Core/Src/app_ui.c.obj
+ .debug_line    0x0012a02b     0x3abc CMakeFiles/MY_OTA_GUI.dir/Core/Src/ui_font_chinese_16.c.obj
+ .debug_line    0x0012dae7     0x3abc CMakeFiles/MY_OTA_GUI.dir/Core/Src/ui_font_chinese_20.c.obj
+ .debug_line    0x001315a3     0x4cf4 CMakeFiles/MY_OTA_GUI.dir/Core/Src/mode_ui.c.obj
+ .debug_line    0x00136297     0x473d CMakeFiles/MY_OTA_GUI.dir/Core/Src/settings_ui.c.obj
+ .debug_line    0x0013a9d4     0x4226 CMakeFiles/MY_OTA_GUI.dir/Core/Src/spi_img_loader.c.obj
+ .debug_line    0x0013ebfa     0x46dd CMakeFiles/MY_OTA_GUI.dir/Core/Src/clock_ui.c.obj
+ .debug_line    0x001432d7     0x4270 CMakeFiles/MY_OTA_GUI.dir/Core/Src/camera_ui.c.obj
+ .debug_line    0x00147547     0x77cb CMakeFiles/MY_OTA_GUI.dir/Core/ThirdParty/littlefs/lfs.c.obj
+ .debug_line    0x0014ed12      0xb0f CMakeFiles/MY_OTA_GUI.dir/Core/Src/lfs_port.c.obj
+ .debug_line    0x0014f821      0xe24 CMakeFiles/MY_OTA_GUI.dir/Core/Src/ov7670.c.obj
+ .debug_line    0x00150645      0xb67 CMakeFiles/MY_OTA_GUI.dir/Core/Src/sccb.c.obj
+ .debug_line    0x001511ac      0x910 CMakeFiles/MY_OTA_GUI.dir/Core/Src/delay.c.obj
+ .debug_line    0x00151abc      0x23d C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-assert.o)
+ .debug_line    0x00151cf9      0x201 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-malloc.o)
+ .debug_line    0x00151efa      0x4e5 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-mallocr.o)
+ .debug_line    0x001523df      0x1ed C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-mlock.o)
+ .debug_line    0x001525cc      0x9ed C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-nano-vfprintf_float.o)
+ .debug_line    0x00152fb9      0x70e C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-nano-vfprintf_i.o)
+ .debug_line    0x001536c7      0x453 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-fflush.o)
+ .debug_line    0x00153b1a      0x5d1 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-findfp.o)
+ .debug_line    0x001540eb      0x23e C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-fprintf.o)
+ .debug_line    0x00154329      0x23d C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-fwalk.o)
+ .debug_line    0x00154566      0x259 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-printf.o)
+ .debug_line    0x001547bf      0x34c C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-puts.o)
+ .debug_line    0x00154b0b      0x357 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-snprintf.o)
+ .debug_line    0x00154e62      0x2fd C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-sscanf.o)
+ .debug_line    0x0015515f      0x2ee C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-stdio.o)
+ .debug_line    0x0015544d      0x2cb C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-wbuf.o)
+ .debug_line    0x00155718      0x2e3 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-wsetup.o)
+ .debug_line    0x001559fb      0x19b C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memcmp.o)
+ .debug_line    0x00155b96      0x1bb C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memmove.o)
+ .debug_line    0x00155d51      0x17e C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memset.o)
+ .debug_line    0x00155ecf      0x114 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strchr.o)
+ .debug_line    0x00155fe3      0x18b C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strcspn.o)
+ .debug_line    0x0015616e      0x18c C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strspn.o)
+ .debug_line    0x001562fa      0x22c C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-localeconv.o)
+ .debug_line    0x00156526      0x21f C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-closer.o)
+ .debug_line    0x00156745      0x2f5 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-reent.o)
+ .debug_line    0x00156a3a      0x163 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-impure.o)
+ .debug_line    0x00156b9d      0x21e C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-lseekr.o)
+ .debug_line    0x00156dbb      0x21d C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-readr.o)
+ .debug_line    0x00156fd8      0x21f C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-sbrkr.o)
+ .debug_line    0x001571f7      0x21e C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-writer.o)
+ .debug_line    0x00157415      0x185 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-errno.o)
+ .debug_line    0x0015759a      0x168 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-init.o)
+ .debug_line    0x00157702      0x19b C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-lock.o)
+ .debug_line    0x0015789d       0x50 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strcmp.o)
+ .debug_line    0x001578ed       0xf6 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strcpy.o)
+ .debug_line    0x001579e3       0x84 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memchr.o)
+ .debug_line    0x00157a67      0x202 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memcpy-stub.o)
+ .debug_line    0x00157c69       0x4f C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strlen.o)
+ .debug_line    0x00157cb8      0x167 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-abort.o)
+ .debug_line    0x00157e1f     0x1287 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-dtoa.o)
+ .debug_line    0x001590a6      0x30d C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-freer.o)
+ .debug_line    0x001593b3     0x1315 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-mprec.o)
+ .debug_line    0x0015a6c8      0x877 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-nano-svfprintf.o)
+ .debug_line    0x0015af3f      0x7c0 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-nano-svfscanf.o)
+ .debug_line    0x0015b6ff      0x6a3 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-nano-vfprintf.o)
+ .debug_line    0x0015bda2      0x722 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-nano-vfscanf_i.o)
+ .debug_line    0x0015c4c4      0x3a2 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-makebuf.o)
+ .debug_line    0x0015c866      0x1bf C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-sccl.o)
+ .debug_line    0x0015ca25      0x47d C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-ungetc.o)
+ .debug_line    0x0015cea2      0x455 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-signal.o)
+ .debug_line    0x0015d2f7      0x2f2 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-locale.o)
+ .debug_line    0x0015d5e9      0x2b3 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-fstatr.o)
+ .debug_line    0x0015d89c      0x220 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-isattyr.o)
+ .debug_line    0x0015dabc      0x250 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-signalr.o)
+ .debug_line    0x0015dd0c      0x236 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-callocr.o)
+ .debug_line    0x0015df42      0x2c2 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-mbtowc_r.o)
+ .debug_line    0x0015e204      0x272 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-reallocr.o)
+ .debug_line    0x0015e476      0x4c8 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strtol.o)
+ .debug_line    0x0015e93e      0x48e C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-strtoul.o)
+ .debug_line    0x0015edcc      0x2be C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-wctomb_r.o)
+ .debug_line    0x0015f08a       0xd6 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-ctype_.o)
+ .debug_line    0x0015f160      0x205 C:/Users/Ryumeido Mei/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-msizer.o)
 
 .debug_str      0x00000000   0x109e5c
  .debug_str     0x00000000   0x109e5c cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Core/Src/system_stm32f4xx.c.obj
