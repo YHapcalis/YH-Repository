@@ -58,7 +58,6 @@ list(FILTER LVGL_SOURCES EXCLUDE REGEX ".*/demos/")
 add_library(lvgl OBJECT ${LVGL_SOURCES})
 target_include_directories(lvgl PUBLIC
     Core/Inc
-    Core/Inc/generated
     Drivers/STM32F4xx_HAL_Driver/Inc
     Drivers/CMSIS/Device/ST/STM32F4xx/Include
     Drivers/CMSIS/Include
