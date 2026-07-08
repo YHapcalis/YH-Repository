@@ -7,7 +7,6 @@
             "executable": "${workspaceFolder}/build/Debug/MY_OTA_GUI.elf",
             "request": "launch",
             "type": "cortex-debug",
-            "runToEntryPoint": "main",
             "servertype": "openocd",
             "searchDir": [
                 "E:/ST/STM32/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.debug.openocd_2.3.300.202602021527/resources/openocd/st_scripts"
@@ -20,7 +19,8 @@
                 "monitor reset halt"
             ],
             "svdFile": "",
-            "showDevDebugOutput": "raw"
+            "showDevDebugOutput": "raw",
+            "runToEntryPoint": "main"
         },
         {
             "name": "Bootloader (OpenOCD)",
@@ -28,7 +28,6 @@
             "executable": "${workspaceFolder}/build/Debug/bootloader.elf",
             "request": "launch",
             "type": "cortex-debug",
-            "runToEntryPoint": "main",
             "servertype": "openocd",
             "searchDir": [
                 "E:/ST/STM32/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.debug.openocd_2.3.300.202602021527/resources/openocd/st_scripts"
@@ -41,7 +40,8 @@
                 "monitor reset halt"
             ],
             "svdFile": "",
-            "showDevDebugOutput": "raw"
+            "showDevDebugOutput": "raw",
+            "runToEntryPoint": "main"
         }
     ]
 }

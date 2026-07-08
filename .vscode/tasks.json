@@ -6,7 +6,8 @@
             "type": "shell",
             "command": "cmake",
             "args": [
-                "--preset", "Debug"
+                "--preset",
+                "Debug"
             ],
             "options": {
                 "cwd": "${workspaceFolder}",
@@ -23,7 +24,7 @@
         {
             "label": "CMake: 构建 (Debug)",
             "type": "shell",
-            "command": "cmake --build \"${workspaceFolder}/build/Debug\" --parallel 8 && cmake --build \"${workspaceFolder}/build/Debug\" --target bootloader --parallel 8",
+            "command": "cmake --build \"${workspaceFolder}/build/Debug\" --parallel 8",
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
@@ -39,7 +40,7 @@
         {
             "label": "CMake: 清理+重新构建 (Debug)",
             "type": "shell",
-            "command": "cmake --build \"${workspaceFolder}/build/Debug\" --clean-first --parallel 8 && cmake --build \"${workspaceFolder}/build/Debug\" --target bootloader --clean-first --parallel 8",
+            "command": "cmake --build \"${workspaceFolder}/build/Debug\" --clean-first --parallel 8; cmake --build \"${workspaceFolder}/build/Debug\" --target bootloader --clean-first --parallel 8",
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
@@ -62,10 +63,17 @@
                 "-f",
                 "e:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/openocd.cfg",
                 "-c",
-                "program ${workspaceFolder}/build/Debug/bootloader.elf verify; program ${workspaceFolder}/build/Debug/MY_OTA_GUI.elf verify; program ${workspaceFolder}/build/Debug/signature.bin 0x080DFF80 verify; reset exit"
+                "program ${workspaceFolder}/build/Debug/bootloader.elf verify; program ${workspaceFolder}/build/Debug/MY_OTA_GUI.elf verify; program ${workspaceFolder}/build/Debug/signature.bin 0x080DFF80 verify; reset; exit"
             ],
             "options": {
-                "cwd": "${workspaceFolder}"
+                "cwd": "${workspaceFolder}",
+                "shell": {
+                    "executable": "cmd.exe",
+                    "args": [
+                        "/d",
+                        "/c"
+                    ]
+                }
             },
             "problemMatcher": [],
             "dependsOn": [
@@ -82,10 +90,17 @@
                 "-f",
                 "e:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/openocd.cfg",
                 "-c",
-                "program ${workspaceFolder}/build/Debug/MY_OTA_GUI.elf verify; program ${workspaceFolder}/build/Debug/signature.bin 0x080DFF80 verify; reset exit"
+                "program ${workspaceFolder}/build/Debug/MY_OTA_GUI.elf verify; program ${workspaceFolder}/build/Debug/signature.bin 0x080DFF80 verify; reset; exit"
             ],
             "options": {
-                "cwd": "${workspaceFolder}"
+                "cwd": "${workspaceFolder}",
+                "shell": {
+                    "executable": "cmd.exe",
+                    "args": [
+                        "/d",
+                        "/c"
+                    ]
+                }
             },
             "problemMatcher": [],
             "dependsOn": [
@@ -111,10 +126,17 @@
                 "-f",
                 "e:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/openocd.cfg",
                 "-c",
-                "program ${workspaceFolder}/build/Debug/param_init.bin 0x080E0000 verify; reset exit"
+                "program ${workspaceFolder}/build/Debug/param_init.bin 0x080E0000 verify; reset; exit"
             ],
             "options": {
-                "cwd": "${workspaceFolder}"
+                "cwd": "${workspaceFolder}",
+                "shell": {
+                    "executable": "cmd.exe",
+                    "args": [
+                        "/d",
+                        "/c"
+                    ]
+                }
             },
             "problemMatcher": [],
             "dependsOn": []
@@ -129,10 +151,17 @@
                 "-f",
                 "e:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/openocd.cfg",
                 "-c",
-                "program ${workspaceFolder}/build/Debug/param_ota.bin 0x080E0000 verify; reset exit"
+                "program ${workspaceFolder}/build/Debug/param_ota.bin 0x080E0000 verify; reset; exit"
             ],
             "options": {
-                "cwd": "${workspaceFolder}"
+                "cwd": "${workspaceFolder}",
+                "shell": {
+                    "executable": "cmd.exe",
+                    "args": [
+                        "/d",
+                        "/c"
+                    ]
+                }
             },
             "problemMatcher": [],
             "dependsOn": []
