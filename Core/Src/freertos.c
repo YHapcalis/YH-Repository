@@ -72,24 +72,30 @@ static void backup_progress_cb(uint32_t cur, uint32_t tot, const char *phase)
 extern volatile uint8_t  g_rx_byte;
 extern volatile uint8_t  g_rx_flag;
 
+/* -- FreeRTOS 任务栈大小定义 (所有尺寸以字为单位) -- */
+#define GUI_TASK_STACK_SIZE     (1024 * 12)  /* 12KB: LVGL + camera, 实测高水位 ~9.5KB */
+#define TOUCH_TASK_STACK_SIZE   (128 * 4)    /* 512B: 触控 I2C 轮询, 高水位 425B */
+#define CANRX_TASK_STACK_SIZE   (512 * 4)    /* 2KB: CAN 接收 + printf, 高水位 ~1.5KB */
+#define DEFAULT_TASK_STACK_SIZE (128 * 4)    /* 512B: LED + UART 回显, 高水位 413B */
+
 osThreadId_t guiTaskHandle;
 const osThreadAttr_t guiTask_attributes = {
   .name = "guiTask",
-  .stack_size = 1024 * 12,
+  .stack_size = GUI_TASK_STACK_SIZE,
   .priority = (osPriority_t) osPriorityAboveNormal,
 };
 
 osThreadId_t touchTaskHandle;
 const osThreadAttr_t touchTask_attributes = {
   .name = "touchTask",
-  .stack_size = 128 * 4,
+  .stack_size = TOUCH_TASK_STACK_SIZE,
   .priority = (osPriority_t) osPriorityAboveNormal,
 };
 
 osThreadId_t canRxTaskHandle;
 const osThreadAttr_t canRxTask_attributes = {
   .name = "canRxTask",
-  .stack_size = 512 * 4,
+  .stack_size = CANRX_TASK_STACK_SIZE,
   .priority = (osPriority_t) osPriorityNormal,
 };
 /* ── CAN → LVGL 延迟更新标志 (CAN 任务只设标志, GUI 任务消费, 避免线程冲突) ── */
@@ -101,7 +107,7 @@ volatile uint8_t g_can_time_buf[6]    = {0};
 osThreadId_t defaultTaskHandle;
 const osThreadAttr_t defaultTask_attributes = {
   .name = "defaultTask",
-  .stack_size = 128 * 4,
+  .stack_size = DEFAULT_TASK_STACK_SIZE,
   .priority = (osPriority_t) osPriorityNormal,
 };
 
@@ -329,9 +335,6 @@ void StartTouchTask(void *argument)
 }
 
 /* ---- CAN 接收任务 (轮询 FIFO, 50Hz) ---- */
-/* OTA 触发 CAN 帧 ID + Magic（与 uint3code 例程兼容） */
-#define CAN_ID_CALL_OTA     0x0B3
-
 void StartCanRxTask(void *argument)
 {
     (void)argument;
@@ -354,9 +357,9 @@ void StartCanRxTask(void *argument)
             }
             /* OTA 触发命令 (ID=0x0B3, Magic=BE AD BE EF) */
             else if (rx_id == CAN_ID_CALL_OTA && len >= 5) {
-                if (rx_buf[0] == 0xBE && rx_buf[1] == 0xAD &&
-                    rx_buf[2] == 0xBE && rx_buf[3] == 0xEF &&
-                    rx_buf[4] == 0x01) {
+                if (rx_buf[0] == OTA_MAGIC_0 && rx_buf[1] == OTA_MAGIC_1 &&
+                    rx_buf[2] == OTA_MAGIC_2 && rx_buf[3] == OTA_MAGIC_3 &&
+                    rx_buf[4] == OTA_CMD_EXECUTE) {
                     printf("\r\n[CAN] OTA trigger via CAN!\r\n");
                     inter_flash_cfg_set_app_update_flag(1);
                     HAL_Delay(100);
@@ -364,7 +367,7 @@ void StartCanRxTask(void *argument)
                 }
             }
             /* RTC 时间帧 (ID=0x13, F103 每秒发送) */
-            else if (rx_id == 0x13 && len >= 6) {
+            else if (rx_id == CAN_ID_RTC_TIME && len >= 6) {
                 for (int i = 0; i < 6; i++) g_can_time_buf[i] = rx_buf[i];
                 g_can_time_pending = 1;
             }

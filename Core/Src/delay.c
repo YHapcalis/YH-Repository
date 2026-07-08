@@ -7,16 +7,20 @@
 
 #include "system.h"
 
+static uint8_t g_dwt_ready = 0;
+
+void delay_init(void)
+{
+    if (g_dwt_ready) return;
+    CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
+    DWT->CYCCNT = 0;
+    DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
+    g_dwt_ready = 1;
+}
+
 void delay_us(uint32_t us)
 {
-    static uint8_t initialized = 0;
-    if (!initialized) {
-        /* 使能 DWT 周期计数器 */
-        CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
-        DWT->CYCCNT = 0;
-        DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
-        initialized = 1;
-    }
+    if (!g_dwt_ready) delay_init();
 
     uint32_t start = DWT->CYCCNT;
     uint32_t ticks = us * 168;  /* 168MHz = 168 周期/微秒 */

@@ -1,5 +1,5 @@
 #include "sccb.h"
-#include "ov7670.h"     /* for DWT delay functions */
+#include "delay.h"   /* DWT us delay */
 
 /*
  * SCCB 总线驱动 (GPIO 模拟)
@@ -59,32 +59,32 @@ void SCCB_Start(void)
 {
     SCCB_SDA = 1;
     SCCB_SCL = 1;
-    OV7670_delay_us(50);
+    delay_us(50);
     SCCB_SDA = 0;
-    OV7670_delay_us(50);
+    delay_us(50);
     SCCB_SCL = 0;
 }
 
 void SCCB_Stop(void)
 {
     SCCB_SDA = 0;
-    OV7670_delay_us(50);
+    delay_us(50);
     SCCB_SCL = 1;
-    OV7670_delay_us(50);
+    delay_us(50);
     SCCB_SDA = 1;
-    OV7670_delay_us(50);
+    delay_us(50);
 }
 
 void SCCB_No_Ack(void)
 {
-    OV7670_delay_us(50);
+    delay_us(50);
     SCCB_SDA = 1;
     SCCB_SCL = 1;
-    OV7670_delay_us(50);
+    delay_us(50);
     SCCB_SCL = 0;
-    OV7670_delay_us(50);
+    delay_us(50);
     SCCB_SDA = 0;
-    OV7670_delay_us(50);
+    delay_us(50);
 }
 
 u8 SCCB_WR_Byte(u8 dat)
@@ -97,17 +97,17 @@ u8 SCCB_WR_Byte(u8 dat)
         else
             SCCB_SDA = 0;
         dat <<= 1;
-        OV7670_delay_us(50);
+        delay_us(50);
         SCCB_SCL = 1;
-        OV7670_delay_us(50);
+        delay_us(50);
         SCCB_SCL = 0;
     }
 
     /* 读取应答 */
     SCCB_SDA_IN();
-    OV7670_delay_us(50);
+    delay_us(50);
     SCCB_SCL = 1;
-    OV7670_delay_us(50);
+    delay_us(50);
     if (SCCB_READ_SDA)
         res = 1;    /* NACK */
     else
@@ -124,11 +124,11 @@ u8 SCCB_RD_Byte(void)
 
     SCCB_SDA_IN();
     for (j = 8; j > 0; j--) {
-        OV7670_delay_us(50);
+        delay_us(50);
         SCCB_SCL = 1;
         temp <<= 1;
         if (SCCB_READ_SDA) temp++;
-        OV7670_delay_us(50);
+        delay_us(50);
         SCCB_SCL = 0;
     }
     SCCB_SDA_OUT();
@@ -142,9 +142,9 @@ u8 SCCB_WR_Reg(u8 reg, u8 data)
 
     SCCB_Start();
     if (SCCB_WR_Byte(SCCB_ID))     res = 1;  /* 设备地址 */
-    OV7670_delay_us(100);
+    delay_us(100);
     if (SCCB_WR_Byte(reg))         res = 1;  /* 寄存器地址 */
-    OV7670_delay_us(100);
+    delay_us(100);
     if (SCCB_WR_Byte(data))        res = 1;  /* 写入数据 */
     SCCB_Stop();
 
@@ -157,16 +157,16 @@ u8 SCCB_RD_Reg(u8 reg)
 
     SCCB_Start();
     SCCB_WR_Byte(SCCB_ID);          /* 写方向: 设备地址 */
-    OV7670_delay_us(100);
+    delay_us(100);
     SCCB_WR_Byte(reg);              /* 寄存器地址 */
-    OV7670_delay_us(100);
+    delay_us(100);
     SCCB_Stop();
-    OV7670_delay_us(100);
+    delay_us(100);
 
     /* 重新开始, 读方向 */
     SCCB_Start();
     SCCB_WR_Byte(SCCB_ID | 0x01);   /* 读方向: 设备地址 | 0x01 */
-    OV7670_delay_us(100);
+    delay_us(100);
     val = SCCB_RD_Byte();           /* 读取数据 */
     SCCB_No_Ack();
     SCCB_Stop();

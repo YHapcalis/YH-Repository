@@ -18,7 +18,20 @@
 #include <stdint.h>
 
 /* ── CAN ID 定义 ── */
-#define CAN_ID_SENSOR   0x12   /* F103 → F407: 传感器数据帧       */
+#define CAN_ID_SENSOR       0x12   /* F103: sensor data */
+#define CAN_ID_RTC_TIME     0x13   /* F103: RTC time sync */
+#define CAN_ID_SYNC_TIME    0x14   /* F407: time sync back */
+#define CAN_ID_CALL_OTA     0x0B3  /* F103: OTA trigger cmd */
+#define CAN_ID_OTA_DATA     0x0B1  /* F103: ISO-TP OTA data */
+#define CAN_ID_OTA_FC       0x0B2  /* F407: ISO-TP flow ctrl */
+
+/* -- OTA magic bytes -- */
+#define OTA_MAGIC_0         0xBE
+#define OTA_MAGIC_1         0xAD
+#define OTA_MAGIC_2         0xBE
+#define OTA_MAGIC_3         0xEF
+#define OTA_CMD_EXECUTE     0x01
+#define OTA_CMD_FINISH      0x02   /* F103 → F407: 传感器数据帧       */
 
 /* ── F103 控制数据结构 ── */
 /* F103 发送格式（6 字节，50Hz 高频）:

@@ -118,7 +118,9 @@ void Error_Handler(void);
 #define OV7670_WRST_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
-
+/* 全局标志 (定义在 main.c, 供中断服务函数引用) */
+extern volatile uint8_t  g_rx_flag;   /* USART1 接收完成标志 */
+extern volatile uint8_t  g_rx_byte;   /* USART1 接收字节缓冲 */
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

@@ -9,6 +9,7 @@
 #include "touch.h"
 #include "gt5663.h"
 #include "ctiic.h"
+#include "delay.h"
 #include <stdio.h>
 
 /* ---- 触摸状态缓存 (touch_poll 更新, touch_read_cb 回传, 跨任务 volatile) ---- */
@@ -19,10 +20,8 @@ static volatile uint16_t g_last_y   = 0;
 /* ---- 初始化 (I2C 扫描 + GT911 复位 + LVGL indev 注册) ---- */
 void touch_init(void)
 {
-    /* 使能 DWT 周期计数器 (供 ctiic.c delay_us 使用) */
-    CoreDebug->DEMCR |= (1UL << 24);  /* TRCENA */
-    DWT->CYCCNT = 0;
-    DWT->CTRL |= 1U;                  /* CYCCNTENA */
+    /* DWT 周期计数器 (供 ctiic.c delay_us 使用) */
+    delay_init();
 
     /* 解锁备份域 — PC13 是 RTC 域引脚 */
     __HAL_RCC_PWR_CLK_ENABLE();

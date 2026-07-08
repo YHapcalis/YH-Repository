@@ -1,6 +1,7 @@
 #include "ov7670.h"
 #include "ov7670cfg.h"
 #include "sccb.h"
+#include "delay.h"
 #include "nt35510.h"
 
 /*
@@ -27,33 +28,9 @@ volatile u8 ov_sta   = 0;    /* 0=等待, 1=帧进行中, 2=帧就绪 */
 volatile u8 ov_frame = 0;
 
 /* ---------------------------------------------------------------------------
- * DWT 微秒延时 (供 sccb.c 和本文件使用)
+ * DWT 微秒延时已在 delay_service.c 中统一实现,
+ * ov7670.c 和 sccb.c 均使用 delay_us() 接口。
  * --------------------------------------------------------------------------- */
-static volatile uint32_t g_dwt_init_done = 0;
-
-static void DWT_Init(void)
-{
-    if (g_dwt_init_done) return;
-
-    /* 使能 DWT 跟踪单元 (在 CoreDebug 中) */
-    CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
-
-    /* 复位 CYCCNT 计数器 */
-    DWT->CYCCNT = 0;
-
-    /* 使能 CYCCNT */
-    DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
-
-    g_dwt_init_done = 1;
-}
-
-void OV7670_delay_us(u32 us)
-{
-    uint32_t start = DWT->CYCCNT;
-    uint32_t ticks = us * (SystemCoreClock / 1000000);   /* 168 ticks/us @ 168MHz */
-
-    while ((DWT->CYCCNT - start) < ticks);
-}
 
 /* ---------------------------------------------------------------------------
  * EXTI 中断处理已在 stm32f4xx_it.c 中实现 (#ifndef LFS_READONLY 隔离),
@@ -173,8 +150,8 @@ u8 OV7670_Init(void)
     u8 temp;
     u16 i;
 
-    /* DWT 延时初始化 (仅第一次调用有效) */
-    DWT_Init();
+    /* 延时服务初始化 */
+    delay_init();
 
     /* 1. GPIO 初始化 (所有摄像头引脚) */
     OV7670_GPIO_Init();

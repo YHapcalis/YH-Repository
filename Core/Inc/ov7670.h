@@ -2,6 +2,7 @@
 #define _OV7670_H_
 
 #include "system.h"
+#include "main.h"      /* 提供 OV7670_RCK_Pin 等引脚定义 */
 
 /*
  * OV7670 + AL422B FIFO 引脚定义
@@ -20,14 +21,16 @@
 #define OV7670_WRST     PBout(7)    /* FIFO 写复位 */
 #define OV7670_WREN     PGout(9)    /* FIFO 写使能 */
 
-#define OV7670_RCK_H    (GPIOA->BSRR = GPIO_BSRR_BS6)
-#define OV7670_RCK_L    (GPIOA->BSRR = GPIO_BSRR_BR6)
+/* RCK 时钟 BSRR 操作 (BS6=PA6, BR6=PA6<<16)
+ * 若 CubeMX 中 OV7670_RCK_Pin 改变, 需同步更新 BS6/BR6 */
+#define OV7670_RCK_H    (GPIOA->BSRR = (uint32_t)OV7670_RCK_Pin)
+#define OV7670_RCK_L    (GPIOA->BSRR = ((uint32_t)OV7670_RCK_Pin << 16))
 
 #define OV7670_RRST     PAout(4)    /* FIFO 读复位 */
 #define OV7670_CS       PGout(15)   /* FIFO 片选/OE */
 
 /* 8-bit 并行数据输入 (位带读) */
-#define OV7670_DATA  ((PEin(6)<<7)|(PEin(5)<<6)|(PBin(6)<<5)|(PCin(11)<<4)|(PCin(9)<<3)|(PCin(8)<<2)|(PCin(7)<<1)|(PCin(6)<<0))
+/* #define OV7670_DATA  ((PEin(6)<<7)|(PEin(5)<<6)|(PBin(6)<<5)|(PCin(11)<<4)|(PCin(9)<<3)|(PCin(8)<<2)|(PCin(7)<<1)|(PCin(6)<<0))  -- 已废弃, 改用 ov7670_read_byte() */
 
 /*
  * 快速数据读取 — 3 次 IDR 寄存器读 + 位组合
@@ -60,8 +63,6 @@ static inline uint8_t ov7670_read_byte(void)
 extern volatile u8 ov_sta;     /* 帧中断状态 (在 ov7670.c 定义) */
 extern volatile u8 ov_frame;   /* 帧计数器 */
 
-/* DWT 微秒延时 (供 sccb.c 使用) */
-void OV7670_delay_us(u32 us);
 
 /* OV7670 驱动函数 */
 u8   OV7670_Init(void);

@@ -1,4 +1,4 @@
-# MY_OTA_GUI 工程计划表
+# MY_OTA_GUI 工程计划表（已弃用工程并被覆盖，次文档仅作开发失败保留文档）
 
 **硬件配置：** F407ZGT6（仪表盘主控）+ F103C8T6（传感器/驱动节点）
 **软件栈：** FreeRTOS (CMSIS-V2) + LVGL v9.3 (GUI-Guider 1.8.1 生成)
