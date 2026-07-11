@@ -19,3 +19,4 @@ build/
 param_ota.bin
 param_init.bin
 archive/
+.harness_memory/
