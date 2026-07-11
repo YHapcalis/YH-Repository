@@ -21,6 +21,9 @@
 #include "can.h"
 
 /* USER CODE BEGIN 0 */
+#ifdef SIMULATION
+#include "sim_mode.h"
+#endif
 
 /* USER CODE END 0 */
 

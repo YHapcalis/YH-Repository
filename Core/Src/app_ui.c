@@ -43,6 +43,7 @@ static lv_obj_t *ui_img_watertemp;
 static lv_obj_t *ui_img_turnlight;
 static lv_obj_t *ui_img_safetybelt;
 
+
 /* 右区：数据面板 */
 static lv_obj_t *ui_label_temp;
 static lv_obj_t *ui_label_hum;

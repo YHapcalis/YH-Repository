@@ -102,6 +102,14 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     Core/Src/clock_ui.c
     Core/Src/camera_ui.c
 
+    # 内部 Flash 后备图片数据（首次启动自动创建 LFS 用）
+    Core/Src/images/ui_img_942215904.c
+    Core/Src/images/ui_img_1601502596.c
+    Core/Src/images/ui_img_light_png.c
+    Core/Src/images/ui_img_temp_gray_png.c
+    Core/Src/images/ui_img_turn_light_png.c
+    Core/Src/images/ui_img_safety_belt_png.c
+
     # LittleFS 文件系统
     Core/ThirdParty/littlefs/lfs.c
     Core/Src/lfs_port.c
@@ -133,6 +141,16 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
 target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
     LV_CONF_INCLUDE_SIMPLE
 )
+
+# ── Renode 仿真模式 ──
+# 编译时加 -DSIMULATION=ON 可启用仿真加速：
+#   cmake -DSIMULATION=ON --preset Debug
+#   或 cmake --build build/Debug --parallel && cmake -DSIMULATION=ON -P build/Debug/..
+option(SIMULATION "Build for Renode simulation (time-skip friendly delays)" OFF)
+if(SIMULATION)
+    target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE SIMULATION)
+    message(STATUS "SIMULATION mode: HAL stubs active (CAN, SPI, ETH)")
+endif()
 
 # ── APP 分区配置 ──
 # 1. 链接脚本: APP 从 0x08010000 开始

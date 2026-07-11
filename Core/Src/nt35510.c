@@ -11,6 +11,7 @@
 #include "nt35510.h"
 #include "main.h"
 #include <string.h>
+#include "sim_mode.h"
 
 /* Sentinel 常量 */
 #define NT35510_T_END     0x0000
@@ -36,9 +37,18 @@ static inline void nt35510_write_data(uint16_t data)
 /* us 级延时 (忙等, 仅 init 阶段使用; 168MHz ≈ 6ns/周期) */
 static void nt35510_delay_us(uint32_t us)
 {
+#ifdef SIMULATION
+    /* 仿真模式: 用 HAL_Delay 替代 NOP 自旋, 让 Renode 可 TimeSkip */
+    if (us >= 1000) {
+        HAL_Delay(us / 1000);
+    } else {
+        HAL_Delay(1);  /* <1ms 的短延时向上取整 */
+    }
+#else
     /* 粗略循环: 168MHz 下 ~168 周期/μs, 每轮 ~4 周期 → ~42 轮/μs */
     volatile uint32_t cnt = us * 42;
     while (cnt--) { __NOP(); }
+#endif
 }
 
 /* ================================================================

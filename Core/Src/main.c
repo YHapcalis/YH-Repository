@@ -30,6 +30,7 @@
 /* USER CODE BEGIN Includes */
 #include <stdio.h>
 #include "nt35510.h"
+#include "sim_mode.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -81,6 +82,10 @@ int main(void)
   /* USER CODE BEGIN 1 */
   /* VTOR: STM32_Drivers 编译 system_stm32f4xx.c 时不带 USER_VECT_TAB_ADDRESS */
   SCB->VTOR = (uint32_t)0x08010000;
+
+#ifdef SIMULATION
+  SIM_Init();
+#endif
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/

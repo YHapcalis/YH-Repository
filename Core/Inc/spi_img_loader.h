@@ -1,9 +1,8 @@
 /*
  * spi_img_loader.h — SPI Flash → 外部 SRAM 图片预加载
  *
- * 在 LVGL 初始化后调用 spi_img_load_all()，将 6 张界面图片
- * 从 SPI Flash 读到 FSMC 外部 SRAM (0x68000000)，
- * 替换内部 Flash 的编译期图片，释放 ~50KB Flash。
+ * 在 LVGL 初始化后调用 spi_img_load_all()，将界面图片
+ * 从 SPI Flash 读到 FSMC 外部 SRAM (0x68000000)。
  */
 
 #ifndef SPI_IMG_LOADER_H
@@ -24,5 +23,8 @@ void spi_img_load_all(void);
 
 /* 返回图片数据源: 0=编译期内部Flash, 1=SPI Flash→外部SRAM */
 uint8_t spi_img_get_source(void);
+
+/* 返回后备数据是否仍在启用: 0=已释放(内部Flash图片空间可复用于其他功能), 1=仍在用 */
+uint8_t spi_img_fallback_active(void);
 
 #endif /* SPI_IMG_LOADER_H */
