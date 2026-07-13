@@ -416,8 +416,8 @@ void StartCanRxTask(void *argument)
 }
 
 /* ---- WiFi 任务 (ESP8266 初始化 + 连接维护) ---- */
-#define WIFI_SSID       "YOUR_SSID"          /* ← 修改为你的 WiFi 名称 */
-#define WIFI_PASSWORD   "YOUR_PASSWORD"      /* ← 修改为你的 WiFi 密码 */
+#define WIFI_SSID       "Lee"          /* ← 修改为你的 WiFi 名称 */
+#define WIFI_PASSWORD   ""      /* ← 修改为你的 WiFi 密码 */
 
 void StartWiFiTask(void *argument)
 {
@@ -437,7 +437,7 @@ void StartWiFiTask(void *argument)
 
     /* 复位 ESP8266 并测试 AT */
     ESP8266_AT_Test();
-    printf("[WiFi] AT OK — module ready\r\n");
+    printf("[WiFi] AT OK -- module ready\r\n");
 
     /* 设置为 Station 模式 (连接外部路由器) */
     ESP8266_Net_Mode_Choose(STA);
@@ -447,29 +447,102 @@ void StartWiFiTask(void *argument)
     printf("[WiFi] Connecting to \"%s\"...\r\n", WIFI_SSID);
     if (ESP8266_JoinAP(WIFI_SSID, WIFI_PASSWORD)) {
         printf("[WiFi] Connected! IP assigned\r\n");
-        /* 可选: 启用多连接, 为 TCP Client 做准备 */
+        /* 启用多连接, 启动 TCP Server (端口 8080, 供 OTA 客户端连接) */
         ESP8266_Enable_MultipleId(ENABLE);
+        if (ESP8266_StartOrShutServer(ENABLE, "8080", "0")) {
+            printf("[WiFi] TCP server on port 8080 ready\r\n");
+        }
     } else {
         printf("[WiFi] Failed to connect! Will retry...\r\n");
     }
 
-    /* 主循环: 保持连接 + 心跳 */
+    /* 主循环: 保持连接 + OTA 接收 */
     {
-        uint32_t tick30 = 0;  /* 30 秒倒计数 */
+        uint32_t tick30 = 0;
+        uint32_t ota_offset = 0;       /* 已接收字节数 */
+        uint32_t ota_total  = 0;       /* 固件总大小 */
+        uint8_t  ota_active = 0;       /* 正在 OTA 接收中 */
+        uint8_t  ota_buf[256];         /* 临时写入缓冲区 */
+
         for (;;) {
-            osDelay(1000);  /* 1s 节拍 */
+            osDelay(10);
             tick30++;
 
-            /* 每 30 秒发送 AT 检测模块是否在线 */
-            if (tick30 >= 30) {
+            /* --- 检查 ESP8266 是否有数据到达 --- */
+            char *rx = ESP8266_ReceiveString(DISABLE);
+            if (rx && strstr(rx, "+IPD")) {
+                /* 解析 +IPD,<id>,<len>:<data> */
+                char *p = rx + 5;  /* 跳过 "+IPD" */
+                while (*p && *p != ':') p++;  /* 跳到冒号 */
+                if (*p == ':') {
+                    p++;  /* 跳过冒号, 指向数据 */
+                    uint32_t dlen = strlen(p);
+                    /* 去除尾部 \r\n */
+                    while (dlen > 0 && (p[dlen-1]=='\r'||p[dlen-1]=='\n')) dlen--;
+                    p[dlen] = '\0';
+
+                    if (!ota_active) {
+                        /* 检测 OTA 起始命令 */
+                        if (strncmp(p, "OTA:", 4) == 0) {
+                            ota_total = 0;
+                            for (const char *s = p+4; *s >= '0' && *s <= '9'; s++)
+                                ota_total = ota_total * 10 + (uint32_t)(*s - '0');
+                            if (ota_total > 4096 && ota_total <= 0x100000) {
+                                ota_active = 1;
+                                ota_offset = 8;  /* 跳过备份头 */
+                                printf("[WiFi] OTA start: %lu bytes\r\n", ota_total);
+                                /* 擦除 SPI Flash 备份区 (512KB = 128 sectors) */
+                                for (uint32_t s = 0; s < 128; s++)
+                                    EN25Q128_EraseSector(SPI_BAK_ADDR + s * 4096);
+                                /* 预留备份头位置 (spi_off = SPI_BAK_ADDR + 8) */
+                                continue;
+                            }
+                        }
+                    } else {
+                        /* OTA 接收中: 写入 SPI Flash (跳过 8B 备份头) */
+                        uint32_t n = dlen;
+                        if (n > 0 && ota_offset - 8 + n <= ota_total) {
+                            memcpy(ota_buf, p, n);
+                            EN25Q128_Write(ota_buf, SPI_BAK_ADDR + ota_offset, n);
+                            ota_offset += n;
+                        }
+                    }
+                }
+            }
+
+            /* --- OTA 完成检查 --- */
+            if (ota_active && ota_offset - 8 >= ota_total) {
+                printf("[WiFi] OTA receive complete! (%lu bytes)\r\n", ota_total);
+                /* 写入 8 字节备份头: magic(4B) + fw_size(4B) */
+                uint8_t hdr[8];
+                hdr[0] = (uint8_t)(SPI_BAK_MAGIC >> 0);
+                hdr[1] = (uint8_t)(SPI_BAK_MAGIC >> 8);
+                hdr[2] = (uint8_t)(SPI_BAK_MAGIC >> 16);
+                hdr[3] = (uint8_t)(SPI_BAK_MAGIC >> 24);
+                hdr[4] = (uint8_t)(ota_total >> 0);
+                hdr[5] = (uint8_t)(ota_total >> 8);
+                hdr[6] = (uint8_t)(ota_total >> 16);
+                hdr[7] = (uint8_t)(ota_total >> 24);
+                EN25Q128_Write(hdr, SPI_BAK_ADDR, 8);
+
+                printf("[WiFi] Rebooting into bootloader for OTA...\r\n");
+                osDelay(500);
+                inter_flash_cfg_set_app_update_flag(1);
+                osDelay(100);
+                NVIC_SystemReset();
+            }
+
+            /* --- 每 30 秒保活检测 --- */
+            if (tick30 >= 3000) {  /* 3000 × 10ms = 30s */
                 tick30 = 0;
                 if (!ESP8266_Cmd("AT", "OK", NULL, 200)) {
-                    printf("[WiFi] Lost connection, reinitializing...\r\n");
-                    ESP8266_Rst();
-                    osDelay(1000);
+                    printf("[WiFi] Lost, reconnecting...\r\n");
+                    ESP8266_Rst(); osDelay(1000);
                     ESP8266_AT_Test();
                     ESP8266_Net_Mode_Choose(STA);
                     ESP8266_JoinAP(WIFI_SSID, WIFI_PASSWORD);
+                    ESP8266_Enable_MultipleId(ENABLE);
+                    ESP8266_StartOrShutServer(ENABLE, "8080", "0");
                 }
             }
         }

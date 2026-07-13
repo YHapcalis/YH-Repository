@@ -84,6 +84,22 @@ int main(void)
         EN25Q128_Init();
         EN25Q128_ReadID();  /* 验证 SPI Flash 通信 */
 
+        /* ── 快速检查：WiFi OTA 是否已在 SPI Flash 预存固件 ── */
+        {
+            uint8_t h[8];
+            EN25Q128_Read(h, SPI_BAK_ADDR, 8);
+            uint32_t m = h[0]|(h[1]<<8)|(h[2]<<16)|(h[3]<<24);
+            if (m == SPI_BAK_MAGIC) {
+                printf("[BOOT] WiFi OTA staged firmware found!\r\n");
+                if (EN25Q128_RestoreFirmware() == 0) {
+                    inter_flash_cfg_inc_ota_count();
+                    printf("[BOOT] WiFi OTA restore OK\r\n");
+                }
+                inter_flash_cfg_set_app_update_flag(0);
+                goto check_sig_verify;
+            }
+        }
+
         uint8_t ota_ok = 0;
 
         /* 主循环：ISO-TP 接收 + Flash 写入 + LED 进度指示 */
@@ -148,6 +164,7 @@ int main(void)
         printf("[BOOT] ota_flag invalid (ret=%d). Jumping to APP anyway.\r\n", ota_flag);
     }
 
+check_sig_verify:
     /* ── 固件签名验证 ── */
     {
         int sig_ret = verify_firmware_sig();
