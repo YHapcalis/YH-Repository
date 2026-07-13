@@ -61,6 +61,25 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
         g_rx_flag = 1;
     }
 }
+
+/* USART3 — ESP8266 WiFi 接收中断 (APP 专用, Bootloader 不需要) */
+#ifndef LFS_READONLY
+#include "wifi_config.h"
+/* 使能: USART3->CR1 |= USART_CR1_RXNEIE; HAL_NVIC_EnableIRQ(USART3_IRQn); */
+void USART3_IRQHandler(void)
+{
+    if (USART3->SR & USART_SR_RXNE) {
+        uint8_t ch = (uint8_t)(USART3->DR & 0xFF);
+        if (strEsp8266_Fram_Record.InfBit.FramLength < RX_BUF_MAX_LEN - 1) {
+            strEsp8266_Fram_Record.Data_RX_BUF[strEsp8266_Fram_Record.InfBit.FramLength++] = (char)ch;
+        }
+        /* AT 响应以 \n 结尾 — 标记帧完成 */
+        if (ch == '\n') {
+            strEsp8266_Fram_Record.InfBit.FramFinishFlag = 1;
+        }
+    }
+}
+#endif /* LFS_READONLY */
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/

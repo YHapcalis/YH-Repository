@@ -33,6 +33,7 @@
 #include "ov7670.h"
 #include "spi_img_loader.h"
 #include "lfs_port.h"
+#include "wifi_function.h"          /* ESP8266 WiFi 模块 AT 驱动 */
 /* hw_diag.h — 探索期遗留，擦写 SPI Flash 影响启动时间，移除 */
 /* #include "hw_diag.h" */
 
@@ -76,6 +77,7 @@ extern volatile uint8_t  g_rx_flag;
 #define GUI_TASK_STACK_SIZE     (1024 * 12)  /* 12KB: LVGL + camera, 实测高水位 ~9.5KB */
 #define TOUCH_TASK_STACK_SIZE   (128 * 4)    /* 512B: 触控 I2C 轮询, 高水位 425B */
 #define CANRX_TASK_STACK_SIZE   (512 * 4)    /* 2KB: CAN 接收 + printf, 高水位 ~1.5KB */
+#define WIFI_TASK_STACK_SIZE    (512 * 4)    /* 2KB: ESP8266 AT 命令 + sprintf, 预留充足 */
 #define DEFAULT_TASK_STACK_SIZE (128 * 4)    /* 512B: LED + UART 回显, 高水位 413B */
 
 osThreadId_t guiTaskHandle;
@@ -97,6 +99,13 @@ const osThreadAttr_t canRxTask_attributes = {
   .name = "canRxTask",
   .stack_size = CANRX_TASK_STACK_SIZE,
   .priority = (osPriority_t) osPriorityNormal,
+};
+
+osThreadId_t wifiTaskHandle;
+const osThreadAttr_t wifiTask_attributes = {
+  .name = "wifiTask",
+  .stack_size = WIFI_TASK_STACK_SIZE,
+  .priority = (osPriority_t) osPriorityBelowNormal,  /* 低优先级, 不干扰主界面响应 */
 };
 /* ── CAN → LVGL 延迟更新标志 (CAN 任务只设标志, GUI 任务消费, 避免线程冲突) ── */
 volatile uint8_t g_can_sensor_pending = 0;
@@ -139,6 +148,7 @@ const osThreadAttr_t defaultTask_attributes = {
 void StartGUITask(void *argument);
 void StartTouchTask(void *argument);
 void StartCanRxTask(void *argument);
+void StartWiFiTask(void *argument);
 /* USER CODE END FunctionPrototypes */
 
 void StartDefaultTask(void *argument);
@@ -178,6 +188,7 @@ void MX_FREERTOS_Init(void) {
   guiTaskHandle  = osThreadNew(StartGUITask, NULL, &guiTask_attributes);
   touchTaskHandle = osThreadNew(StartTouchTask, NULL, &touchTask_attributes);
   canRxTaskHandle = osThreadNew(StartCanRxTask, NULL, &canRxTask_attributes);
+  wifiTaskHandle  = osThreadNew(StartWiFiTask, NULL, &wifiTask_attributes);
   /* USER CODE END RTOS_THREADS */
 
   /* USER CODE BEGIN RTOS_EVENTS */
@@ -401,6 +412,67 @@ void StartCanRxTask(void *argument)
             }
         }
         osDelay(20);  /* 50Hz 轮询 */
+    }
+}
+
+/* ---- WiFi 任务 (ESP8266 初始化 + 连接维护) ---- */
+#define WIFI_SSID       "YOUR_SSID"          /* ← 修改为你的 WiFi 名称 */
+#define WIFI_PASSWORD   "YOUR_PASSWORD"      /* ← 修改为你的 WiFi 密码 */
+
+void StartWiFiTask(void *argument)
+{
+    (void)argument;
+    printf("[WiFi] Task started, waiting for system ready...\r\n");
+    osDelay(3000);  /* 等 GUI/LVGL/SPI-Flash 全部就绪 */
+
+    /* 使能 ESP8266 电源 (CH_PD = HIGH) */
+    ESP8266_Choose(ENABLE);
+    osDelay(500);
+
+    /* 使能 USART3 RX 中断 — ESP8266 数据通过中断填充 wifi_config 缓冲区 */
+    USART3->CR1 |= USART_CR1_RXNEIE;
+    HAL_NVIC_SetPriority(USART3_IRQn, 5, 0);
+    HAL_NVIC_EnableIRQ(USART3_IRQn);
+    printf("[WiFi] USART3 RX interrupt enabled\r\n");
+
+    /* 复位 ESP8266 并测试 AT */
+    ESP8266_AT_Test();
+    printf("[WiFi] AT OK — module ready\r\n");
+
+    /* 设置为 Station 模式 (连接外部路由器) */
+    ESP8266_Net_Mode_Choose(STA);
+    printf("[WiFi] Mode set to STA\r\n");
+
+    /* 连接 WiFi 热点 */
+    printf("[WiFi] Connecting to \"%s\"...\r\n", WIFI_SSID);
+    if (ESP8266_JoinAP(WIFI_SSID, WIFI_PASSWORD)) {
+        printf("[WiFi] Connected! IP assigned\r\n");
+        /* 可选: 启用多连接, 为 TCP Client 做准备 */
+        ESP8266_Enable_MultipleId(ENABLE);
+    } else {
+        printf("[WiFi] Failed to connect! Will retry...\r\n");
+    }
+
+    /* 主循环: 保持连接 + 心跳 */
+    {
+        uint32_t tick30 = 0;  /* 30 秒倒计数 */
+        for (;;) {
+            osDelay(1000);  /* 1s 节拍 */
+            tick30++;
+
+            /* 每 30 秒发送 AT 检测模块是否在线 */
+            if (tick30 >= 30) {
+                tick30 = 0;
+                if (!ESP8266_Cmd("AT", "OK", NULL, 200)) {
+                    printf("[WiFi] Lost connection, reinitializing...\r\n");
+                    ESP8266_Rst();
+                    osDelay(1000);
+                    ESP8266_AT_Test();
+                    ESP8266_Net_Mode_Choose(STA);
+                    ESP8266_JoinAP(WIFI_SSID, WIFI_PASSWORD);
+                }
+            }
+        }
     }
 }
 /* USER CODE END Application */
