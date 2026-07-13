@@ -1,0 +1,206 @@
+# SWD 远程操控接口数据
+# 程序直接解析用 — harness AI 通过 OpenOCD TCL 读写 STM32
+# 目标: STM32F407ZGT6 | 固件: MY_OTA_GUI | 构建: fbe9983
+
+meta:
+  project: MY_OTA_GUI
+  target: STM32F407ZGT6
+  app_base: 0x08010000
+
+# ============================================================
+# 调用约定 ★ 实测关键发现 ★
+# ============================================================
+# ✅ 正确: halt → resume [map_addr] → sleep N → halt
+#    resume 会自动设置 PC 并处理 Thumb 位
+#    地址直接用 .map 文件中的链接地址（不需要 +1）
+#
+# ❌ 错误: halt → reg pc addr → resume
+#    PC 值的改变会被 resume 忽略，导致 HardFault
+#
+# ❌ 错误: 子页面之间直接切换（如 Mode→Settings）
+#    必须先返回 Home，再切到目标页面
+
+calling_convention:
+  arch: ARMv7E-M
+  isa: Thumb-2
+  abi: AAPCS
+  safe_lr: 0x080FFFFE
+  critical: "用 resume [map_addr]，不用 reg pc + resume"
+  subpage_rule: "子页面间必须经 Home 中转"
+
+# ============================================================
+# 内存变量
+# ============================================================
+variables:
+  - name: g_ota_pending
+    address: 0x20017c17
+    size: 1
+    type: uint8_t
+    access: rw
+    desc: 写1触发OTA流程（备份→复位）
+
+  - name: g_camera_active
+    address: 0x20017d90
+    size: 1
+    access: rw
+
+  - name: g_theme_id
+    address: 0x20017c14
+    size: 1
+    access: rw
+    enum: {0: 暗黑, 1: 明亮, 2: 护眼}
+
+  - name: g_pressed
+    address: 0x20017b80
+    size: 1
+    access: rw
+    desc: 触摸按下状态
+
+  - name: g_last_x
+    address: 0x20017b7e
+    size: 2
+    type: uint16_t
+    access: rw
+    range: [0, 799]
+
+  - name: g_last_y
+    address: 0x20017b7c
+    size: 2
+    type: uint16_t
+    access: rw
+    range: [0, 479]
+
+  - name: g_touch
+    address: 0x20017b3c
+    size: 22
+    type: touch_data_t
+    fields:
+      - {name: x[0..4], offset: 0, size: 10, type: "uint16_t[5]"}
+      - {name: y[0..4], offset: 10, size: 10, type: "uint16_t[5]"}
+      - {name: sta,    offset: 20, size: 1, type: uint8_t}
+      - {name: points, offset: 21, size: 1, type: uint8_t}
+
+  - name: s_fallback_active
+    address: 0x200000c4
+    size: 1
+    access: ro
+
+  - name: g_width
+    address: 0x200000c2
+    size: 2
+    access: ro
+
+  - name: g_height
+    address: 0x200000c0
+    size: 2
+    access: ro
+
+  - name: ui_scr_main
+    address: 0x20017c50
+    size: 4
+    type: "lv_obj_t*"
+    access: ro
+
+  - name: ui_scr_mode
+    address: 0x20017cb8
+    size: 4
+    access: ro
+
+  - name: ui_scr_settings
+    address: 0x20017ccc
+    size: 4
+    access: ro
+
+  - name: ui_scr_clock
+    address: 0x20017d8c
+    size: 4
+    access: ro
+
+  - name: ui_scr_camera
+    address: 0x20017d94
+    size: 4
+    access: ro
+
+# ============================================================
+# 可调用函数
+# ============================================================
+# 调用方法: halt → resume [link_address] → sleep N → halt
+# link_address = .map 中的链接地址（不需要 +1）
+functions:
+  # -- 页面切换 --
+  - {name: mode_ui_show,     link: 0x08043088, desc: "→ Mode页"}
+  - {name: mode_ui_hide,     link: 0x080430CC, desc: "Mode→主页"}
+  - {name: settings_ui_show, link: 0x080434C0, desc: "→ 设置页"}
+  - {name: settings_ui_hide, link: 0x080434E8, desc: "设置→主页"}
+  - {name: clock_ui_show,    link: 0x08044648, desc: "→ 时钟页"}
+  - {name: clock_ui_hide,    link: 0x080445B4, desc: "时钟→主页"}
+  - {name: camera_ui_show,   link: 0x080448E8, desc: "→ 摄像头页"}
+  - {name: camera_ui_hide,   link: 0x0804499C, desc: "摄像头→主页"}
+
+  # -- 数据注入 --
+  - name: app_ui_update_sensor
+    link: 0x08042370
+    params:
+      - {reg: r0, name: temp, type: float, desc: "温度 °C"}
+      - {reg: r1, name: hum,  type: float, desc: "湿度 %"}
+      - {reg: r2, name: knob, type: uint16_t}
+      - {reg: r3, name: key_id, type: uint8_t}
+
+  # -- 系统 --
+  - {name: touch_poll,        link: 0x0804190C, desc: "触摸扫描"}
+  - {name: backup_is_valid,   link: 0x080438F0, return: uint8_t}
+  - {name: backup_erase,      link: 0x08043AE4}
+  - {name: spi_img_load_all,  link: 0x08043BF4}
+
+  # -- LCD --
+  - name: NT35510_WritePixel
+    link: 0x08040D3A
+    params:
+      - {reg: r0, color, uint16_t, desc: "RGB565, 需先调SetWindow"}
+  - name: NT35510_SetWindow
+    link: 0x08040CB8
+    params:
+      - {reg: r0, x, uint16_t}
+      - {reg: r1, y, uint16_t}
+      - {reg: r2, w, uint16_t}
+      - {reg: r3, h, uint16_t}
+
+  # -- SPI Flash --
+  - {name: EN25Q128_ReadID,      link: 0x080407E0, return: uint32_t}
+  - {name: EN25Q128_BackupFirmware,   link: 0x080409E4, return: int}
+  - {name: EN25Q128_BackupFirmwareLFS, link: 0x08040B20, return: int}
+
+# ============================================================
+# LCD 寄存器 (NT35510 via FSMC)
+# ============================================================
+lcd:
+  base: 0x6C00007E
+  cmd:  {addr: 0x6C00007E, width: 16}
+  dat:  {addr: 0x6C000080, width: 16}
+  commands:
+    0x0001: SW_RESET
+    0x0011: SLEEP_OUT
+    0x0029: DISPLAY_ON
+    0x002A: COLUMN_ADDR
+    0x002B: PAGE_ADDR
+    0x002C: MEMORY_WRITE
+  resolution: [800, 480]
+
+# ============================================================
+# 内存分区
+# ============================================================
+memory:
+  - region: Bootloader
+    start: 0x08000000
+    size: 0x10000
+  - region: APP
+    start: 0x08010000
+    size: 0xD0000
+  - region: 备份扇区9
+    start: 0x080A0000
+    size: 0x20000
+    magic: 0x494D474D
+  - region: 外部SRAM
+    start: 0x68000000
+    size: 0x100000
+    bus: FSMC

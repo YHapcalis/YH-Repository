@@ -1,0 +1,112 @@
+{
+  "_meta": {
+    "project": "MY_OTA_GUI",
+    "target": "STM32F407ZGT6",
+    "build": "fbe9983",
+    "app_base": "0x08010000",
+    "description": "SWD 远程操控接口数据 — harness AI 通过 OpenOCD TCL 直接操作 STM32"
+  },
+
+  "calling_convention": {
+    "arch": "ARMv7E-M (Cortex-M4F)",
+    "isa": "Thumb-2",
+    "abi": "AAPCS",
+    "critical_finding": "必须使用 halt → resume [link_address] → sleep → halt。不要用 reg pc + resume（会导致 HardFault）。地址用 .map 链接地址（不需要 +1）。",
+    "subpage_rule": "子页面（Mode/设置/时钟/摄像头）之间不可直接切换，必须先返回 Home 再切到目标页。",
+    "safe_return": "0x080FFFFE",
+    "float_example": {
+      "25.5": "0x41CC0000",
+      "60.0": "0x42700000",
+      "100.0": "0x42C80000"
+    }
+  },
+
+  "variables": [
+    {"name": "g_ota_pending",   "address": "0x20017c17", "size": 1,  "type": "uint8_t",  "access": "rw", "desc": "写1触发OTA流程"},
+    {"name": "g_theme_id",      "address": "0x20017c14", "size": 1,  "type": "uint8_t",  "access": "rw", "desc": "0=暗黑/1=明亮/2=护眼"},
+    {"name": "g_camera_active", "address": "0x20017d90", "size": 1,  "type": "uint8_t",  "access": "rw"},
+    {"name": "g_pressed",       "address": "0x20017b80", "size": 1,  "type": "uint8_t",  "access": "rw", "desc": "模拟触摸按下"},
+    {"name": "g_last_x",        "address": "0x20017b7e", "size": 2,  "type": "uint16_t", "access": "rw", "range": [0,799]},
+    {"name": "g_last_y",        "address": "0x20017b7c", "size": 2,  "type": "uint16_t", "access": "rw", "range": [0,479]},
+    {"name": "g_touch",         "address": "0x20017b3c", "size": 22, "type": "touch_data_t", "access": "rw"},
+    {"name": "s_fallback_active","address": "0x200000c4","size": 1,  "type": "uint8_t",  "access": "ro"},
+    {"name": "g_width",         "address": "0x200000c2", "size": 2,  "type": "uint16_t", "access": "ro"},
+    {"name": "g_height",        "address": "0x200000c0", "size": 2,  "type": "uint16_t", "access": "ro"},
+    {"name": "g_can_sensor",    "address": "0x20017b84", "size": 16, "type": "can_sensor_t", "access": "ro"},
+    {"name": "ui_scr_main",     "address": "0x20017c50", "size": 4,  "type": "lv_obj_t*", "access": "ro"},
+    {"name": "ui_scr_mode",     "address": "0x20017cb8", "size": 4,  "type": "lv_obj_t*", "access": "ro"},
+    {"name": "ui_scr_settings", "address": "0x20017ccc", "size": 4,  "type": "lv_obj_t*", "access": "ro"},
+    {"name": "ui_scr_clock",    "address": "0x20017d8c", "size": 4,  "type": "lv_obj_t*", "access": "ro"},
+    {"name": "ui_scr_camera",   "address": "0x20017d94", "size": 4,  "type": "lv_obj_t*", "access": "ro"},
+    {"name": "g_lfs",           "address": "0x20017d98", "size": 128,"type": "lfs_t",    "access": "ro"}
+  ],
+
+  "functions": [
+    {"_note": "调用方法: halt → resume [link_address] → sleep N(ms) → halt。link_address 来自 .map 文件，不需要 +1。"},
+    {"_verified_on_hardware": "2026-07-11: 全部4页切换 + 心跳监测通过"},
+
+    {"name": "mode_ui_show",     "link_address": "0x08043088", "category": "page_switch", "desc": "→ Mode 页"},
+    {"name": "mode_ui_hide",     "link_address": "0x080430CC", "category": "page_switch", "desc": "Mode → 主页"},
+    {"name": "settings_ui_show", "link_address": "0x080434C0", "category": "page_switch", "desc": "→ 设置页"},
+    {"name": "settings_ui_hide", "link_address": "0x080434E8", "category": "page_switch", "desc": "设置 → 主页"},
+    {"name": "clock_ui_show",    "link_address": "0x08044648", "category": "page_switch", "desc": "→ 时钟页"},
+    {"name": "clock_ui_hide",    "link_address": "0x080445B4", "category": "page_switch", "desc": "时钟 → 主页"},
+    {"name": "camera_ui_show",   "link_address": "0x080448E8", "category": "page_switch", "desc": "→ 摄像头页"},
+    {"name": "camera_ui_hide",   "link_address": "0x0804499C", "category": "page_switch", "desc": "摄像头 → 主页"},
+
+    {"name": "app_ui_update_sensor", "link_address": "0x08042370", "category": "sensor", "params": [
+      {"reg": "r0", "type": "float", "desc": "temp °C"},
+      {"reg": "r1", "type": "float", "desc": "hum %"},
+      {"reg": "r2", "type": "uint16_t", "desc": "knob"},
+      {"reg": "r3", "type": "uint8_t", "desc": "key_id"}
+    ]},
+    {"name": "app_ui_update_time", "link_address": "0x08042518", "category": "system", "params": [
+      {"reg": "r0-r3, stack", "desc": "year/month/day/hour/min/sec"}
+    ]},
+
+    {"name": "touch_poll",         "link_address": "0x0804190C", "category": "touch"},
+    {"name": "backup_is_valid",    "link_address": "0x080438F0", "category": "system", "return_reg": "r0"},
+    {"name": "backup_erase",       "link_address": "0x08043AE4", "category": "system"},
+    {"name": "spi_img_load_all",   "link_address": "0x08043BF4", "category": "display"},
+
+    {"name": "NT35510_WritePixel", "link_address": "0x08040D3A", "category": "lcd", "params": [
+      {"reg": "r0", "name": "color", "type": "uint16_t", "desc": "RGB565, 需先调SetWindow"}
+    ]},
+    {"name": "NT35510_SetWindow",  "link_address": "0x08040CB8", "category": "lcd", "params": [
+      {"reg": "r0", "name": "x", "type": "uint16_t"},
+      {"reg": "r1", "name": "y", "type": "uint16_t"},
+      {"reg": "r2", "name": "w", "type": "uint16_t"},
+      {"reg": "r3", "name": "h", "type": "uint16_t"}
+    ]},
+    {"name": "EN25Q128_ReadID",    "link_address": "0x080407E0", "category": "spi_flash", "return_reg": "r0"},
+    {"name": "EN25Q128_BackupFirmware",   "link_address": "0x080409E4", "category": "ota"},
+    {"name": "EN25Q128_BackupFirmwareLFS","link_address": "0x08040B20", "category": "ota"}
+  ],
+
+  "lcd_registers": {
+    "base": "0x6C00007E",
+    "cmd": "0x6C00007E",
+    "dat": "0x6C000080",
+    "width": 16,
+    "commands": {
+      "SW_RESET": 0x0001,
+      "SLEEP_OUT": 0x0011,
+      "DISPLAY_ON": 0x0029,
+      "DISPLAY_OFF": 0x0028,
+      "COLUMN_ADDR": 0x002A,
+      "PAGE_ADDR": 0x002B,
+      "MEMORY_WRITE": 0x002C
+    },
+    "resolution": [800, 480]
+  },
+
+  "memory_map": [
+    {"region": "Bootloader",  "start": "0x08000000", "size": "0x10000"},
+    {"region": "APP",         "start": "0x08010000", "size": "0xD0000"},
+    {"region": "备份扇区9",   "start": "0x080A0000", "size": "0x20000", "magic": "0x494D474D"},
+    {"region": "参数扇区",     "start": "0x080E0000", "size": "0x20000"},
+    {"region": "主SRAM",      "start": "0x20000000", "size": "0x20000"},
+    {"region": "CCMRAM",      "start": "0x10000000", "size": "0x10000"},
+    {"region": "外部SRAM",    "start": "0x68000000", "size": "0x100000", "bus": "FSMC"}
+  ]
+}
