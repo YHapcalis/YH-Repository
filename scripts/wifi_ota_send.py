@@ -131,7 +131,7 @@ def directed_mode(ip, bin_path, do_who, target_uid):
 
 
 def broadcast_mode(bin_path, dl_port):
-    """广播推送: UDP 触发 + TCP 下载服务器"""
+    """广播推送: 顺序遍历每块板, 逐一定向 OTA (复用已验证的路径)"""
     if not os.path.isfile(bin_path):
         print(f"[ERR] File not found: {bin_path}")
         return False
@@ -141,60 +141,45 @@ def broadcast_mode(bin_path, dl_port):
         return False
 
     local_ip = get_local_ip()
-    print(f"[BROADCAST] Local IP: {local_ip}")
-    print(f"[BROADCAST] Firmware: {bin_path} ({fw_size} bytes)")
-    print(f"[BROADCAST] UDP trigger on port {UDP_PORT}")
-    print(f"[BROADCAST] TCP download on port {dl_port}")
-    print()
+    subnet = ".".join(local_ip.split(".")[:3])
 
-    # 启动 TCP 固件下载服务器 (在后台接收板子连接)
-    dl_server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    dl_server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    dl_server.bind(("0.0.0.0", dl_port))
-    dl_server.listen(5)
-    dl_server.settimeout(30)
-
-    # 发送 UDP 广播
-    bcast_msg = f"OTA_N:{fw_size}:{local_ip}:{dl_port}\n"
-    udp_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    udp_sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-    udp_sock.sendto(bcast_msg.encode(), ("255.255.255.255", UDP_PORT))
-    print(f"[BROADCAST] Sent: {bcast_msg.strip()}")
-    udp_sock.close()
-
-    # 等待板子连接
-    print("[BROADCAST] Waiting for boards to connect...")
-    connected = 0
-    deadline = time.time() + 60
-    while time.time() < deadline and connected < 10:
+    # 扫描子网找板子
+    boards = []
+    print(f"[BROADCAST] Scanning {subnet}.x:8080 for boards...")
+    for i in range(1, 255):
         try:
-            client, addr = dl_server.accept()
-            connected += 1
-            print(f"[BROADCAST] Board #{connected} connected from {addr[0]}")
-            client.settimeout(10)
+            s = socket.socket()
+            s.settimeout(0.1)
+            s.connect((f"{subnet}.{i}", TCP_PORT))
+            boards.append(f"{subnet}.{i}")
+            s.close()
+        except:
+            pass
+    print(f"[BROADCAST] Found {len(boards)} board(s): {boards}")
 
-            # 发送固件
-            sent = 0
-            with open(bin_path, "rb") as f:
-                while True:
-                    chunk = f.read(CHUNK_SIZE)
-                    if not chunk:
-                        break
-                    try:
-                        client.sendall(chunk)
-                        sent += len(chunk)
-                    except:
-                        print(f"[WARN] Board #{connected} disconnected early")
-                        break
-                    time.sleep(SEND_DELAY)
-            client.close()
-            print(f"[BROADCAST] Board #{connected}: {sent} bytes sent")
-        except socket.timeout:
-            break
+    if not boards:
+        print("[BROADCAST] No boards found!")
+        return False
 
-    dl_server.close()
-    print(f"\n[BROADCAST] Done! {connected} board(s) updated.")
-    return connected > 0
+    # 逐板定向 OTA 推送
+    success = 0
+    total_time = 0
+    for idx, ip in enumerate(boards):
+        print(f"\n[BROADCAST] --- Board {idx+1}/{len(boards)}: {ip} ---")
+        t0 = time.time()
+        ok = directed_mode(ip, bin_path, do_who=False, target_uid=None)
+        elapsed = time.time() - t0
+        total_time += elapsed
+        if ok:
+            success += 1
+            print(f"[BROADCAST] Board {ip} done ({elapsed:.0f}s)")
+            # 等板子重启 + Bootloader 恢复 + APP 启动 + WiFi 重连
+            wait = 20
+            print(f"[BROADCAST] Waiting {wait}s for next board...")
+            time.sleep(wait)
+
+    print(f"\n[BROADCAST] Done! {success}/{len(boards)} board(s) updated in {total_time:.0f}s")
+    return success > 0
 
 
 if __name__ == "__main__":

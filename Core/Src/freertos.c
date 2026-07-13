@@ -454,16 +454,6 @@ void StartWiFiTask(void *argument)
         /* TCP Server (端口 8080, 供 OTA 客户端/开发模式连接) */
         if (ESP8266_StartOrShutServer(ENABLE, "8080", "0")) {
             printf("[WiFi] TCP server on port 8080 ready\r\n");
-        /* UDP broadcast listener (port 8081, for mass-production) */
-        if (ESP8266_Cmd("AT+CIPSTART=5,\"UDP\",\"255.255.255.255\",8081,8081",
-                        "OK", NULL, 2000)) {
-            printf("[WiFi] UDP broadcast listener on port 8081\r\n");
-        }
-        }
-        /* UDP 广播监听 (端口 8081, 供量产广播更新触发) */
-        if (ESP8266_Cmd("AT+CIPSTART=5,\"UDP\",\"255.255.255.255\",8081,8081",
-                        "OK", NULL, 2000)) {
-            printf("[WiFi] UDP broadcast listener on port 8081\r\n");
         }
     } else {
         printf("[WiFi] Failed to connect! Will retry...\r\n");
@@ -524,8 +514,9 @@ void StartWiFiTask(void *argument)
                             continue;
                         }
 
-                        /* OTA_N: broadcast -> connect server download */
-                        if (strncmp(p_data, "OTA_N:", 6) == 0 && ipd_id == 5) {
+                        /* OTA_N: broadcast trigger -> connect to server & download */
+                        /* 支持 UDP (ID 3) 和 TCP (ID 0-4) 两种来源 */
+                        if (strncmp(p_data, "OTA_N:", 6) == 0) {
                             char *sp = p_data + 6;
                             ota_total = 0;
                             for (; *sp && *sp != ':'; sp++)
@@ -537,10 +528,10 @@ void StartWiFiTask(void *argument)
                             char *srv_port = sp;
                             printf("[WiFi] BCAST: %lu bytes @ %s:%s\r\n",
                                    ota_total, srv_ip, srv_port);
-                            ESP8266_Cmd("AT+CIPCLOSE=5", "OK", NULL, 500);
+                            ESP8266_Cmd("AT+CIPCLOSE=3", "OK", NULL, 500);
                             char cbuf[100];
                             snprintf(cbuf, sizeof(cbuf),
-                                "AT+CIPSTART=5,\"TCP\",\"%s\",%s", srv_ip, srv_port);
+                                "AT+CIPSTART=3,\"TCP\",\"%s\",%s", srv_ip, srv_port);
                             if (ESP8266_Cmd(cbuf, "OK", NULL, 3000) &&
                                 ota_total > 4096 && ota_total <= 0x100000) {
                                 ota_active = 1;
