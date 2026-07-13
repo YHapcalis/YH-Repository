@@ -7,8 +7,8 @@ wifi_ota_send.py — WiFi OTA 固件推送工具 (双模式)
     python wifi_ota_send.py <ESP8266_IP> <firmware.bin> --who          # UID 握手确认
     python wifi_ota_send.py <ESP8266_IP> <firmware.bin> --who --target-uid <UID>  # 校验目标板
 
-量产模式 (广播更新):
-    python wifi_ota_send.py <firmware.bin> --broadcast                  # UDP 广播触发
+量产模式 (UDP广播触发, 各板反连TCP下载):
+    python wifi_ota_send.py <firmware.bin> --broadcast                  # 自动广播+下载
     python wifi_ota_send.py <firmware.bin> --broadcast --port 8765      # 自定下载端口
 
 示例:
@@ -17,17 +17,13 @@ wifi_ota_send.py — WiFi OTA 固件推送工具 (双模式)
 
 流程:
     定向:  PC → TCP:8080 → ESP8266 → USART3 → F407 → SPI Flash → 复位 → Bootloader
-    广播:  PC → UDP:8081 (触发) → 各板连 PC:8765 (下载) → 各自更新
+    广播:  PC → UDP:8081 (OTA:size:PC_IP:port) → 各板连 PC:8765 (TCP下载) → 各自更新
 """
 
-import socket
-import sys
-import os
-import time
-import argparse
+import socket, sys, os, time, argparse
 
 TCP_PORT = 8080          # 定向: TCP Server 端口 (F407 ESP8266 监听)
-UDP_PORT = 8081          # 广播: UDP 监听端口 (F407 ESP8266 监听)
+# unused now 广播: UDP 监听端口 (F407 ESP8266 监听)
 DL_PORT  = 8765          # 广播: 固件下载 TCP 端口 (PC 临时 Server)
 CHUNK_SIZE = 128         # 每块字节数 (ESP8266 缓存安全值)
 SEND_DELAY = 0.02        # 块间延迟
