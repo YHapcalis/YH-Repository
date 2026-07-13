@@ -446,11 +446,24 @@ void StartWiFiTask(void *argument)
     /* 连接 WiFi 热点 */
     printf("[WiFi] Connecting to \"%s\"...\r\n", WIFI_SSID);
     if (ESP8266_JoinAP(WIFI_SSID, WIFI_PASSWORD)) {
-        printf("[WiFi] Connected! IP assigned\r\n");
-        /* 启用多连接, 启动 TCP Server (端口 8080, 供 OTA 客户端连接) */
+        printf("[WiFi] Connected!\r\n");
+        /* 查询并打印 IP */
+        ESP8266_Cmd("AT+CIFSR", "OK", NULL, 1000);
+        /* 启用多连接 */
         ESP8266_Enable_MultipleId(ENABLE);
+        /* TCP Server (端口 8080, 供 OTA 客户端/开发模式连接) */
         if (ESP8266_StartOrShutServer(ENABLE, "8080", "0")) {
             printf("[WiFi] TCP server on port 8080 ready\r\n");
+        /* UDP broadcast listener (port 8081, for mass-production) */
+        if (ESP8266_Cmd("AT+CIPSTART=5,\"UDP\",\"255.255.255.255\",8081,8081",
+                        "OK", NULL, 2000)) {
+            printf("[WiFi] UDP broadcast listener on port 8081\r\n");
+        }
+        }
+        /* UDP 广播监听 (端口 8081, 供量产广播更新触发) */
+        if (ESP8266_Cmd("AT+CIPSTART=5,\"UDP\",\"255.255.255.255\",8081,8081",
+                        "OK", NULL, 2000)) {
+            printf("[WiFi] UDP broadcast listener on port 8081\r\n");
         }
     } else {
         printf("[WiFi] Failed to connect! Will retry...\r\n");
@@ -463,48 +476,107 @@ void StartWiFiTask(void *argument)
         uint32_t ota_total  = 0;       /* 固件总大小 */
         uint8_t  ota_active = 0;       /* 正在 OTA 接收中 */
         uint8_t  ota_buf[256];         /* 临时写入缓冲区 */
+        char     rx_line[1024];         /* 一行接收数据 */
 
         for (;;) {
             osDelay(10);
             tick30++;
 
-            /* --- 检查 ESP8266 是否有数据到达 --- */
-            char *rx = ESP8266_ReceiveString(DISABLE);
-            if (rx && strstr(rx, "+IPD")) {
-                /* 解析 +IPD,<id>,<len>:<data> */
-                char *p = rx + 5;  /* 跳过 "+IPD" */
-                while (*p && *p != ':') p++;  /* 跳到冒号 */
-                if (*p == ':') {
-                    p++;  /* 跳过冒号, 指向数据 */
-                    uint32_t dlen = strlen(p);
-                    /* 去除尾部 \r\n */
-                    while (dlen > 0 && (p[dlen-1]=='\r'||p[dlen-1]=='\n')) dlen--;
-                    p[dlen] = '\0';
+            /* --- 非阻塞检查 ESP8266 接收帧 (不调用 ESP8266_ReceiveString, 它阻塞) --- */
+            if (strEsp8266_Fram_Record.InfBit.FramFinishFlag) {
+                strEsp8266_Fram_Record.InfBit.FramFinishFlag = 0;
+                uint16_t flen = strEsp8266_Fram_Record.InfBit.FramLength;
+                if (flen > sizeof(rx_line) - 1) flen = sizeof(rx_line) - 1;
+                memcpy(rx_line, strEsp8266_Fram_Record.Data_RX_BUF, flen);
+                rx_line[flen] = '\0';
+                strEsp8266_Fram_Record.InfBit.FramLength = 0;
 
-                    if (!ota_active) {
-                        /* 检测 OTA 起始命令 */
-                        if (strncmp(p, "OTA:", 4) == 0) {
+                /* 查找 +IPD 帧 (格式: +IPD,<id>,<len>:<data>) */
+                /* +IPD frame: +IPD,<id>,<len>:<data> */
+                char *ipd = strstr(rx_line, "+IPD");
+                if (ipd) {
+                    /* extract connection ID + data length */
+                    uint32_t ipd_id = 0, ipd_len = 0;
+                    char *p = ipd + 5;
+                    for (; *p && *p != ','; p++)
+                        ipd_id = ipd_id * 10 + (uint32_t)(*p - '0');
+                    if (*p == ',') {
+                        p++;
+                        for (; *p && *p != ':'; p++)
+                            ipd_len = ipd_len * 10 + (uint32_t)(*p - '0');
+                    }
+                    /* point to data after colon */
+                    char *p_data = strchr(ipd, ':');
+                    if (p_data && ipd_len > 0 && ipd_len < 1024) {
+                        p_data++;
+
+                        /* WHO: reply with MCU UID */
+                        if (strncmp(p_data, "WHO", 3) == 0 && ipd_id < 5) {
+                            uint32_t uid0 = *(uint32_t*)0x1FFF7A10;
+                            uint32_t uid1 = *(uint32_t*)0x1FFF7A14;
+                            uint32_t uid2 = *(uint32_t*)0x1FFF7A18;
+                            char rbuf[40];
+                            int rn = snprintf(rbuf, sizeof(rbuf),
+                                "ID:%08lX%08lX%08lX\r\n", uid0, uid1, uid2);
+                            if (rn > 0)
+                                ESP8266_SendString(DISABLE, rbuf, (u32)rn,
+                                    (ENUM_ID_NO_TypeDef)ipd_id);
+                            continue;
+                        }
+
+                        /* OTA_N: broadcast -> connect server download */
+                        if (strncmp(p_data, "OTA_N:", 6) == 0 && ipd_id == 5) {
+                            char *sp = p_data + 6;
                             ota_total = 0;
-                            for (const char *s = p+4; *s >= '0' && *s <= '9'; s++)
-                                ota_total = ota_total * 10 + (uint32_t)(*s - '0');
-                            if (ota_total > 4096 && ota_total <= 0x100000) {
+                            for (; *sp && *sp != ':'; sp++)
+                                ota_total = ota_total * 10 + (uint32_t)(*sp - '0');
+                            if (*sp == ':') sp++;
+                            char *srv_ip = sp;
+                            for (; *sp && *sp != ':'; sp++);
+                            if (*sp == ':') { *sp++ = '\0'; }
+                            char *srv_port = sp;
+                            printf("[WiFi] BCAST: %lu bytes @ %s:%s\r\n",
+                                   ota_total, srv_ip, srv_port);
+                            ESP8266_Cmd("AT+CIPCLOSE=5", "OK", NULL, 500);
+                            char cbuf[100];
+                            snprintf(cbuf, sizeof(cbuf),
+                                "AT+CIPSTART=5,\"TCP\",\"%s\",%s", srv_ip, srv_port);
+                            if (ESP8266_Cmd(cbuf, "OK", NULL, 3000) &&
+                                ota_total > 4096 && ota_total <= 0x100000) {
                                 ota_active = 1;
-                                ota_offset = 8;  /* 跳过备份头 */
-                                printf("[WiFi] OTA start: %lu bytes\r\n", ota_total);
-                                /* 擦除 SPI Flash 备份区 (512KB = 128 sectors) */
+                                ota_offset = 8;
+                                printf("[WiFi] BCAST OTA start: %lu bytes\r\n", ota_total);
                                 for (uint32_t s = 0; s < 128; s++)
                                     EN25Q128_EraseSector(SPI_BAK_ADDR + s * 4096);
-                                /* 预留备份头位置 (spi_off = SPI_BAK_ADDR + 8) */
-                                continue;
+                            } else {
+                                ota_active = 0;
+                                printf("[WiFi] BCAST connect FAILED\r\n");
                             }
+                            continue;
                         }
-                    } else {
-                        /* OTA 接收中: 写入 SPI Flash (跳过 8B 备份头) */
-                        uint32_t n = dlen;
-                        if (n > 0 && ota_offset - 8 + n <= ota_total) {
-                            memcpy(ota_buf, p, n);
-                            EN25Q128_Write(ota_buf, SPI_BAK_ADDR + ota_offset, n);
-                            ota_offset += n;
+
+                        /* OTA: directed push (original) */
+                        if (!ota_active) {
+                            if (strncmp(p_data, "OTA:", 4) == 0) {
+                                ota_total = 0;
+                                for (const char *s = p_data+4; *s >= '0' && *s <= '9'; s++)
+                                    ota_total = ota_total * 10 + (uint32_t)(*s - '0');
+                                if (ota_total > 4096 && ota_total <= 0x100000) {
+                                    ota_active = 1;
+                                    ota_offset = 8;
+                                    printf("[WiFi] OTA start: %lu bytes\r\n", ota_total);
+                                    for (uint32_t s = 0; s < 128; s++)
+                                        EN25Q128_EraseSector(SPI_BAK_ADDR + s * 4096);
+                                    continue;
+                                }
+                            }
+                        } else {
+                            uint32_t n = ipd_len;
+                            if (n > 0 && n <= 256 && ota_offset - 8 + n <= ota_total) {
+                                memcpy(ota_buf, p_data, n);
+                                EN25Q128_Write(ota_buf, SPI_BAK_ADDR + ota_offset, n);
+                                ota_offset += n;
+                            }
                         }
                     }
                 }
@@ -513,7 +585,6 @@ void StartWiFiTask(void *argument)
             /* --- OTA 完成检查 --- */
             if (ota_active && ota_offset - 8 >= ota_total) {
                 printf("[WiFi] OTA receive complete! (%lu bytes)\r\n", ota_total);
-                /* 写入 8 字节备份头: magic(4B) + fw_size(4B) */
                 uint8_t hdr[8];
                 hdr[0] = (uint8_t)(SPI_BAK_MAGIC >> 0);
                 hdr[1] = (uint8_t)(SPI_BAK_MAGIC >> 8);
