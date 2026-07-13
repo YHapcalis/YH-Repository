@@ -1,63 +1,82 @@
 # Agent 报告 — F407 OTA Bootloader 全量开发
 
 > **Agent 类型**：全自动全量开发  
-> **工程**：MY_OTA_GUI (STM32F407ZGT6 + NT35510 LCD + W25Q128)  
+> **工程**：MY_OTA_GUI (STM32F407ZGT6 + NT35510 LCD + W25Q128 + ESP8266)  
 > **源码**：基于 uint3code OTA 例程向 F407+F103C8 双板架构移植  
-> **日期**：2026-07-08（第四轮：OV7670 摄像头完整集成）
+> **日期**：2026-07-11（第五轮：ESP8266 WiFi 双模式 OTA）
 
 ---
 
 ## 一、任务概述
 
-在上一轮（中文显示 + 三屏扩展 + SPI Flash 图片加载）的基础上，本周期完成了：
-1. OV7670 摄像头模组完整集成
-2. CAN 连接与 LVGL 线程安全修复
-3. 双区 VSCode 调试环境搭建
-4. 全部画面问题（撕裂/底噪/卡死）已解决
+在上一轮（OV7670 摄像头完整集成 + 三级图片状态机）的基础上，本周期完成了：
+1. ESP8266 WiFi 模块 FreeRTOS 任务 + USART3 中断集成
+2. WiFi OTA 双模式架构（定向握手 WHO + 广播触发 OTA_N）
+3. Bootloader WiFi 预存检测快速恢复（跳过 60s CAN 等待）
+4. PC 端双模式推送工具 `scripts/wifi_ota_send.py`
+5. SWD 远程操控接口文档（harness AI 工具链）
 
 ---
 
 ## 二、开发成果清单
 
-### LittleFS 文件系统 (baf971e)
+### ESP8266 WiFi 模块集成 (f407d11)
 
 | 文件 | 说明 |
 |------|------|
-| `Core/ThirdParty/littlefs/` | lfs.h + lfs.c + lfs_util.h (官方 master) |
-| `Core/Inc/lfs_port.h` | LFS 移植层头文件 |
-| `Core/Src/lfs_port.c` | 4 HAL + CRC-32 + mount/format |
-| `Bootloader/Src/lfs_boot.c` | BL 只读 LFS 最小移植 |
-| `scripts/mklfs_host.c` + `make_lfs_image.py` | PC 端 LFS 镜像生成 |
-| `scripts/patch_font.py` | 字库现修脚本（应急用，已删除） |
+| `Core/Src/wifi_function.c/h` | ESP8266 AT 指令封装（连接/发送/接收/Server） |
+| `Core/Src/wifi_config.c/h` | 数据缓冲 `strEsp8266_Fram_Record` + `USART3_printf` |
+| `Core/Src/stm32f4xx_it.c` | `USART3_IRQHandler` 逐字节接收，`\n` 帧尾标记 |
+| `Core/Src/freertos.c` | `StartWiFiTask` (BelowNormal, 2KB 栈) + `wifi_task.h` |
 
-SPI Flash 分区：LittleFS 14MB (0x000000-0xDFFFFF) + 裸备份 512KB (0xE00000-0xE7FFFF)
+引脚：USART3 @ PB10(TX)/PB11(RX), PF6(CH_PD), PC0(RST)
 
-### 双区 OTA 回滚 + Bootloader 64KB (23a7362)
+### WiFi OTA 双模式 (ad6e554 + 24b36e5)
 
-- Bootloader 从 32KB 翻倍到 64KB（0x08000000-0x0800FFFF）
-- APP 移至 0x08010000，分区缩小到 832KB
-- 链接脚本 + VTOR + 全部地址常量同步更新
-- 后备图片数据移除（释放 ~55KB 内部 Flash）
-- 备份改为 LFS 文件 `firmware.bak`（APP 写，BL 读）
-- 保留裸备份区作为降级方法
-- Mode 屏备份状态英文显示
+**定向推送模式 (开发调试)：**
+- PC → TCP:8080 → ESP8266 → USART3 → F407
+- WHO 命令 → MCU 回复 96-bit UID (`ID:XXXXXXXX...`)
+- OTA:size 命令 → 写入 SPI Flash 备份区 (0xE00000)
+- 可选 `--who --target-uid` 校验目标板
 
-### HMAC-SHA256 固件签名 (22631f8)
+**广播推送模式 (量产更新)：**
+- PC → UDP:8081 → 所有 ESP8266 接收触发
+- `OTA_N:size:PC_IP:port` → 各板连 TCP:8765 独立下载
+- 支持最多 10 块并发，自动发现 PC IP
 
-| 文件 | 说明 |
-|------|------|
-| `Core/Inc/sha256.h` | SHA-256 + HMAC-SHA256 API |
-| `Core/Src/sha256.c` | 实现 + 32 字节密钥 + verify_firmware_sig() |
-| `scripts/sign_firmware.py` | PC 端签名工具（CMake POST_BUILD 自动执行） |
+**Bootloader 配合 (ad6e554)：**
+- 在 CAN ISO-TP 等待前增加 SPI Flash 预存检测
+- 发现 `SPI_BAK_MAGIC` (0x2141544F = "OTA!") → 直接恢复
+- 跳过 60s CAN 等待，秒级完成
 
-签名块 @ 0x080DFF80（40 字节：fw_size + HMAC + Magic）
-- 签名有效 → `[BOOT] Signature OK` → 正常跳转
-- 无签名 → `[BOOT] No signature, continuing (dev mode)` → 仅警告
-- 签名无效 → 尝试 SPI Flash 备份恢复，失败则 LED 死循环
+### PC 端工具 (scripts/wifi_ota_send.py)
 
-### 密钥管理
+```bash
+# 定向推送
+python wifi_ota_send.py 192.168.0.235 build/Debug/MY_OTA_GUI.bin
 
-密钥硬编码在 sha256.c 和 sign_firmware.py 中。如需更换，两个文件同步更新后重新编译。
+# 定向 + UID 握手校验
+python wifi_ota_send.py 192.168.0.235 build/Debug/MY_OTA_GUI.bin --who --target-uid 1FFF
+
+# 广播推送（所有板子同时升级）
+python wifi_ota_send.py build/Debug/MY_OTA_GUI.bin --broadcast
+```
+
+### SWD 远程操控接口文档 (f4b36fd)
+
+新建三份文档供 harness AI 使用：
+- `docs/SWD远程操控接口手册.md` — 人工/AI 阅读
+- `docs/SWD远程操控-接口数据.json` — 程序解析
+- `docs/SWD远程操控-接口数据.yaml` — 程序解析
+
+包含 18 个内存变量地址、22 个可调用函数地址、LCD NT35510 寄存器映射。已实机验证全部 4 页切换 + 心跳监测。
+
+### 恢复误删脚本 (28c5476)
+
+从 git 历史恢复：
+- `scripts/can_ota_send.py` — CAN ISO-TP 升级路径
+- `scripts/ymodem_send.py` — Ymodem 备选升级
+- `scripts/sign_firmware.py` — CMake 签名工具
 
 ---
 
@@ -65,9 +84,9 @@ SPI Flash 分区：LittleFS 14MB (0x000000-0xDFFFFF) + 裸备份 512KB (0xE00000
 
 | 目标 | 大小 | 占用 | 余量 |
 |------|------|------|------|
-| Bootloader | 64KB | 43.6KB (68%) | 20.4KB |
-| APP | 832KB | 421KB (51%) | 411KB |
-| 主SRAM | 128KB | 104KB (81%) | 24KB |
+| Bootloader | 64KB | 44KB (69%) | 20KB |
+| APP | 832KB | 471KB (57%) | 361KB |
+| 主SRAM | 128KB | 105KB (82%) | 23KB |
 | CCMRAM | 64KB | 32KB (LVGL池) | 32KB |
 
 ---
@@ -77,27 +96,52 @@ SPI Flash 分区：LittleFS 14MB (0x000000-0xDFFFFF) + 裸备份 512KB (0xE00000
 1. **压力测试偶发卡死**：进摄像头→退出→频繁页面切换时，CAN 连接状态下偶发。未定位根因，不影响正常使用。
 2. **外部 SRAM 前 256KB 可靠**：超过此范围 FSMC 16bit byte-write 不可靠。
 3. **touchTask 栈过小**：512B 仅剩 87B 余量，建议升至 2KB。
+4. **ESP8266 +IPD 二进制数据**：`strlen()` 不能用于二进制帧，已改用 +IPD 头部的 `<len>` 字段。
 
 ---
 
-## 五、Git 日志
+## 五、WiFi OTA 实测日志
 
 ```
-f8eaec8 chore: 构建任务同时编译 BL + APP, 烧录含签名
-f089fbd fix: 无签名时不拦截启动 — 开发模式跳过签名验证
-22631f8 feat: HMAC-SHA256 固件签名
-23a7362 feat: 双区 OTA 回滚 + Bootloader 64KB + LFS 文件备份
-0543fad chore: 同步未提交改动
-baf971e feat: LittleFS 文件系统部署
-c8771e6 feat: 日历时钟页 + Home 屏布局重排 + 双栏 Mode 屏 + 时间同步
+[WiFi] AT OK -- module ready
+[WiFi] Mode set to STA
+[WiFi] Connecting to "Lee"...
+WIFI CONNECTED
+WIFI GOT IP
+[WiFi] Connected!
++CIFSR:STAIP,"192.168.0.235"
+[WiFi] TCP server on port 8080 ready
+[WiFi] UDP broadcast listener on port 8081
+
+--- PC 推送 470KB ---
+[OTA] Connected!
+[OTA] Sent: OTA:470932
+[OTA] 100% (470932/470932 bytes, 6.1 KB/s)
+[OTA] Done! 470932 bytes sent in 75.2s
+
+--- Bootloader ---
+[BOOT] WiFi OTA staged firmware found!
+[SPI] Restoring 470908 bytes...
+[BOOT] WiFi OTA restore OK
+[BOOT] Signature OK
+[BOOT] ---> jump to APP @ 0x08010000
 ```
 
----
+## 六、Git 日志（本轮新增）
 
-## 六、下一阶段
+```
+24b36e5 refactor: WiFi OTA 双模式架构 — 定向握手(WHO) + 广播触发(OTA_N)
+ad6e554 feat: WiFi OTA 全链路 — ESP8266 TCP Server 接收固件 + Bootloader 预存检测 + PC 发送端
+f407d11 feat: ESP8266 WiFi 模块集成 — FreeRTOS 任务 + USART3 中断
+918f14b docs: 更新工程报告 — ESP8266 WiFi 集成 + 定向/广播双模式 OTA
+f4b36fd docs: SWD远程操控接口文档 — harness AI 内存读写+函数调用工具链
+28c5476 chore: 恢复 can_ota_send.py + ymodem_send.py (CAN ISO-TP 升级路径)
+```
 
-摄像头模组已按 GPIO FIFO 方案（非 DCMI）完整集成并验收通过。
+## 七、下一阶段
+
+WiFi OTA 双模式已验收通过，核心工程目标已全部完成。
 
 待确认后续方向：
-- ESP8266 WiFi 模块集成
-- F103 工程同步优化
+- F103 工程同步优化（CAN 网关 + 传感器节点双模式已实现）
+- 工程注释整理（中文→英文，Doxygen 风格）
