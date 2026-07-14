@@ -24,7 +24,7 @@
 
 /* LVGL 内存池: 48KB 驻 CCMRAM (0x10000000, 不与 DMA 争抢) */
 #define LV_MEM_CUSTOM 0
-#define LV_MEM_SIZE (32U * 1024U)
+#define LV_MEM_SIZE (48U * 1024U)
 #define LV_MEM_ADR 0x10000000
 
 /*====================

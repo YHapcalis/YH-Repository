@@ -74,11 +74,11 @@ extern volatile uint8_t  g_rx_byte;
 extern volatile uint8_t  g_rx_flag;
 
 /* -- FreeRTOS 任务栈大小定义 (所有尺寸以字为单位) -- */
-#define GUI_TASK_STACK_SIZE     (1024 * 12)  /* 12KB: LVGL + camera, 实测高水位 ~9.5KB */
-#define TOUCH_TASK_STACK_SIZE   (128 * 4)    /* 512B: 触控 I2C 轮询, 高水位 425B */
-#define CANRX_TASK_STACK_SIZE   (512 * 4)    /* 2KB: CAN 接收 + printf, 高水位 ~1.5KB */
-#define WIFI_TASK_STACK_SIZE    (512 * 4)    /* 2KB: ESP8266 AT 命令 + sprintf, 预留充足 */
-#define DEFAULT_TASK_STACK_SIZE (128 * 4)    /* 512B: LED + UART 回显, 高水位 413B */
+#define GUI_TASK_STACK_SIZE     (1024 * 24)  /* 24KB: LVGL + camera, 翻倍预留 (原 12KB, 高水位 ~9.5KB) */
+#define TOUCH_TASK_STACK_SIZE   (1024 * 4)   /*  4KB: 触控 I2C 轮询, 重点扩充 (原 512B, 高水位 425B) */
+#define CANRX_TASK_STACK_SIZE   (1024 * 4)   /*  4KB: CAN 接收 + printf, 翻倍 (原 2KB) */
+#define WIFI_TASK_STACK_SIZE    (1024 * 4)   /*  4KB: ESP8266 AT + sprintf, 翻倍 (原 2KB) */
+#define DEFAULT_TASK_STACK_SIZE (1024 * 4)   /*  4KB: LED + UART 回显, 重点扩充 (原 512B, 高水位 413B) */
 
 osThreadId_t guiTaskHandle;
 const osThreadAttr_t guiTask_attributes = {
