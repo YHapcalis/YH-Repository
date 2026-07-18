@@ -1,8 +1,14 @@
 /*
  * lv_port_disp.c — LVGL v8.3 显示端口 (NT35510 FSMC 8080 16-bit)
  *
- * PARTIAL 模式, 缓冲在内部 SRAM (16 行 × 800px × 2B = 25.6KB)
+ * PARTIAL 模式, 缓冲在外部 SRAM (16 行 × 800px × 2B = 25.6KB)
  * 使用 lv_disp_drv_t (v8.3 标准 API) 而非 v9 的 lv_display_create
+ *
+ * draw_buf 置于外部 SRAM (0x68010000) 以释放主 SRAM1 25KB:
+ *   - 符合 256KB 可靠线性区边界 (0x68000000~0x6803FFFF)
+ *   - 位于图片缓存区 (0x68000000~0x6800B0A8) 之后
+ *   - FSMC 总线仲裁: 读 SRAM(NE3) + 写 LCD(NE4) 自动切换, ~1ms/帧额外开销
+ *   - 外部 SRAM 初始化 (FSMC) 在 HAL_Init 阶段完成, 此处可安全使用
  */
 
 #include "lv_port_disp.h"
@@ -14,8 +20,9 @@
 #define BUF_LINES     16
 #define BUF_PIXELS    ((uint32_t)DISP_HOR_RES * BUF_LINES)
 
-/* 绘制缓冲: 16 行像素 */
-static uint8_t draw_buf[BUF_PIXELS * sizeof(uint16_t)];
+/* 绘制缓冲: 16 行像素 → 外部 SRAM (FSMC NE3, 0x68000000) */
+#define DRAW_BUF_ADDR  ((uint8_t *)0x68010000UL)
+static uint8_t *const draw_buf = DRAW_BUF_ADDR;
 
 /* ═══════════════════════ LVGL 冲刷回调 ═══════════════════════ */
 static void disp_flush_cb(lv_disp_drv_t *disp_drv,
