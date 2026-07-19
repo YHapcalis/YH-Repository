@@ -1,3 +1,0 @@
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/spi.c:30:6:MX_SPI1_Init	8	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/spi.c:62:6:HAL_SPI_MspInit	40	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/spi.c:93:6:HAL_SPI_MspDeInit	8	static

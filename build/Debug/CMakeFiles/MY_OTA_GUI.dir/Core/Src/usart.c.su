@@ -1,5 +1,0 @@
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/usart.c:32:6:MX_USART1_UART_Init	8	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/usart.c:61:6:MX_USART3_UART_Init	8	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/usart.c:89:6:HAL_UART_MspInit	48	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/usart.c:146:6:HAL_UART_MspDeInit	8	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/usart.c:196:5:_write	8	static

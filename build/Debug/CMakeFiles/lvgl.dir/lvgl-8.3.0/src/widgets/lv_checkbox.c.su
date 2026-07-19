@@ -1,8 +1,0 @@
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/widgets/lv_checkbox.c:195:13:lv_checkbox_draw	280	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/widgets/lv_checkbox.c:149:13:lv_checkbox_event	56	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/widgets/lv_checkbox.c:136:13:lv_checkbox_destructor	8	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/widgets/lv_checkbox.c:120:13:lv_checkbox_constructor	8	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/widgets/lv_checkbox.c:56:12:lv_checkbox_create	8	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/widgets/lv_checkbox.c:68:6:lv_checkbox_set_text	16	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/widgets/lv_checkbox.c:93:6:lv_checkbox_set_text_static	16	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/widgets/lv_checkbox.c:110:14:lv_checkbox_get_text	0	static

@@ -1,8 +1,0 @@
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/extra/widgets/tileview/lv_tileview.c:125:13:lv_tileview_constructor	8	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/extra/widgets/tileview/lv_tileview.c:154:13:tileview_event_cb	40	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/extra/widgets/tileview/lv_tileview.c:136:13:lv_tileview_tile_constructor	24	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/extra/widgets/tileview/lv_tileview.c:54:12:lv_tileview_create	8	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/extra/widgets/tileview/lv_tileview.c:66:12:lv_tileview_add_tile	8	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/extra/widgets/tileview/lv_tileview.c:78:6:lv_obj_set_tile	24	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/extra/widgets/tileview/lv_tileview.c:91:6:lv_obj_set_tile_id	64	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/lvgl-8.3.0/src/extra/widgets/tileview/lv_tileview.c:115:12:lv_tileview_get_tile_act	0	static

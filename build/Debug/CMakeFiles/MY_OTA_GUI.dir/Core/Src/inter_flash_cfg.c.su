@@ -1,6 +1,0 @@
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/inter_flash_cfg.c:18:16:inter_flash_cfg_load	16	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/inter_flash_cfg.c:71:8:inter_flash_cfg_get_app_update_flag	8	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/inter_flash_cfg.c:80:9:inter_flash_cfg_set_app_update_flag	16	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/inter_flash_cfg.c:47:9:inter_flash_cfg_init	8	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/inter_flash_cfg.c:123:10:inter_flash_cfg_get_ota_count	8	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Core/Src/inter_flash_cfg.c:131:6:inter_flash_cfg_inc_ota_count	8	static

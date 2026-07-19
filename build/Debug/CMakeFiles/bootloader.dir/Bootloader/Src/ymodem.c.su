@@ -1,7 +1,0 @@
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Bootloader/Src/ymodem.c:132:17:UpdateCRC16	0	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Bootloader/Src/ymodem.c:145:17:Cal_CRC16	16	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Bootloader/Src/ymodem.c:373:17:Str2Int	4	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Bootloader/Src/ymodem.c:68:26:ReceivePacket	32	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Bootloader/Src/ymodem.c:194:16:erase_app_area	16	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Bootloader/Src/ymodem.c:159:13:write_flush	32	static
-E:/ST/STM32/MY_workspace/Projects_F407/MY_OTA_GUI/Bootloader/Src/ymodem.c:223:19:Ymodem_Receive	56	static
