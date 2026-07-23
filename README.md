@@ -1,10 +1,10 @@
-# MY_OTA_GUI — STM32F407 双区 OTA 智能仪表盘
+# 嵌入式项目集合
 
-> 一套完整的嵌入式双芯片仪表盘系统：LVGL 图形界面 + CAN 总线 + 双区 Bootloader OTA + OV7670 摄像头 + LittleFS 文件系统
+> STM32F407 双区 OTA 智能仪表盘 + STM32F103 水面小船自动避障系统
 
 ---
 
-## 系统架构
+## 项目一：MY_OTA_GUI — 双区 OTA 智能仪表盘
 
 ```
   F103C8T6（传感器节点）                  F407ZGT6（主控仪表盘）
@@ -169,6 +169,65 @@ MY_OTA_GUI/
 
 `C` `FreeRTOS` `LVGL 8.3` `CAN 2.0B` `ISO-TP` `LittleFS` `ESP8266` `HMAC-SHA256`
 `CMake` `GCC ARM` `OpenOCD` `Python` `STM32F4` `STM32F1` `FSMC` `SPI` `I2C` `UART`
+
+---
+
+## 项目二：MY_ObstacleCraft — 水面小船自动避障系统
+
+> STM32F103C8T6 · 超声波测距 · 电机舵机闭环 · 分级避障状态机 · OLED 实时显示
+
+### 系统架构
+
+```
+  HC-SR04 超声波 ──测距──► STM32F103C8T6 ──PWM──► DRV8833 电机驱动 ──► 螺旋桨推进
+                                     │
+                                     ├──PWM──► SG90 舵机 ──► 航向修正
+                                     │
+                                     ├──I2C──► 0.96" OLED ──► 距离/状态/舵角显示
+                                     │
+                                     └──UART──► 串口预留 (调试扩展)
+```
+
+### 核心特性
+
+| 模块 | 说明 |
+|:---|:---|
+| **超声波测距** | HC-SR04，周期性获取前方障碍物距离 |
+| **电机驱动** | DRV8833，支持正转/反转/停止，PWM 占空比调速 |
+| **舵机控制** | SG90，中位/偏转/回中，分级角度修正 |
+| **分级避障** | 根据距离区间动态调整舵角和电机占空比，近距→减速+转向+后退，解除→逐步恢复 |
+| **OLED 显示** | 实时显示距离、螺旋桨状态、占空比、舵机角度、当前控制阶段 |
+| **按键交互** | 预留启停/模式切换入口 |
+
+### 项目结构
+
+```
+MY_ObstacleCraft/
+├── Core/
+│   ├── Src/
+│   │   ├── app.c              # 避障调度主逻辑
+│   │   ├── HC-SR04.c          # 超声波测距驱动
+│   │   ├── DRV8833.c          # 电机驱动
+│   │   ├── SG-90.c            # 舵机角度控制
+│   │   ├── oled.c / font.c    # OLED 显示 + 字库
+│   │   ├── key.c / key1.c     # 按键输入
+│   │   ├── usart.c            # 串口驱动
+│   │   └── stm32f1xx_it.c     # 中断服务
+│   ├── Inc/                   # 头文件
+│   └── Startup/               # 启动文件
+├── Drivers/
+│   ├── CMSIS/                 # Cortex-M3 CMSIS
+│   └── STM32F1xx_HAL_Driver/  # STM32F1 HAL 库
+├── MY_ObstacleCraft.ioc       # CubeMX 工程文件
+└── 工程完结总结.md             # 完整技术文档
+```
+
+### 文档
+
+- [工程完结总结](MY_ObstacleCraft/工程完结总结.md) — 完整避障逻辑、状态机思路、踩坑经验
+- [工程实现目标及具体细节](MY_ObstacleCraft/工程实现目标及具体细节.md)
+
+---
 
 ## License
 
