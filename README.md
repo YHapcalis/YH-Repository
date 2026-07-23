@@ -1,6 +1,6 @@
 # 嵌入式项目集合
 
-> STM32F407 双区 OTA 智能仪表盘 + STM32F103 水面小船自动避障系统
+> STM32F407 双区 OTA 仪表盘 · STM32F103 水面避障 · 嵌入式 AI 自动化调试框架
 
 ---
 
@@ -226,6 +226,70 @@ MY_ObstacleCraft/
 
 - [工程完结总结](MY_ObstacleCraft/工程完结总结.md) — 完整避障逻辑、状态机思路、踩坑经验
 - [工程实现目标及具体细节](MY_ObstacleCraft/工程实现目标及具体细节.md)
+
+---
+
+---
+
+## 项目三：harness_ai — 嵌入式 AI 自动化调试框架
+
+> Python · OpenOCD TCL · SWD · YAML 场景 · Renode 仿真 · Claude API
+
+### 系统架构
+
+```
+  ┌──────────┐    SWD/TCL     ┌──────────┐    YAML场景     ┌────────────┐
+  │ STM32F407 │◄─────────────►│ OpenOCD  │◄─────────────►│ harness_ai │
+  │  目标板   │  内存读写/采样  │ TCL端口  │  断言/期望检查  │  Python引擎 │
+  └──────────┘                └──────────┘                └─────┬──────┘
+                                                               │
+                                                    ┌──────────┴──────────┐
+                                                    │ Claude API (可选)    │
+                                                    │ 代码→编译→烧录→监控  │
+                                                    │ 多轮反馈闭环         │
+                                                    └─────────────────────┘
+```
+
+### 核心特性
+
+| 模块 | 说明 |
+|:---|:---|
+| **OpenOCD 桥接** | TCL 端口实现 SWD 内存读写、变量采样，无需额外硬件 |
+| **YAML 场景引擎** | 声明式配置 LED 闪烁 / CAN 通信 / 心跳监控 / PID 调参等场景 |
+| **自动化断言** | 变量期望值检查，采样数据自动比对，异常告警 |
+| **AI 闭环 (可选)** | 集成 Claude API，实现代码修改 → 编译 → 烧录 → 监控 → 反馈多轮迭代 |
+| **Renode 仿真** | NT35510 LCD 仿真器插件，支持离线调试 |
+| **Web 仪表盘** | 实时监控面板，变量曲线、系统状态可视化 |
+
+### 项目结构
+
+```
+harness_ai/
+├── embed_harness.py          # 核心引擎：OpenOCD 桥接 + 场景执行
+├── monitor_client.py         # SWD 变量采样客户端
+├── expectations.py           # 断言与期望值检查
+├── ai_backend.py             # Claude API 后端
+├── ota_flow.py               # OTA 流程自动化
+├── hybrid_backend.py         # 混合后端（本地 + AI）
+├── scenarios/                # YAML 场景配置
+│   ├── led_blink.yaml        #   LED 闪烁监控
+│   ├── can_comm.yaml         #   CAN 通信监控
+│   ├── heartbeat.yaml        #   心跳监控
+│   ├── pid_tuning.yaml       #   PID 调参
+│   └── ...
+├── renode/                   # Renode 仿真器配置
+│   ├── bate_camera.repl      #   硬件平台描述
+│   ├── plugins/              #   LCD 仿真插件
+│   └── ...
+├── docs/                     # 项目文档
+├── scripts/                  # 辅助脚本
+└── examples/demo.py          # 入门示例
+```
+
+### 文档
+
+- [AI 模拟人工操作硬件原理](harness_ai/docs/AI模拟人工操作硬件原理.md)
+- [工程推进记录](harness_ai/docs/工程推进记录.md)
 
 ---
 
