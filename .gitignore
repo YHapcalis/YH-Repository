@@ -23,6 +23,12 @@ MY_ObstacleCraft/.project
 MY_ObstacleCraft/.settings/
 MY_ObstacleCraft/*.launch
 
+# harness_ai
+harness_ai/__pycache__/
+harness_ai/.harness_memory/
+harness_ai/traces/
+harness_ai/renode/*.dll
+
 # 临时
 param_ota.bin
 param_init.bin
