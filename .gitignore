@@ -15,6 +15,14 @@ build/
 .vscode/settings.json
 .vscode/c_cpp_properties.json
 
+# F103 子工程
+MY_ObstacleCraft/Debug/
+MY_ObstacleCraft/.cproject
+MY_ObstacleCraft/.mxproject
+MY_ObstacleCraft/.project
+MY_ObstacleCraft/.settings/
+MY_ObstacleCraft/*.launch
+
 # 临时
 param_ota.bin
 param_init.bin

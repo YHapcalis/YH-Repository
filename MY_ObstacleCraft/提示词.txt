@@ -1,0 +1,165 @@
+【背景】
+你是资深 STM32F1 嵌入式工程师。已有工程使用 HAL 库，以下模块已调试完毕且不能修改：
+- DRV8833（电机模块）、oled、key（只调用API）
+- tim.c（定时器硬件初始化已完成，详见【定时器现状】）
+
+你需要：重写超声波模块(HC-SR04.c/h)、舵机模块(SG-90.c/h)，并新建应用层 app.c/h，实现自动避障。
+
+==========================================================================
+【定时器现状 - 只读，不能生成 Init】
+==========================================================================
+- TIM1：输入捕获已初始化，计数频率 1MHz (PSC=72-1, ARR=65535)。
+        通道为 CH3，对应 GPIO PA10（Echo）。
+        输入捕获初始极性为上升沿。
+        NVIC 已使能 TIM1_CC_IRQn。
+        你需要在模块中只调用 HAL_TIM_IC_Start_IT(&htim1, TIM_CHANNEL_3) 来启动捕获。
+
+- TIM4：PWM 已初始化，PSC=720-1，ARR=2000-1，20ms 周期。
+        通道为 CH3，对应 GPIO PB8。
+        舵机型号 SG-90，脉冲范围 50~250（对应 0.5ms~2.5ms）。
+        你需要在模块中只调用 HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_3) 来启动输出。
+
+- TRIG 引脚：作为一个普通 GPIO，你需要用 HAL_GPIO_WritePin 操作来发出 10us 触发脉冲。
+        注意：TRIG 引脚的实际宏名（TRIG_GPIO_Port, TRIG_Pin）已在 main.h 或 gpio.h 中定义。
+        你需要在 HC-SR04.h 中声明外部引用的两个宏，或在 .c 中包含对应头文件。
+
+- TIM2：已被电机占用，不动。
+
+==========================================================================
+【已有外部模块 API（只调用，不修改）】
+==========================================================================
+void DRV8833_run(int8_t dir, uint8_t pwm); // 1前进,-1后退,0停; pwm 0~100
+void oled_show_line(uint8_t line, const char* text);
+void oled_clear(void);
+uint8_t key_scan(void); // 返回键值，0=无按键
+
+==========================================================================
+一、超声波模块 (HC-SR04.c / HC-SR04.h) —— 非阻塞输入捕获版本
+==========================================================================
+硬件事实：Echo -> PA10 -> TIM1_CH3；Trig -> 普通GPIO输出。
+
+要求：
+1. 内部静态变量：
+   - volatile uint32_t echo_start;     // 上升沿计数值
+   - volatile uint32_t echo_width_us;  // 最新一次测量的高电平脉宽（us）
+   - volatile uint8_t  echo_new_data;  // 1=有新数据
+   - volatile int16_t  latest_distance_cm;
+   - uint32_t last_trigger_tick;       // 记录触发时间戳 ms
+
+2. 提供的 API：
+   void HC-SR04_init(void);
+     - 确保 TRIG 输出低电平。
+     - 调用 HAL_TIM_IC_Start_IT(&htim1, TIM_CHANNEL_3); 启动输入捕获中断。
+     - 初始化静态变量。
+   
+   void HC-SR04_trigger(void);
+     - 拉高 TRIG，延迟 10us（用 for+__NOP 或定时器微秒延时可），再拉低。
+     - 记录 last_trigger_tick = HAL_GetTick()。
+     - 清除 echo_new_data 标志。
+     - （不等待结果，立刻返回）
+
+   int16_t HC-SR04_get_distance(void);
+     - 如果 echo_new_data == 1，返回 latest_distance_cm（并清零标志）。
+     - 否则如果 (HAL_GetTick() - last_trigger_tick) > 200，返回 -1（超时）。
+     - 否则返回 -2（等待测量中）。
+     - 此函数完全非阻塞。
+
+3. 输入捕获中断处理（在 HC-SR04.c 中覆盖 HAL 弱回调）：
+   void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
+   {
+       if (htim->Instance == TIM1 && htim->Channel == HAL_TIM_ACTIVE_CHANNEL_3)
+       {
+           uint32_t now = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_3);
+           // 判断当前是上升沿还是下降沿：
+           // 读取当前通道极性：若极性为上升沿，说明这次是上升沿；否则是下降沿。
+           // 可通过读取 TIM1->CCER 的 CC3P 位来判断，简单方法：
+           // 定义静态标志 track_rise，初始为1（表示等待上升沿）。
+           static uint8_t wait_rise = 1;
+           if (wait_rise)
+           {
+               echo_start = now;
+               // 切换极性为下降沿
+               __HAL_TIM_SET_CAPTUREPOLARITY(htim, TIM_CHANNEL_3, TIM_INPUTCHANNELPOLARITY_FALLING);
+               wait_rise = 0;
+           }
+           else
+           {
+               // 下降沿到来
+               echo_width_us = (now - echo_start) & 0xFFFF; // 16位计数器溢出回环自动处理
+               latest_distance_cm = (int16_t)(echo_width_us * 0.017f);
+               echo_new_data = 1;
+               // 恢复极性为上升沿，准备下次测量
+               __HAL_TIM_SET_CAPTUREPOLARITY(htim, TIM_CHANNEL_3, TIM_INPUTCHANNELPOLARITY_RISING);
+               wait_rise = 1;
+           }
+       }
+   }
+
+==========================================================================
+二、舵机模块 (SG-90.c / SG-90.h) —— 指数平滑版本
+==========================================================================
+硬件：TIM4 CH3 (PB8), PWM 周期 20ms, 比较值范围 50~250 对应 0~180°。
+
+要求：
+1. 静态变量：
+   - float current_angle_float;   // 当前绝对角度，初始 90.0f
+   - int8_t target_rel_angle;     // 目标相对角度 (-40 ~ +40)
+   #define SMOOTH_FACTOR 0.3f
+
+2. API：
+   void SG-90_init(void);
+     - HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_3);
+     - 设置比较值为 150（绝对 90° / 相对 0°）
+     - 初始化静态变量。
+
+   void SG-90_set_angle(int8_t rel_angle);
+     - 限制范围 -40~+40，写入 target_rel_angle。
+
+   void SG-90_update(void);  // 每 10~20ms 调用一次（由 app_run 调度）
+     - 目标绝对角度 = 90.0f + target_rel_angle。
+     - current_angle_float = current_angle_float * (1 - SMOOTH_FACTOR) + 目标 * SMOOTH_FACTOR;
+     - 四舍五入得到整数绝对角度 angle_u8。
+     - 换算比较值：cmp = 50 + (angle_u8 * 200) / 180。
+     - 限幅 cmp 50~250，调用 __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_3, cmp)。
+
+==========================================================================
+三、应用层 (app.c / app.h)
+==========================================================================
+避障参数宏：
+#define SAFE_DIST_CM        120
+#define CAUTION_DIST_CM     80
+#define AVOID_DIST_CM       40
+#define NORMAL_PWM          70
+#define CAUTION_PWM         55
+#define REVERSE_PWM         65
+#define MAX_SG-90_ANGLE     35
+
+状态枚举：STATE_IDLE, FORWARD, CAUTION, AVOID, RECOVERY, FAULT。
+
+全局变量：g_distance_cm (int16_t), g_DRV8833_pwm(uint8_t), g_DRV8833_dir(int8_t), g_SG-90_angle(int8_t).
+
+app_init():
+  - 调用 HC-SR04_init() 和 SG-90_init()
+  - 初始化电机停、舵机 0°，滤波缓冲设 SAFE_DIST_CM
+  - 进入 STATE_IDLE
+
+app_run() (每 50ms 被主循环调用一次):
+  1. HC-SR04_trigger()
+  2. g_distance_cm = HC-SR04_get_distance()
+  3. 中值滤波（3 次环形缓冲，取中位数），无效值保留上次但不累计超过 5 次
+  4. 状态机更新（连续计数防抖）：
+     IDLE：按键启动转 FORWARD
+     FORWARD：dist<80连续3次→CAUTION；dist<40连续2次→AVOID
+     CAUTION：dist>120连续3次→FORWARD；dist<40连续2次→AVOID；偏角 = (120-dist)*0.6
+     AVOID：反转+舵机右打，dist>80连续5次→RECOVERY
+     RECOVERY：舵机逐步回中，dist>100且回中→FORWARD
+     任意：连续5次 dist==-1→FAULT
+     FAULT：连续3次有效→IDLE
+  5. 执行 DRV8833_run, SG-90_set_angle, SG-90_update
+  6. 每500ms更新OLED显示（距离、电机状态、舵机角度、当前状态名）
+
+【重要约束】
+- 绝对不生成 MX_TIMx_Init 或任何 GPIO_Init、NVIC 配置。
+- 所有 .c 文件须包含必要头文件。
+- 中断回调只覆盖 HAL 弱符号，不要操作 NVIC。
+- 代码可直接加入工程编译，无隐性依赖。
